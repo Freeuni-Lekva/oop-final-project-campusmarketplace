@@ -1,0 +1,31 @@
+package marketplace.servlets;
+
+import marketplace.database.DataBase;
+import marketplace.objects.FeedPost;
+import marketplace.objects.Photo;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+
+@WebServlet(name = "FeedServlet", value = "/feedposts")
+public class FeedServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+        DataBase dataBase = (DataBase) getServletContext().getAttribute("dataBase");
+        ArrayList<FeedPost> feedPosts = dataBase.getAllFeedPosts();
+        for (int k = 0; k < feedPosts.size(); k++) {
+            Photo photo = dataBase.getPhotos(feedPosts.get(k).getPost_id()).get(0);
+            feedPosts.get(k).setPhoto(photo);
+        }
+        request.setAttribute("feedPosts", feedPosts);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+        try {
+            dispatcher.forward(request, response);
+        } catch (Exception ignored) {
+        }
+    }
+}
