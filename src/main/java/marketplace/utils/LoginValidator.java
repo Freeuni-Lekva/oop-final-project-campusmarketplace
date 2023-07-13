@@ -1,5 +1,7 @@
 package marketplace.utils;
 
+import marketplace.dao.UserDAO;
+
 import java.util.Objects;
 
 public class LoginValidator {

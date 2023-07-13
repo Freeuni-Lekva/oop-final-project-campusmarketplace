@@ -1,7 +1,7 @@
 package marketplace.servlets;
 
 
-import marketplace.database.DataBase;
+import marketplace.dao.PostDAO;
 import marketplace.objects.Photo;
 import marketplace.objects.Post;
 
@@ -17,10 +17,10 @@ import java.util.ArrayList;
 public class PostPageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-        DataBase dataBase = (DataBase) getServletContext().getAttribute("dataBase");
+        PostDAO postDAO = (PostDAO) getServletContext().getAttribute("postDAO");
         String post_id = (String) request.getSession().getAttribute("post_id");
-        Post post = dataBase.getPostById(post_id);
-        ArrayList<Photo> photos = dataBase.getPhotos(post.getPost_id());
+        Post post = postDAO.getPostById(post_id);
+        ArrayList<Photo> photos = postDAO.getPhotos(post.getPost_id());
         post.setPhotos(photos);
         request.setAttribute("post", post);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/.jsp");

@@ -10,7 +10,7 @@
     </listener>
 
     <listener>
-        <listener-class>marketplace.listeners.ContextListener</listener-class>
+        <listener-class>marketplace.listeners.Listener</listener-class>
     </listener>
 
     <servlet>

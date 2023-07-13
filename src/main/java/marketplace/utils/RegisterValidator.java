@@ -1,5 +1,7 @@
 package marketplace.utils;
 
+import marketplace.dao.UserDAO;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;

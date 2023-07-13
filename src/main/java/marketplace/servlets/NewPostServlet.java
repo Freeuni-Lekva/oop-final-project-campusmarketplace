@@ -1,6 +1,6 @@
 package marketplace.servlets;
 
-import marketplace.database.DataBase;
+import marketplace.dao.PostDAO;
 import marketplace.objects.Post;
 
 import javax.servlet.RequestDispatcher;
@@ -20,7 +20,7 @@ import java.util.Collection;
 public class NewPostServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-        DataBase dataBase = (DataBase) getServletContext().getAttribute("dataBase");
+        PostDAO postDAO = (PostDAO) getServletContext().getAttribute("postDAO");
         String title = request.getParameter("title");
         String description = request.getParameter("description");
         String date = request.getParameter("date");
@@ -30,9 +30,8 @@ public class NewPostServlet extends HttpServlet {
         post.setTitle(title);
         post.setPrice(price);
         post.setDescription(description);
-        post.setFilter(filter);
         post.setDate(date);
-        String post_id = dataBase.addNewPost(post);
+        String post_id = postDAO.addNewPost(post);
         try {
             Collection<Part> parts = request.getParts();
             int photoCount = 1;
@@ -45,11 +44,11 @@ public class NewPostServlet extends HttpServlet {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                dataBase.addPhoto(post_id, savePath);
+                postDAO.addPhoto(post_id, savePath);
             }
         } catch (Exception ignored) {
         }
-        post = dataBase.getPostById(post_id);
+        post = postDAO.getPostById(post_id);
         request.setAttribute("post", post);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/.jsp");
         try {
