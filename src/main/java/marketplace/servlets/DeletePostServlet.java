@@ -1,7 +1,7 @@
 package marketplace.servlets;
 
 
-import marketplace.database.DataBase;
+import marketplace.dao.PostDAO;
 import marketplace.objects.Photo;
 
 import javax.servlet.RequestDispatcher;
@@ -16,12 +16,12 @@ import java.util.ArrayList;
 public class DeletePostServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-        DataBase dataBase = (DataBase) getServletContext().getAttribute("dataBase");
+        PostDAO postDAO = (PostDAO) getServletContext().getAttribute("postDAO");
         String post_id = (String) request.getAttribute("post_id");
-        ArrayList<Photo> photos = dataBase.getPostById(post_id).getPhotos();
+        ArrayList<Photo> photos = postDAO.getPostById(post_id).getPhotos();
         for (int k = 0; k < photos.size(); k++)
-            dataBase.deletePhoto(photos.get(k).getPhoto_id());
-        dataBase.deletePost(post_id);
+            postDAO.deletePhoto(photos.get(k).getPhoto_id());
+        postDAO.deletePost(post_id);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
         try {
             dispatcher.forward(request, response);

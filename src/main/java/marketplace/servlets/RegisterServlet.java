@@ -1,5 +1,6 @@
 package marketplace.servlets;
 
+import marketplace.dao.UserDAO;
 import marketplace.utils.RegisterValidator;
 import marketplace.utils.SecurityUtils;
 

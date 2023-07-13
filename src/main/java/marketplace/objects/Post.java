@@ -1,12 +1,16 @@
 package marketplace.objects;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Post {
 
     private String profile_id, post_id;
-    private String title, description, filter, date;
+    private String title, description, date;
     private double price;
     private ArrayList<Photo> photos;
+
+    public Post(String profileId, String postId, String title, Double price, String description, Date date) {
+    }
 
     public ArrayList<Photo> getPhotos() {
         return photos;
@@ -49,15 +53,9 @@ public class Post {
         this.description = description;
     }
 
-    public String getFilter() {
-        return filter;
-    }
 
-    public void setFilter(String filter) {
-        this.filter = filter;
-    }
 
-    public String getDate() {
+    public java.sql.Date getDate() {
         return date;
     }
 
@@ -77,12 +75,11 @@ public class Post {
 
     }
 
-    public Post(String profile_id, String post_id, String title, double price, String description, String filter) {
+    public Post(String profile_id, String post_id, String title, double price, String description) {
         this.profile_id = profile_id;
         this.post_id = post_id;
         this.title = title;
         this.price = price;
         this.description = description;
-        this.filter = filter;
     }
 }

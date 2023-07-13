@@ -1,5 +1,7 @@
 package marketplace.objects;
 
+import java.util.Date;
+
 public class FeedPost {
     private String post_id;
     private Photo photo;
@@ -7,6 +9,9 @@ public class FeedPost {
     private String title;
     private String date;
     private double price;
+
+    public FeedPost(String postId, String photoAddress, String title, Double price, Date date) {
+    }
 
     public Photo getPhoto() {
         return photo;

@@ -1,12 +1,14 @@
 package marketplace.listeners;
 
 import marketplace.constants.DatabaseConstants;
+import marketplace.dao.PostDAO;
+import marketplace.dao.UserDAO;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-public class ContextListener implements ServletContextListener {
+public class Listener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         try {
@@ -17,6 +19,10 @@ public class ContextListener implements ServletContextListener {
             dataSource.setPassword(DatabaseConstants.DATABASE_PASSWORD);
 
             servletContextEvent.getServletContext().setAttribute("userDAO", new UserDAO(dataSource));
+            servletContextEvent.getServletContext().setAttribute("postDAO",new PostDAO(dataSource));
+
+
+
         } catch (Exception e){
             throw new RuntimeException("Database connection error");
         }
