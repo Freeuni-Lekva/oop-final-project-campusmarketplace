@@ -1,6 +1,7 @@
 package marketplace.servlets;
 
 import marketplace.utils.RegisterValidator;
+import marketplace.utils.SecurityUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -32,7 +33,8 @@ public class RegisterServlet extends HttpServlet {
             httpServletRequest.setAttribute("errors", errors);
             httpServletRequest.getRequestDispatcher("register.jsp").forward(httpServletRequest, httpServletResponse);
         } else {
-            userDAO.addUser(firstName, surname, password, email, phoneNumber, birthDate);
+            String passwordHash = SecurityUtils.hashPassword(password);
+            userDAO.addUser(firstName, surname, passwordHash, email, phoneNumber, birthDate);
             httpServletRequest.getRequestDispatcher("login.jsp").forward(httpServletRequest, httpServletResponse);
         }
     }
