@@ -15,7 +15,8 @@ public class ContextListener implements ServletContextListener {
             dataSource.setUrl("jdbc:mysql://localhost:3306/" + DatabaseConstants.DATABASE_NAME);
             dataSource.setUsername(DatabaseConstants.DATABASE_USERNAME);
             dataSource.setPassword(DatabaseConstants.DATABASE_PASSWORD);
-            servletContextEvent.getServletContext().setAttribute("dataSource", dataSource);
+
+            servletContextEvent.getServletContext().setAttribute("userDAO", new UserDAO(dataSource));
         } catch (Exception e){
             throw new RuntimeException("Database connection error");
         }
