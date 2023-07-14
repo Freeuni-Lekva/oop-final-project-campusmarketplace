@@ -1,16 +1,25 @@
 package marketplace.objects;
+
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 
 public class Post {
 
-    private String profile_id, post_id;
-    private String title, description, date;
+    private int profile_id, post_id;
+    private String title, description;
+    private Date date;
     private double price;
     private ArrayList<Photo> photos;
-
-    public Post(String profileId, String postId, String title, Double price, String description, Date date) {
+    private boolean isProfilesPost = false;
+    public boolean isProfilesPost() {
+        return isProfilesPost;
     }
+
+    public void setProfilesPost(boolean profilesPost) {
+        isProfilesPost = profilesPost;
+    }
+
+
 
     public ArrayList<Photo> getPhotos() {
         return photos;
@@ -21,19 +30,19 @@ public class Post {
     }
 
 
-    public String getProfile_id() {
+    public int getProfile_id() {
         return profile_id;
     }
 
-    public void setProfile_id(String profile_id) {
+    public void setProfile_id(int profile_id) {
         this.profile_id = profile_id;
     }
 
-    public String getPost_id() {
+    public int getPost_id() {
         return post_id;
     }
 
-    public void setPost_id(String post_id) {
+    public void setPost_id(int post_id) {
         this.post_id = post_id;
     }
 
@@ -54,12 +63,11 @@ public class Post {
     }
 
 
-
-    public java.sql.Date getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -75,11 +83,27 @@ public class Post {
 
     }
 
-    public Post(String profile_id, String post_id, String title, double price, String description) {
+    public Post(int profile_id, int post_id, String title, double price, String description, Date date) {
         this.profile_id = profile_id;
         this.post_id = post_id;
         this.title = title;
         this.price = price;
         this.description = description;
+        this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder("Post: [" +
+                "profile_id: " + profile_id +
+                ", post_id: " + post_id +
+                ", title: " + title +
+                ", price: " + price +
+                ", description: " + description +
+                ", date: " + date + "]\n");
+        for (Photo photo : photos) {
+            result.append(photo.toString());
+        }
+        return result.toString();
     }
 }
