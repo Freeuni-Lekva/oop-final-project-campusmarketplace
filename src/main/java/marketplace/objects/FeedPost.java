@@ -1,35 +1,23 @@
 package marketplace.objects;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class FeedPost {
-    private String post_id;
-    private Photo photo;
+    private int post_id;
     private String photo_address;
     private String title;
-    private String date;
+    private Date date;
     private double price;
 
-    public FeedPost(String postId, String photoAddress, String title, Double price, Date date) {
-    }
-
-    public Photo getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(Photo photo) {
-        this.photo = photo;
-    }
-
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setPost_id(String post_id) {
+    public void setPost_id(int post_id) {
         this.post_id = post_id;
     }
 
@@ -45,7 +33,7 @@ public class FeedPost {
         this.price = price;
     }
 
-    public String getPost_id() {
+    public int getPost_id() {
         return post_id;
     }
 
@@ -65,7 +53,7 @@ public class FeedPost {
 
     }
 
-    public FeedPost(String post_id, String photo_address, String title, double price, String date) {
+    public FeedPost(int post_id, String photo_address, String title, double price, Date date) {
         this.post_id = post_id;
         this.photo_address = photo_address;
         this.title = title;
@@ -73,5 +61,14 @@ public class FeedPost {
         this.date = date;
     }
 
-
+    @Override
+    public String toString() {
+        return "feedPost: [" +
+                "post_id: " + Integer.toString(post_id) +
+                ", photo_address: " + photo_address +
+                ", title: " + title +
+                ", price: " + Double.toString(price) +
+                ", Date: " + date.toString() +
+                "]\n";
+    }
 }

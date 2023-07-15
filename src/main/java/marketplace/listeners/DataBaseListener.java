@@ -8,7 +8,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-public class Listener implements ServletContextListener {
+public class DataBaseListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         try {

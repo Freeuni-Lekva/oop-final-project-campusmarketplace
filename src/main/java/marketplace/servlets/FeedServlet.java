@@ -16,16 +16,22 @@ public class FeedServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         PostDAO postDAO = (PostDAO) getServletContext().getAttribute("postDAO");
-        ArrayList<FeedPost> feedPosts = postDAO.getAllFeedPosts();
-        for (int k = 0; k < feedPosts.size(); k++) {
-            Photo photo = postDAO.getPhotos(feedPosts.get(k).getPost_id()).get(0);
-            feedPosts.get(k).setPhoto(photo);
-        }
+        String pageString = request.getParameter("page");
+        int page = 0;
+        if (pageString != null)
+            page = Integer.parseInt(pageString);
+        ArrayList<FeedPost> feedPosts = postDAO.getAllFeedPosts(page);
         request.setAttribute("feedPosts", feedPosts);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
         try {
             dispatcher.forward(request, response);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
+
+    private static void printAttributes(ArrayList<FeedPost> feedPosts) {
+        for (FeedPost post : feedPosts)
+            System.out.println(post.toString());
     }
 }

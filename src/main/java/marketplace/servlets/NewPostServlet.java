@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.sql.Date;
 import java.util.Collection;
 
 @WebServlet(name = "NewPostServlet", value = "/newpost")
@@ -21,39 +22,54 @@ public class NewPostServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         PostDAO postDAO = (PostDAO) getServletContext().getAttribute("postDAO");
+        int profile_id = 1; // TODO: get profile_id from current session.
+        System.out.println(request.getParameter("title"));
+        System.out.println(request.getParameter("description"));
         String title = request.getParameter("title");
         String description = request.getParameter("description");
-        String date = request.getParameter("date");
+        Date date = Date.valueOf(request.getParameter("date"));
         double price = Double.parseDouble(request.getParameter("price"));
-        String filter = request.getParameter("filter");
         Post post = new Post();
+        post.setProfile_id(profile_id);
         post.setTitle(title);
         post.setPrice(price);
         post.setDescription(description);
         post.setDate(date);
-        String post_id = postDAO.addNewPost(post);
+        int post_id = postDAO.addNewPost(post);
         try {
             Collection<Part> parts = request.getParts();
-            int photoCount = 1;
-            for (Part part : parts) {
-                String fileName = post.getPost_id() + "#" + photoCount + ".png";
-                photoCount++;
-                String savePath = "/images/" + fileName;
-                try (InputStream inputStream = part.getInputStream()) {
-                    Files.copy(inputStream, new File(savePath).toPath(), StandardCopyOption.REPLACE_EXISTING);
-                } catch (IOException e) {
-                    e.printStackTrace();
+            if (parts != null && parts.size() != 0) {
+                int photoCount = 1;
+                for (Part part : parts) {
+                    String fileName = post.getPost_id() + "P" + photoCount + ".png";
+                    photoCount++;
+                    String savePath = "/images/";
+                    savePath = getServletContext().getRealPath(savePath) + fileName;
+                    try (InputStream inputStream = part.getInputStream()) {
+                        Files.copy(inputStream, new File(savePath).toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    postDAO.addPhoto(post_id, "/images/" + fileName);
+                    if (photoCount == 2) {
+                        postDAO.addMainPhoto(post_id, savePath + fileName);
+                    }
                 }
-                postDAO.addPhoto(post_id, savePath);
+            } else {
+                postDAO.addPhoto(post_id, "/images/default.png");
             }
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            postDAO.addPhoto(post_id, "/images/default.png");
+            e.printStackTrace();
         }
         post = postDAO.getPostById(post_id);
         request.setAttribute("post", post);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/.jsp");
+        post.setProfilesPost(true);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("index/.jsp");
         try {
             dispatcher.forward(request, response);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
