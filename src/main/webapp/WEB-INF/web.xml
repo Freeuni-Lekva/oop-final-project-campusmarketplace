@@ -21,6 +21,10 @@
         <servlet-class>marketplace.servlets.RegisterServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>logout</servlet-name>
+        <servlet-class>marketplace.servlets.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>FeedServlet</servlet-name>
         <servlet-class>marketplace.servlets.FeedServlet</servlet-class>
     </servlet>
@@ -44,6 +48,10 @@
     <servlet-mapping>
         <servlet-name>register</servlet-name>
         <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>logout</servlet-name>
+        <url-pattern>/logout</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>FeedServlet</servlet-name>
