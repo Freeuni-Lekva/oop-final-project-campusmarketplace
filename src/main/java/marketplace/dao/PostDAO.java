@@ -80,7 +80,6 @@ public class PostDAO {
         try (Connection conn = dataSource.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setInt(1, post.getProfile_id());
-
             stmt.setString(2, post.getTitle());
             stmt.setDouble(3, post.getPrice());
             stmt.setString(4, post.getDescription());
@@ -89,10 +88,13 @@ public class PostDAO {
             ResultSet rs = stmt.getGeneratedKeys();
             if (rs.next()) {
                 String postId = rs.getString(1);
+                stmt.close();
+                rs.close();
                 return Integer.parseInt(postId);
             }
             stmt.close();
             rs.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -185,6 +187,28 @@ public class PostDAO {
     }
 
     public void addPhoto(int post_id, String photo_url) {
-
+        String sql = "INSERT INTO photos (post_id, photo_url) VALUES (?,?)";
+        try (Connection conn = dataSource.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            stmt.setInt(1, post_id);
+            stmt.setString(2, photo_url);
+            stmt.executeUpdate();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+
+    public void updatePost(int post_id, Post post){
+        // TODO
+    }
+
+    public void addFilter(int post_id, String filter){
+        // TODO
+    }
+
+    public void removeAllFilters(int post_id){
+        // TODO
+    }
+
 }

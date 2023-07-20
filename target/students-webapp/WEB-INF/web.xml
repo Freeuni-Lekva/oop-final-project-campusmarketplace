@@ -25,7 +25,7 @@
 
     <servlet-mapping>
         <servlet-name>login</servlet-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>/login</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -64,4 +64,13 @@
         <servlet-name>DeletePostServlet</servlet-name>
         <url-pattern>/deletepost</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>EditPostServlet</servlet-name>
+        <servlet-class>marketplace.servlets.EditPostServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditPostServlet</servlet-name>
+        <url-pattern>/editpost</url-pattern>
+    </servlet-mapping>
+
 </web-app>
