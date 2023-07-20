@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import marketplace.dao.UserDAO;
 
-@WebServlet(name = "login", value = "/")
+@WebServlet(name = "login", value = "/login")
 public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
