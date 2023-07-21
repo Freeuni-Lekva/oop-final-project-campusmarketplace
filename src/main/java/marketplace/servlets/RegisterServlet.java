@@ -36,8 +36,9 @@ public class RegisterServlet extends HttpServlet {
         request.setAttribute("errors", errors);
 
         if (errors.isEmpty()) {
+
             String passwordHash = SecurityUtils.hashPassword(password);
-            userDAO.addUser(firstName, surname, passwordHash, email, phoneNumber, birthDate);
+            userDAO.addUser(firstName, surname, phoneNumber, email, passwordHash, birthDate);
         }
 
         // in register.jsp, if errors exist, display them, else display registration successful and redirect user to login
