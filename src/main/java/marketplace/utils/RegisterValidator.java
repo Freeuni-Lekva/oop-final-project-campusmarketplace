@@ -25,7 +25,7 @@ public class RegisterValidator {
             errors.add("Invalid email");
         }
 
-        if (!userDAO.existsEmail(email)) {
+        if (userDAO.existsEmail(email)) {
             errors.add("Email not available");
         }
 

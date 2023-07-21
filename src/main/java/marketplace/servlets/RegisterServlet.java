@@ -18,7 +18,7 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getSession().getAttribute("user") == null)
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            request.getRequestDispatcher("jsp/register.jsp").forward(request, response);
         else response.sendRedirect("/home");
     }
 
@@ -33,15 +33,15 @@ public class RegisterServlet extends HttpServlet {
 
         UserDAO userDAO = (UserDAO) request.getServletContext().getAttribute("userDAO");
         List<String> errors = RegisterValidator.validate(userDAO, firstName, surname, password, email, phoneNumber, birthDate);
+        request.setAttribute("errors", errors);
 
-        if (!errors.isEmpty()) {
-            request.setAttribute("errors", errors);
-        } else {
+        if (errors.isEmpty()) {
+
             String passwordHash = SecurityUtils.hashPassword(password);
-            userDAO.addUser(firstName, surname, passwordHash, email, phoneNumber, birthDate);
+            userDAO.addUser(firstName, surname, phoneNumber, email, passwordHash, birthDate);
         }
 
         // in register.jsp, if errors exist, display them, else display registration successful and redirect user to login
-        request.getRequestDispatcher("register.jsp").forward(request, response);
+        request.getRequestDispatcher("jsp/register.jsp").forward(request, response);
     }
 }
