@@ -4,6 +4,7 @@ import marketplace.constants.FilterConstants;
 import marketplace.dao.PostDAO;
 import marketplace.objects.Photo;
 import marketplace.objects.Post;
+import marketplace.objects.User;
 import marketplace.utils.PostValidator;
 
 import javax.servlet.RequestDispatcher;
@@ -29,7 +30,8 @@ public class NewPostServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         PostDAO postDAO = (PostDAO) getServletContext().getAttribute("postDAO");
-        int profile_id = 1; // TODO: get profile_id from current session.
+        User user = (User) request.getSession().getAttribute("user");
+        int profile_id = user.getProfileId();
         String title = request.getParameter("title");
         if (!PostValidator.validateTitle(title)) {
             request.setAttribute("error", "Title must not be empty.");
