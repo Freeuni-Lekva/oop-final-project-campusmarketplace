@@ -14,24 +14,21 @@ public class UserDAO {
         this.dataSource = dataSource;
     }
 
-    public void addUser(String firstName, String surname, String passwordHash, String email, String phoneNumber, LocalDate birthDate) {
+    public void addUser(String firstName, String surname, String phoneNumber, String email, String passwordHash, LocalDate birthDate) {
 
-        String sql = "INSERT INTO profiles (first_name, surname, phone_number,email,password_hash,birth_date) VALUES (?, ?,?,?,?,?)";
+        String sql = "INSERT INTO profiles (first_name, surname, phone_number, email, password_hash, birth_date) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, firstName);
             statement.setString(2, surname);
             statement.setString(3, phoneNumber);
             statement.setString(4, email);
-            statement.setString(5, phoneNumber);
+            statement.setString(5, passwordHash);
             statement.setDate(6, Date.valueOf(birthDate));
-            statement.close();
-            connection.close();
+            statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
     }
 
     public boolean existsEmail(String email) {
