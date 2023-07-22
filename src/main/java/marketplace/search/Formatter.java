@@ -1,2 +1,5 @@
-package marketplace.search;public interface Formatter {
+package marketplace.search;
+
+public interface Formatter {
+    String format(String query);
 }
