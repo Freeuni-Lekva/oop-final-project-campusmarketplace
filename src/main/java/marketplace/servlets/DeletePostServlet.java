@@ -1,6 +1,7 @@
 package marketplace.servlets;
 
 
+import marketplace.annotation.Secure;
 import marketplace.dao.PostDAO;
 import marketplace.objects.Photo;
 import marketplace.objects.Post;
@@ -14,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.util.ArrayList;
 
+@Secure
 @WebServlet(name = "DeletePostServlet", value = "/deletepost")
-
 public class DeletePostServlet extends HttpServlet {
 
     @Override
