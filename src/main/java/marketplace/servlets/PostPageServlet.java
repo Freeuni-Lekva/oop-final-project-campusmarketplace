@@ -1,6 +1,7 @@
 package marketplace.servlets;
 
 
+import marketplace.annotation.Secure;
 import marketplace.dao.PostDAO;
 import marketplace.objects.Photo;
 import marketplace.objects.Post;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 
 
+@Secure
 @WebServlet(name = "PostPageServlet", value = "/postpage")
 public class PostPageServlet extends HttpServlet {
     @Override
