@@ -10,7 +10,7 @@ import java.util.*;
 
  * It implements ScoringModel, so it is able to generate scores for posts according to query
  * */
-public class TF_IDF extends TermFrequency implements ScoringModel{
+public class TF_IDF extends TermFrequency{
 
     private final int K = 3;
 
@@ -62,6 +62,56 @@ public class TF_IDF extends TermFrequency implements ScoringModel{
         return false;
     }
 
+    public double calculateMean(Matrix m, int i){
+        double mean = 0;
+        for(int j = 0; j<m.getColumnDimension(); j++){
+            mean += m.get(i,j);
+        }
+        mean /= (double) m.getColumnDimension();
+        return mean;
+    }
+
+    public double calculateMean(List<Double> l){
+        double mean = 0;
+        for (Double aDouble : l) {
+            mean += aDouble;
+        }
+        mean /= (double) l.size();
+        return mean;
+    }
+
+    public double calculateVariance(Matrix matrix){
+        List<Double> means = new ArrayList<>();
+        for(int i = 0; i<matrix.getRowDimension(); i++)
+            means.add(calculateMean(matrix,i));
+
+
+        Matrix m = new Matrix(matrix.getRowDimension(), matrix.getColumnDimension());
+        for(int i = 0; i<matrix.getRowDimension(); i++){
+            for(int j = 0; j<matrix.getColumnDimension(); j++){
+                m.set(i,j,Math.pow(matrix.get(i,j)-means.get(i), 2));
+            }
+        }
+
+        List<Double> squaredSums = new ArrayList<>();
+        for(int i = 0; i<m.getRowDimension(); i++){
+            double sum = 0;
+            for(int j = 0; j<m.getColumnDimension(); j++){
+                sum += m.get(i,j);
+            }
+            squaredSums.add(sum/(double) m.getColumnDimension());
+        }
+
+
+        double mean = calculateMean(squaredSums);
+        double variance = 0;
+        for(double i: squaredSums){
+            variance+=Math.pow(i-mean, 2);
+        }
+        variance/=(double) squaredSums.size();
+        return variance;
+    }
+
     /** Creates Map of DF. Each pair of entry's (key, value) value tells us in
      *  how many documents does the word (key) appears */
     private Map<String, Integer> createDocumentFrequency() {
@@ -78,16 +128,5 @@ public class TF_IDF extends TermFrequency implements ScoringModel{
         }
 
         return map;
-    }
-
-    @Override
-    public List<Double> evaluateAll(String query) {
-
-        return null;
-    }
-
-    @Override
-    public Double evaluate(String query, Post post) {
-        return null;
     }
 }

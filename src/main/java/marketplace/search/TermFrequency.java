@@ -15,14 +15,18 @@ public class TermFrequency {
     private final Map<String, Integer> term_Index;
     /** Saves Information for how index -> word appears in termDocumentMatrix */
     private final Map<Integer, String> index_term;
+
+    private Map<String, Matrix> wordEmbeddings;
     private final Set<String> wordSet;
     public TermFrequency(List<Post> posts){
         this.posts = posts;
-        Map<String, List<Integer>> termDocumentMap = createTermDocumentMap(posts);
+        wordSet = new TreeSet<>();
         term_Index = new TreeMap<>();
         index_term = new TreeMap<>();
-        wordSet = new HashSet<>();
+        Map<String, List<Integer>> termDocumentMap = createTermDocumentMap(posts);
+
         termDocumentMatrix = createTDM(termDocumentMap);
+        wordEmbeddings = createWordEmbeddingMap();
     }
 
     /** Creates Term Frequency Matrix. Each (i,j) element says how many i-th word appears in j-th post*/
@@ -68,7 +72,7 @@ public class TermFrequency {
 
 
     /** Gets row matrix of particular query */
-    public Matrix getWordEmbedding(String query) {
+    private Matrix getWordEmbeddingFromMatrix(String query) {
         if(term_Index.get(query) == null) return null;
         return termDocumentMatrix.getMatrix(term_Index.get(query), term_Index.get(query), 0, posts.size()-1);
     }
@@ -79,6 +83,7 @@ public class TermFrequency {
 
     public void setTDM(Matrix matrix){
         termDocumentMatrix = matrix;
+        wordEmbeddings = createWordEmbeddingMap();
     }
 
     public Map<Integer, String> getIndexTerm() {
@@ -87,5 +92,37 @@ public class TermFrequency {
 
     public List<Post> getPosts() {
         return posts;
+    }
+
+    private Map<String, Matrix> createWordEmbeddingMap() {
+        Map<String, Matrix> map = new HashMap<>();
+        for(String word : wordSet){
+            Matrix embedding = getWordEmbeddingFromMatrix(word);
+            if(embedding == null) continue;
+            int col = embedding.getColumnDimension();
+            double len = 0;
+            for(int i = 0; i<col; i++){
+                len += Math.pow(embedding.get(0, i),2);
+            }
+            len = Math.sqrt(len);
+            if(len != 0) len = 1.0/len;
+            embedding = embedding.times(len);
+            map.put(word, embedding);
+        }
+        return map;
+    }
+
+    public Matrix getWordEmbedding(String query){
+        return wordEmbeddings.get(query);
+    }
+
+    public void debug_matrix(Matrix m){
+        for(int i = 0; i<m.getRowDimension(); i++){
+            for(int j = 0; j<m.getColumnDimension(); j++){
+                System.out.print(m.get(i,j));
+                System.out.print(' ');
+            }
+            System.out.print('\n');
+        }
     }
 }

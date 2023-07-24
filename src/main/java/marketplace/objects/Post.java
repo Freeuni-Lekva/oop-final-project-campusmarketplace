@@ -101,8 +101,10 @@ public class Post {
                 ", price: " + price +
                 ", description: " + description +
                 ", date: " + date + "]\n");
-        for (Photo photo : photos) {
-            result.append(photo.toString());
+        if(photos!=null){
+            for (Photo photo : photos) {
+                result.append(photo.toString());
+            }
         }
         return result.toString();
     }
