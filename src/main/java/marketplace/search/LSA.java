@@ -24,18 +24,8 @@ public class LSA implements ScoringModel{
 
     public LSA(List<Formatter> formatters, List<Post> posts){
         this.formatters = formatters;
-        // Copies posts List to new List, So after formation, posts List won't change
-        this.posts = new ArrayList<>();
-        for (Post p : posts) {
-            Post post = new Post(p.getProfile_id(), p.getPost_id(), p.getTitle(), p.getPrice(), p.getDescription(), p.getDate());
-            this.posts.add(post);
-        }
-        formatAll(formatters);
+        this.posts = posts;
         tf = new TF_IDF(this.posts);
-        Matrix mm = tf.getTDM();
-        System.out.println((int)tf.calculateVariance(mm));
-
-        System.out.println();
         tf.setTDM(createLSAMatrix(tf));
     }
 
@@ -57,16 +47,6 @@ public class LSA implements ScoringModel{
         Matrix us = u.times(s);
         us = us.times(v.transpose());
         return us;
-    }
-
-    /** Formats all posts according to formatters list */
-    private void formatAll(List<Formatter> formatters) {
-        for(Formatter formatter : formatters) {
-            for(Post post : posts){
-                post.setDescription(formatter.format(post.getDescription()));
-                post.setTitle(formatter.format(post.getTitle()));
-            }
-        }
     }
 
     public double dot_product(Matrix u, Matrix v){
@@ -94,7 +74,7 @@ public class LSA implements ScoringModel{
     }
 
     public Matrix sentence_embedding(String sentence){
-
+        for(Formatter f: formatters) sentence = f.formatAll(sentence);
         Matrix embedding = new Matrix(1, posts.size());
 
         for(String word : sentence.split("\\s+")){
@@ -108,7 +88,7 @@ public class LSA implements ScoringModel{
     @Override
     public List<Double> evaluateAll(String query) {
         for(Formatter formatter : formatters) {
-            query = formatter.format(query);
+            query = formatter.formatAll(query);
         }
         List<Double> result = new ArrayList<>();
 
@@ -122,13 +102,26 @@ public class LSA implements ScoringModel{
     @Override
     public Double evaluate(String query, Post post) {
         for(Formatter formatter : formatters) {
-            query = formatter.format(query);
+            query = formatter.formatAll(query);
         }
 
         Matrix query_embedding = sentence_embedding(query);
         Matrix post_embedding = sentence_embedding(post.getTitle() + " " + post.getDescription());
 
         return cos_sim(query_embedding, post_embedding);
+    }
+
+    @Override
+    public Double evaluate(String sentence1, String sentence2) {
+        for(Formatter formatter : formatters) {
+            sentence1 = formatter.formatAll(sentence1);
+            sentence2 = formatter.formatAll(sentence2);
+        }
+
+        Matrix sent1_embedding = sentence_embedding(sentence1);
+        Matrix sent2_embedding = sentence_embedding(sentence2);
+
+        return cos_sim(sent1_embedding, sent2_embedding);
     }
 
     public Set<String> wordSet(){

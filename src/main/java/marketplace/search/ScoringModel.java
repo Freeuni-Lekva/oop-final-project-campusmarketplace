@@ -11,4 +11,7 @@ public interface ScoringModel {
 
     /** Calculates score of individual post according to query */
     Double evaluate(String query, Post post);
+
+    /** Calculates similarity (cos_sim) score between sentences */
+    Double evaluate(String sentence1, String sentence2);
 }

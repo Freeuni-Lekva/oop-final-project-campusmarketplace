@@ -117,6 +117,10 @@ public class TermFrequency {
     }
 
     public void debug_matrix(Matrix m){
+        if(m==null){
+            System.out.println("Input is null!");
+            return;
+        }
         for(int i = 0; i<m.getRowDimension(); i++){
             for(int j = 0; j<m.getColumnDimension(); j++){
                 System.out.print(m.get(i,j));
