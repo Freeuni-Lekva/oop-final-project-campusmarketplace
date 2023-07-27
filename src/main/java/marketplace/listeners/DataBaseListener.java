@@ -23,6 +23,7 @@ public class DataBaseListener implements ServletContextListener {
             servletContextEvent.getServletContext().setAttribute("userDAO", new UserDAO(dataSource));
             servletContextEvent.getServletContext().setAttribute("postDAO",new PostDAO(dataSource));
             servletContextEvent.getServletContext().setAttribute("chatDAO", new ChatDAO(dataSource));
+            ChatConfig.setServletContext(servletContextEvent.getServletContext());
 
         } catch (Exception e){
             throw new RuntimeException("Database connection error");
