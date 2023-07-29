@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 
-@Secure
+
 @WebServlet(name = "FeedServlet", value = "/feedposts")
 public class FeedServlet extends HttpServlet {
     @Override

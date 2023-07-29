@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 
 
-@Secure
 @WebServlet(name = "PostPageServlet", value = "/postpage")
 public class PostPageServlet extends HttpServlet {
     @Override
