@@ -23,6 +23,7 @@ public class DataBaseListener implements ServletContextListener {
             servletContextEvent.getServletContext().setAttribute("chatDAO", new ChatDAO(dataSource));
             servletContextEvent.getServletContext().setAttribute("filterDAO",new FilterDAO(dataSource));
             servletContextEvent.getServletContext().setAttribute("photoDAO",new PhotoDAO(dataSource));
+            servletContextEvent.getServletContext().setAttribute("favouritesDAO", new FavouritesDAO(dataSource));
             ChatConfig.setServletContext(servletContextEvent.getServletContext());
 
         } catch (Exception e){
