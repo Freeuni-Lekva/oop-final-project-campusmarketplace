@@ -46,7 +46,28 @@ public class UserDAO implements UserDAOInterface {
             throw new RuntimeException(e);
         }
     }
-
+    @Override
+    public User getUser(int userId) {
+        String sql = "SELECT * FROM profiles WHERE profile_id = ?";
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, userId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+               String email= rs.getString("email");
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("surname");
+                java.util.Date birthday = rs.getDate("birth_date");
+                String number = rs.getString("phone_number");
+                String pass = rs.getString("password_hash");
+                User user = new User(userId, firstName, lastName, number, email, pass, birthday);
+                return user;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
     @Override
     public User getUser(String email) {
         String sql = "SELECT * FROM profiles WHERE email = ?";

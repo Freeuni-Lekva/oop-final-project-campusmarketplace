@@ -10,12 +10,17 @@ import java.util.List;
 import marketplace.objects.User;
 import org.apache.commons.dbcp2.BasicDataSource;
 
+import static marketplace.config.ChatConfig.getServletContext;
+
 
 public class ChatDAO implements ChatDAOInterface {
     private final BasicDataSource dataSource;
+    private UserDAO userdao;
 
     public ChatDAO(BasicDataSource dataSource) {
         this.dataSource = dataSource;
+         userdao = (UserDAO) getServletContext().getAttribute("userDAO");
+
     }
 
     @Override
@@ -25,6 +30,45 @@ public class ChatDAO implements ChatDAOInterface {
         return messages;
 
     }
+
+    @Override
+    public List<User> lastMessages(int userId, int n) {
+        List<User> users = new ArrayList<>();
+        String sql = "SELECT id, max_time\n" +
+                "FROM (\n" +
+                "    SELECT id, MAX(send_time) AS max_time\n" +
+                "    FROM (\n" +
+                "        SELECT sender_id AS id, send_time\n" +
+                "        FROM chats\n" +
+                "        WHERE receiver_id = ?\n" +
+                "        UNION ALL\n" +
+                "        SELECT receiver_id AS id, send_time\n" +
+                "        FROM chats\n" +
+                "        WHERE sender_id = ?\n" +
+                "    ) AS subquery\n" +
+                "    GROUP BY id\n" +
+                ") AS result\n" +
+                "ORDER BY max_time DESC\n" +
+                "LIMIT ?";
+
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, userId);
+            statement.setInt(2, userId);
+            statement.setInt(3,n);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+              int prof_id = rs.getInt("id");
+              users.add(userdao.getUser(prof_id));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        return users;
+    }
+
     private List<Message> getAllMessagesBetween(int senderId, int receiverId){
         List<Message> messages = new ArrayList<>();
         String sql = "select * from chats where sender_id=? and receiver_id=?";
