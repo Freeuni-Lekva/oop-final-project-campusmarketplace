@@ -44,6 +44,10 @@
         <servlet-name>SearchServlet</servlet-name>
         <servlet-class>marketplace.servlets.SearchServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>chat</servlet-name>
+        <servlet-class>marketplace.servlets.ChatServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>SearchServlet</servlet-name>
@@ -76,5 +80,9 @@
     <servlet-mapping>
         <servlet-name>DeletePostServlet</servlet-name>
         <url-pattern>/deletepost</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>chat</servlet-name>
+        <url-pattern>/chat</url-pattern>
     </servlet-mapping>
 </web-app>

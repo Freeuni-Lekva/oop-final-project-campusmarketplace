@@ -1,5 +1,6 @@
 package marketplace.servlets;
 
+import marketplace.annotation.Secure;
 import marketplace.constants.FilterConstants;
 import marketplace.dao.PostDAO;
 import marketplace.objects.Photo;
@@ -16,6 +17,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+@Secure
 @WebServlet(name = "EditPostServlet", value = "/editpost")
 public class EditPostServlet extends HttpServlet {
     @Override

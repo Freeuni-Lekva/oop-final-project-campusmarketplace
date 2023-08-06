@@ -1,5 +1,6 @@
 package marketplace.servlets;
 
+import marketplace.annotation.Secure;
 import marketplace.constants.FilterConstants;
 import marketplace.dao.PostDAO;
 import marketplace.objects.Photo;
@@ -25,6 +26,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 
+@Secure
 @WebServlet(name = "NewPostServlet", value = "/newpost")
 @MultipartConfig
 public class NewPostServlet extends HttpServlet {

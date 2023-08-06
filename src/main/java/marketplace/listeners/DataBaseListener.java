@@ -1,6 +1,8 @@
 package marketplace.listeners;
 
+import marketplace.config.ChatConfig;
 import marketplace.constants.DatabaseConstants;
+import marketplace.dao.ChatDAO;
 import marketplace.dao.PostDAO;
 import marketplace.dao.UserDAO;
 import marketplace.search.SearchEngine;
@@ -23,8 +25,7 @@ public class DataBaseListener implements ServletContextListener {
             servletContextEvent.getServletContext().setAttribute("userDAO", new UserDAO(dataSource));
             servletContextEvent.getServletContext().setAttribute("postDAO", postDAO);
             servletContextEvent.getServletContext().setAttribute("searchEngine",new SearchEngine(postDAO));
-
-
+            servletContextEvent.getServletContext().setAttribute("chatDAO", new ChatDAO(dataSource));
 
         } catch (Exception e){
             throw new RuntimeException("Database connection error");

@@ -1,6 +1,7 @@
 package marketplace.servlets;
 
 
+import marketplace.annotation.Secure;
 import marketplace.dao.PostDAO;
 import marketplace.objects.Photo;
 import marketplace.objects.Post;
