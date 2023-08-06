@@ -128,7 +128,35 @@ public class PostDAO implements PostDAOInterface {
 
     }
 
-@Override
+    @Override
+    public List<FeedPost> getAllUserPosts(int userId) {
+        ArrayList<FeedPost> posts = new ArrayList<>();
+        try (Connection conn = dataSource.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM posts where profile_id = ?");
+            stmt.setInt(1, userId);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int post_id = rs.getInt("post_id");
+                String title = rs.getString("title");
+                double price = rs.getDouble("price");
+                String photo_address = rs.getString("main_photo");
+                Date date = rs.getDate("publish_date");
+                FeedPost post = new FeedPost(post_id, photo_address, title, price, date);
+                posts.add(post);
+            }
+
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return posts;
+    }
+
+    @Override
     public void addMainPhoto(int post_id, String photo_url){
         try (Connection conn = dataSource.getConnection()) {
             String sql = "UPDATE posts SET main_photo = ? WHERE post_id = ?";
