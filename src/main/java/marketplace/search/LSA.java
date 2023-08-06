@@ -20,13 +20,16 @@ public class LSA implements ScoringModel{
     private final TF_IDF tf;
 
     /** Compresses SVD To R */
-    private final int R = 75;
+    private int R = 0;
 
     public LSA(List<Formatter> formatters, List<Post> posts){
         this.formatters = formatters;
         this.posts = posts;
         tf = new TF_IDF(this.posts);
+        System.out.println(tf.getTDM().rank());
+        R = tf.getTDM().rank()/2;
         tf.setTDM(createLSAMatrix(tf));
+        System.out.println(tf.getTDM().rank());
     }
 
     /** It implements main logic of LSA algorithm */
@@ -74,9 +77,14 @@ public class LSA implements ScoringModel{
     }
 
     public Matrix sentence_embedding(String sentence){
-        for(Formatter f: formatters) sentence = f.formatAll(sentence);
-        Matrix embedding = new Matrix(1, posts.size());
+        return sentence_embedding(sentence, true);
+    }
 
+    public Matrix sentence_embedding(String sentence, boolean do_format){
+        if(do_format) {
+            for (Formatter f : formatters) sentence = f.formatAll(sentence);
+        }
+        Matrix embedding = new Matrix(1, posts.size());
         for(String word : sentence.split("\\s+")){
             Matrix mat = tf.getWordEmbedding(word);
             if(mat==null) continue;
@@ -91,35 +99,45 @@ public class LSA implements ScoringModel{
             query = formatter.formatAll(query);
         }
         List<Double> result = new ArrayList<>();
-
         for (Post post : posts) {
-            result.add(evaluate(query, post));
+            result.add(evaluate(query, post, false));
         }
-
         return result;
     }
 
     @Override
     public Double evaluate(String query, Post post) {
-        for(Formatter formatter : formatters) {
-            query = formatter.formatAll(query);
+        return evaluate(query, post, true);
+    }
+
+    public Double evaluate(String query, Post post, boolean do_format) {
+        if(do_format) {
+            for (Formatter formatter : formatters) {
+                query = formatter.formatAll(query);
+            }
         }
 
-        Matrix query_embedding = sentence_embedding(query);
-        Matrix post_embedding = sentence_embedding(post.getTitle() + " " + post.getDescription());
+        Matrix query_embedding = sentence_embedding(query, do_format);
+        Matrix post_embedding = sentence_embedding(post.getTitle() + " " + post.getDescription(), do_format);
 
         return cos_sim(query_embedding, post_embedding);
     }
 
     @Override
     public Double evaluate(String sentence1, String sentence2) {
-        for(Formatter formatter : formatters) {
-            sentence1 = formatter.formatAll(sentence1);
-            sentence2 = formatter.formatAll(sentence2);
+        return evaluate(sentence1, sentence2, true);
+    }
+
+    public Double evaluate(String sentence1, String sentence2, boolean do_format) {
+        if(do_format) {
+            for (Formatter formatter : formatters) {
+                sentence1 = formatter.formatAll(sentence1);
+                sentence2 = formatter.formatAll(sentence2);
+            }
         }
 
-        Matrix sent1_embedding = sentence_embedding(sentence1);
-        Matrix sent2_embedding = sentence_embedding(sentence2);
+        Matrix sent1_embedding = sentence_embedding(sentence1, do_format);
+        Matrix sent2_embedding = sentence_embedding(sentence2, do_format);
 
         return cos_sim(sent1_embedding, sent2_embedding);
     }

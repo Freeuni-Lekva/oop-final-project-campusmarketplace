@@ -11,6 +11,9 @@ import java.io.IOException;
 public class SearchServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        super.doGet(httpServletRequest, httpServletResponse);
+        SearchEngine searchEngine = (SearchEngine) getServletContext().getAttribute("searchEngine");
+        String query = httpServletRequest.getParameter("query");
+        httpServletRequest.setAttribute("posts", searchEngine.execute(query, 15));
+
     }
 }

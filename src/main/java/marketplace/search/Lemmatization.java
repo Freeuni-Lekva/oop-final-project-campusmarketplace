@@ -24,9 +24,9 @@ public class Lemmatization extends Formatter{
     /** This is an api url, which is used to generate lemmas for words */
     private final String url = "https://qartnlp.iliauni.edu.ge/api/lemma";
     /** Stores word->lemma */
-    private Map<String, String> word_to_format;
+    private final Map<String, String> word_to_format;
     /** Stores lemmas */
-    private Set<String> formated_words;
+    private final Set<String> formated_words;
 
     /** name of a file, which stores word_to_format map */
     private final String FILE_NAME = "map.properties";
