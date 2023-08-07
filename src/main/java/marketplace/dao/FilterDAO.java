@@ -50,21 +50,29 @@ public class FilterDAO implements FilterDAOInterface {
 
     @Override
     public List<FeedPost> filterPosts(List<String> filter) {
-        String sql="";
-        if(filter.size()==1) {
-             sql = "select post_id from filters where filter_text=?";
-        }
-        else{
-             sql = "select post_id from filters where filter_text in (";
-            for (int i=0; i<filter.size();i++){
-                sql+= i==filter.size()-1? "?" : "?, ";
+        String sql = "";
+        if (filter.size() == 1) {
+            sql = "SELECT DISTINCT p.post_id, p.title, p.price, p.main_photo, p.publish_date " +
+                    "FROM posts p " +
+                    "JOIN filters f ON p.post_id = f.post_id " +
+                    "WHERE f.filter_text = ?";
+        } else {
+            sql = "SELECT DISTINCT p.post_id, p.title, p.price, p.main_photo, p.publish_date " +
+                    "FROM posts p " +
+                    "JOIN filters f ON p.post_id = f.post_id " +
+                    "WHERE f.filter_text IN (";
+            for (int i = 0; i < filter.size(); i++) {
+                sql += i == filter.size() - 1 ? "?" : "?, ";
             }
+            sql += ")";
         }
+
         ArrayList<FeedPost> posts = new ArrayList<>();
+
         try (Connection conn = dataSource.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement(sql);
-            for(int i=0; i<filter.size();i++)
-            stmt.setString(i+1, filter.get(i));
+            for (int i = 0; i < filter.size(); i++)
+                stmt.setString(i + 1, filter.get(i));
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -84,6 +92,5 @@ public class FilterDAO implements FilterDAOInterface {
         }
 
         return posts;
-
     }
 }

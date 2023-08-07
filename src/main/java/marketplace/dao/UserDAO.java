@@ -16,6 +16,8 @@ public class UserDAO implements UserDAOInterface {
         this.dataSource = dataSource;
     }
 
+
+
     @Override
     public void addUser(String firstName, String surname, String phoneNumber, String email, String passwordHash, LocalDate birthDate) {
         String sql = "INSERT INTO profiles (first_name, surname, phone_number, email, password_hash, birth_date) VALUES (?, ?, ?, ?, ?, ?)";

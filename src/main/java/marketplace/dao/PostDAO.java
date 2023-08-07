@@ -114,6 +114,9 @@ public class PostDAO implements PostDAOInterface {
             PreparedStatement stmt3 = conn.prepareStatement("delete from favourites where post_id=?");
             stmt3.setInt(1,post_id);
             stmt3.executeUpdate();
+            PreparedStatement stmt4 = conn.prepareStatement("delete from photos where post_id=?");
+            stmt4.setInt(1,post_id);
+            stmt4.executeUpdate();
 
             PreparedStatement stmt = conn.prepareStatement("DELETE FROM posts WHERE post_id = ? ");
             stmt.setInt(1, post_id);

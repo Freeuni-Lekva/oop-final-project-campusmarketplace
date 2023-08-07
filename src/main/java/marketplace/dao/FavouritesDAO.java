@@ -18,6 +18,8 @@ public class FavouritesDAO implements FavouritesDAOInterface {
 
     @Override
     public void addFavourite(int post_id, int profile_id) {
+       if(isFavourite(post_id,profile_id)) return;
+
         String sql = "insert into favourites (profile_id,post_id) values (?,?)";
         try (Connection conn = dataSource.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -30,6 +32,27 @@ public class FavouritesDAO implements FavouritesDAOInterface {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean isFavourite(int postId, int profileId) { String check = "select count(*) from favourites where profile_id = ? and post_id = ?";
+        ArrayList<FeedPost> posts = new ArrayList<>();
+        try (Connection conn = dataSource.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement(check);
+
+            stmt.setInt(1, profileId);
+            stmt.setInt(2,postId);
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()){
+                if(rs.getInt(1)!=0) return true;
+            }
+
+
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override
