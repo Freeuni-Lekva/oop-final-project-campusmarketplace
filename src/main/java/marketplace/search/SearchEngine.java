@@ -27,7 +27,6 @@ public class SearchEngine {
         this.word_set = createWordSet(this.posts);
         // Creates Formatters
         Formatter lemma = new Lemmatization(this.word_set);
-        System.out.println("Finished Lemma!");
 
         Levenshtein levenshtein = new Levenshtein(this.word_set, LIMIT);
 
@@ -90,7 +89,6 @@ public class SearchEngine {
         this.lsa_posts = deepCopy(this.posts);
         this.word_set = createWordSet(this.posts);
         Formatter lemma = new Lemmatization(this.word_set);
-        System.out.println("Finished Lemma!");
 
         Levenshtein levenshtein = new Levenshtein(this.word_set, LIMIT);
 
@@ -109,6 +107,13 @@ public class SearchEngine {
         System.out.print(q1+", "+q2+":");
         System.out.print(lsa.evaluate(q1, q2));
         System.out.println();
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+    public Set<String> getWord_set() {
+        return word_set;
     }
 
     /** This method combines different scores by their weights.

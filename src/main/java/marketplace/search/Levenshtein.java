@@ -36,6 +36,10 @@ public class Levenshtein extends Formatter{
 
     @Override
     public String format(String word) {
+        return format(word, LIMIT);
+    }
+
+    public String format(String word, int limit){
         if(words.contains(word)) return word;
         String ans = word;
         int edit_distance = Integer.MAX_VALUE;
@@ -46,7 +50,7 @@ public class Levenshtein extends Formatter{
                 ans = w;
             }
         }
-        if(LIMIT >= edit_distance)
+        if(limit >= edit_distance)
             return ans;
         return word;
     }
