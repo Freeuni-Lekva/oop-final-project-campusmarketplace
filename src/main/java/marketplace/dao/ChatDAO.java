@@ -11,14 +11,13 @@ import marketplace.objects.User;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 
-
 public class ChatDAO implements ChatDAOInterface {
     private final BasicDataSource dataSource;
     private UserDAO userdao;
 
-    public ChatDAO(BasicDataSource dataSource,UserDAO userdao) {
+    public ChatDAO(BasicDataSource dataSource, UserDAO userdao) {
         this.dataSource = dataSource;
-         this.userdao=userdao;
+        this.userdao = userdao;
 
     }
 
@@ -41,6 +40,8 @@ public class ChatDAO implements ChatDAOInterface {
                 Message msg = new Message(messageId, senderId, receiverId, content, sendtime);
                 messages.add(msg);
             }
+            statement.close();
+            rs.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -73,12 +74,14 @@ public class ChatDAO implements ChatDAOInterface {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, userId);
             statement.setInt(2, userId);
-            statement.setInt(3,n);
+            statement.setInt(3, n);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-              int prof_id = rs.getInt("id");
-              users.add(userdao.getUser(prof_id));
+                int prof_id = rs.getInt("id");
+                users.add(userdao.getUser(prof_id));
             }
+            statement.close();
+            rs.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -88,10 +91,9 @@ public class ChatDAO implements ChatDAOInterface {
     }
 
 
-
     @Override
     public void saveMessage(Message message) {
-        if(message==null) return;
+        if (message == null) return;
         String sql = "insert into chats (sender_id, receiver_id,message,send_time) values (?,?,?,?)";
         try (Connection conn = dataSource.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement(sql);

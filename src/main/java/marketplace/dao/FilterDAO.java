@@ -14,6 +14,7 @@ public class FilterDAO implements FilterDAOInterface {
     public FilterDAO(BasicDataSource dataSource) {
         this.dataSource = dataSource;
     }
+
     @Override
     public void addFilter(int post_id, String filter) {
         String sql = "insert into filters (post_id, filter_text) values (?,?)";

@@ -1,99 +1,134 @@
-//package marketplace.dao;
-//
-//import marketplace.objects.Photo;
-//import org.apache.commons.dbcp2.BasicDataSource;
-//import org.junit.jupiter.api.*;
-//
-//import java.sql.*;
-//import java.util.ArrayList;
-//
-//import static org.junit.jupiter.api.Assertions.*;
-//
-//public class PhotoDAOTest {
-//
-//    private BasicDataSource dataSource;
-//    private PhotoDAO photoDAO;
-//
-//    @BeforeEach
-//    public void setup() throws SQLException {
-//        // Set up the database connection
-//        dataSource = new BasicDataSource();
-//        dataSource.setUrl("jdbc:mysql://localhost/test_final_project_db");
-//        dataSource.setUsername("root");
-//        dataSource.setPassword("password");
-//
-//        // Initialize the DAO object with the database connection
-//        photoDAO = new PhotoDAO(dataSource);
-//
-//        try (Connection conn = dataSource.getConnection()) {
-//            // Insert test data
-//            insertPhoto(conn, 1, "photo1.jpg");
-//            insertPhoto(conn, 1, "photo2.jpg");
-//            insertPhoto(conn, 2, "photo3.jpg");
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    private static void insertPhoto(Connection conn, int postId, String photoUrl) throws SQLException {
-//        String sql = "INSERT INTO photos (post_id, photo_url) VALUES (?, ?)";
-//        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-//            stmt.setInt(1, postId);
-//            stmt.setString(2, photoUrl);
-//            stmt.executeUpdate();
-//        }
-//    }
-//
-//    @AfterEach
-//    public void cleanup() throws SQLException {
-//        // Clear the photos table after each test
-//        try (Connection conn = dataSource.getConnection(); Statement stmt = conn.createStatement()) {
-//            stmt.executeUpdate("DELETE FROM photos");
-//        }
-//    }
-//
-//    @Test
-//    public void testGetPhotos() {
-//        // Get photos for a specific post
-//        ArrayList<Photo> photos = photoDAO.getPhotos(1);
-//
-//        // Verify that the correct number of photos is returned
-//        assertEquals(2, photos.size());
-//
-//        // Verify the details of the first photo
-//        assertEquals(1, photos.get(0).getPhoto_id());
-//        assertEquals("photo1.jpg", photos.get(0).getPhoto_url());
-//
-//        // Verify the details of the second photo
-//        assertEquals(2, photos.get(1).getPhoto_id());
-//        assertEquals("photo2.jpg", photos.get(1).getPhoto_url());
-//    }
-//
-//    @Test
-//    public void testDeletePhoto() throws SQLException {
-//        // Delete a photo
-//        photoDAO.deletePhoto(1);
-//
-//        // Verify that the photo is deleted from the database
-//        try (Connection conn = dataSource.getConnection(); Statement stmt = conn.createStatement()) {
-//            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM photos WHERE photo_id = 1");
-//            rs.next();
-//            int count = rs.getInt(1);
-//            assertEquals(0, count);
-//        }
-//    }
-//
-//    @Test
-//    public void testAddPhoto() throws SQLException {
-//        // Add a new photo
-//        photoDAO.addPhoto(2, "photo4.jpg");
-//
-//        // Verify that the photo is added to the database
-//        try (Connection conn = dataSource.getConnection(); Statement stmt = conn.createStatement()) {
-//            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM photos WHERE photo_url = 'photo4.jpg'");
-//            rs.next();
-//            int count = rs.getInt(1);
-//            assertEquals(1, count);
-//        }
-//    }
-//}
+package marketplace.dao;
+
+import marketplace.objects.Photo;
+import org.apache.commons.dbcp2.BasicDataSource;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.sql.*;
+import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.*;
+
+public class PhotoDAOTest {
+    private BasicDataSource dataSource;
+    private Connection connection;
+    private PhotoDAO dao;
+
+    @BeforeEach
+    public void setup() throws SQLException {
+        dataSource = mock(BasicDataSource.class);
+        connection = mock(Connection.class);
+        dao = new PhotoDAO(dataSource);
+
+        when(dataSource.getConnection()).thenReturn(connection);
+    }
+
+    @Test
+    public void testGetPhotos() throws SQLException {
+        PreparedStatement statement = mock(PreparedStatement.class);
+        ResultSet resultSet = mock(ResultSet.class);
+
+        when(connection.prepareStatement(any(String.class))).thenReturn(statement);
+        when(statement.executeQuery()).thenReturn(resultSet);
+
+        when(resultSet.next()).thenReturn(true).thenReturn(false);
+        when(resultSet.getInt("photo_id")).thenReturn(1);
+        when(resultSet.getString("photo_url")).thenReturn("url");
+
+        ArrayList<Photo> photos = dao.getPhotos(1);
+
+        assertEquals(1, photos.size());
+        assertEquals(1, photos.get(0).getPhoto_id());
+        assertEquals("url", photos.get(0).getPhoto_url());
+
+        verify(connection, times(1)).prepareStatement(any(String.class));
+        verify(statement, times(1)).setLong(1, 1);
+        verify(statement, times(1)).executeQuery();
+        verify(resultSet, times(2)).next();
+    }
+
+    @Test
+    public void testDeletePhoto() throws SQLException {
+        PreparedStatement statement = mock(PreparedStatement.class);
+
+        when(connection.prepareStatement(any(String.class))).thenReturn(statement);
+
+        dao.deletePhoto(1);
+
+        verify(connection, times(1)).prepareStatement(any(String.class));
+        verify(statement, times(1)).setInt(1, 1);
+        verify(statement, times(1)).executeUpdate();
+    }
+
+    @Test
+    public void testAddPhoto() throws SQLException {
+        PreparedStatement statement = mock(PreparedStatement.class);
+
+        when(connection.prepareStatement(any(String.class), eq(Statement.RETURN_GENERATED_KEYS))).thenReturn(statement);
+
+        dao.addPhoto(1, "url");
+
+        verify(connection, times(1)).prepareStatement(any(String.class), eq(Statement.RETURN_GENERATED_KEYS));
+        verify(statement, times(1)).setInt(1, 1);
+        verify(statement, times(1)).setString(2, "url");
+        verify(statement, times(1)).executeUpdate();
+    }
+
+    @Test
+    public void testGetPhotos_NoPhotosFound() throws SQLException {
+        Connection connection = dataSource.getConnection();
+        PreparedStatement statement = mock(PreparedStatement.class);
+        ResultSet resultSet = mock(ResultSet.class);
+
+        when(connection.prepareStatement(anyString())).thenReturn(statement);
+        when(statement.executeQuery()).thenReturn(resultSet);
+        when(resultSet.next()).thenReturn(false); // No photos found
+
+        PhotoDAO photoDAO = new PhotoDAO(dataSource);
+
+        ArrayList<Photo> photos = photoDAO.getPhotos(1);
+
+        assertNotNull(photos);
+        assertEquals(0, photos.size());
+
+        verify(resultSet).close();
+        verify(statement).close();
+    }
+
+    @Test
+    public void testDeletePhoto_NonExistentID() throws SQLException {
+        // Arrange
+        Connection connection = dataSource.getConnection();
+        PreparedStatement statement = mock(PreparedStatement.class);
+
+        when(connection.prepareStatement(anyString())).thenReturn(statement);
+        when(statement.executeUpdate()).thenReturn(0);
+
+        PhotoDAO photoDAO = new PhotoDAO(dataSource);
+
+        photoDAO.deletePhoto(1);
+
+        verify(statement).close();
+    }
+
+    @Test
+    public void testAddPhoto_ReturnGeneratedID() throws SQLException {
+        Connection connection = dataSource.getConnection();
+        PreparedStatement statement = mock(PreparedStatement.class);
+        ResultSet generatedKeys = mock(ResultSet.class);
+
+        when(connection.prepareStatement(anyString(), anyInt())).thenReturn(statement);
+        when(statement.getGeneratedKeys()).thenReturn(generatedKeys);
+        when(generatedKeys.next()).thenReturn(true);
+        when(generatedKeys.getInt(1)).thenReturn(1);
+
+        PhotoDAO photoDAO = new PhotoDAO(dataSource);
+
+        photoDAO.addPhoto(1, "photo_url");
+
+        verify(statement).close();
+    }
+}

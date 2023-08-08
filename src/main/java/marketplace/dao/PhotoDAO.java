@@ -13,6 +13,7 @@ public class PhotoDAO implements PhotoDAOInterface {
     public PhotoDAO(BasicDataSource dataSource) {
         this.dataSource = dataSource;
     }
+
     @Override
     public ArrayList<Photo> getPhotos(int post_id) {
         ArrayList<Photo> photos = null;
@@ -33,6 +34,7 @@ public class PhotoDAO implements PhotoDAOInterface {
         }
         return photos;
     }
+
     @Override
     public void deletePhoto(int photo_id) {
         try (Connection conn = dataSource.getConnection()) {
@@ -44,6 +46,7 @@ public class PhotoDAO implements PhotoDAOInterface {
             e.printStackTrace();
         }
     }
+
     @Override
     public void addPhoto(int post_id, String photo_url) {
         String sql = "INSERT INTO photos (post_id, photo_url) VALUES (?,?)";
