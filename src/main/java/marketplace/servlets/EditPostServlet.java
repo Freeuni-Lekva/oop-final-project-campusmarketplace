@@ -2,6 +2,8 @@ package marketplace.servlets;
 
 import marketplace.annotation.Secure;
 import marketplace.constants.FilterConstants;
+import marketplace.dao.FilterDAO;
+import marketplace.dao.PhotoDAO;
 import marketplace.dao.PostDAO;
 import marketplace.objects.Photo;
 import marketplace.objects.Post;
@@ -23,6 +25,8 @@ public class EditPostServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         PostDAO postDAO = (PostDAO) getServletContext().getAttribute("postDAO");
+        FilterDAO filterDAO = (FilterDAO)getServletContext().getAttribute("filterDAO");
+        PhotoDAO photoDAO = (PhotoDAO)getServletContext().getAttribute("photoDAO");
         User user = (User) request.getSession().getAttribute("user");
         int profile_id = user.getProfileId();
         int post_id = Integer.parseInt(request.getParameter("post_id"));
@@ -57,16 +61,16 @@ public class EditPostServlet extends HttpServlet {
                 return;
             }
             post = new Post(profile_id, post_id, title, price, description, date);
-            postDAO.removeAllFilters(post_id);
+            filterDAO.removeAllFilters(post_id);
             for (String filter : FilterConstants.filters) {
                 String checked = request.getParameter(filter);
                 if (checked != null) {
-                    postDAO.addFilter(post_id, filter);
+                    filterDAO.addFilter(post_id, filter);
                 }
             }
             postDAO.updatePost(post_id, post);
             post = postDAO.getPostById(post_id);
-            ArrayList<Photo> photos = postDAO.getPhotos(post.getPost_id());
+            ArrayList<Photo> photos = photoDAO.getPhotos(post.getPost_id());
             post.setPhotos(photos);
             post.setProfilesPost(true);
             request.setAttribute("post", post);

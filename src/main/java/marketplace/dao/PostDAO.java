@@ -1,6 +1,7 @@
 package marketplace.dao;
 
 import marketplace.constants.PageConstants;
+import marketplace.dao.daoInterfaces.PostDAOInterface;
 import marketplace.objects.FeedPost;
 import marketplace.objects.Photo;
 import marketplace.objects.Post;
@@ -11,13 +12,14 @@ import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
 
-public class PostDAO {
+public class PostDAO implements PostDAOInterface {
     private final BasicDataSource dataSource;
 
     public PostDAO(BasicDataSource dataSource) {
         this.dataSource = dataSource;
     }
 
+    @Override
     public ArrayList<FeedPost> getAllFeedPosts(int page) {
 
         ArrayList<FeedPost> posts = new ArrayList<>();
@@ -47,6 +49,7 @@ public class PostDAO {
 
     }
 
+    @Override
     public Post getPostById(int post_id) {
         Post post = null;
         try (Connection conn = dataSource.getConnection()) {
@@ -75,6 +78,7 @@ public class PostDAO {
         return post;
     }
 
+    @Override
     public int addNewPost(Post post) {
         String sql = "INSERT INTO posts (profile_id,title, price, description, publish_date) VALUES (?,?, ?, ?, ?)";
         try (Connection conn = dataSource.getConnection()) {
@@ -101,47 +105,88 @@ public class PostDAO {
         return 0;
     }
 
-    public void deletePost(int post_id) {
+    @Override
+    public boolean deletePost(int post_id) {
         try (Connection conn = dataSource.getConnection()) {
             Post post = getPostById(post_id);
-            if (post == null) return;
-            PreparedStatement stmt2 = conn.prepareStatement("delete from filters where post_id = ?");
-            stmt2.setLong(1, post_id);
-            stmt2.executeUpdate();
-
-            PreparedStatement stmt = conn.prepareStatement("DELETE FROM posts WHERE post_id = ? ");
-            stmt.setInt(1, post_id);
-            stmt.executeUpdate();
-            stmt.close();
-            stmt2.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public ArrayList<Photo> getPhotos(int post_id) {
-        ArrayList<Photo> photos = null;
-        try (Connection conn = dataSource.getConnection()) {
-            PreparedStatement statement = conn.prepareStatement("SELECT * FROM photos WHERE post_id = ?");
-            statement.setLong(1, post_id);
-            ResultSet rs = statement.executeQuery();
-            photos = new ArrayList<>();
-            while (rs.next()) {
-                int photo_id = rs.getInt("photo_id");
-                String photo_url = rs.getString("photo_url");
-                photos.add(new Photo(photo_id, photo_url));
+            if (post == null) {
+                return false; // Post does not exist, return false
             }
-            rs.close();
-            statement.close();
+
+            PreparedStatement stmt2 = null;
+            PreparedStatement stmt3 = null;
+            PreparedStatement stmt4 = null;
+            PreparedStatement stmt = null;
+
+            try {
+                stmt2 = conn.prepareStatement("DELETE FROM filters WHERE post_id = ?");
+                stmt2.setInt(1, post_id);
+                stmt2.executeUpdate();
+
+                stmt3 = conn.prepareStatement("DELETE FROM favourites WHERE post_id = ?");
+                stmt3.setInt(1, post_id);
+                stmt3.executeUpdate();
+
+                stmt4 = conn.prepareStatement("DELETE FROM photos WHERE post_id = ?");
+                stmt4.setInt(1, post_id);
+                stmt4.executeUpdate();
+
+                stmt = conn.prepareStatement("DELETE FROM posts WHERE post_id = ?");
+                stmt.setInt(1, post_id);
+                stmt.executeUpdate();
+
+                return true;
+            } finally {
+                if (stmt2 != null) {
+                    stmt2.close();
+                }
+                if (stmt3 != null) {
+                    stmt3.close();
+                }
+                if (stmt4 != null) {
+                    stmt4.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return photos;
+
+        return false;
     }
 
-    public void addMainPhoto(int post_id, String photo_url){
+    @Override
+    public List<FeedPost> getAllUserPosts(int userId) {
+        ArrayList<FeedPost> posts = new ArrayList<>();
+        try (Connection conn = dataSource.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM posts where profile_id = ?");
+            stmt.setInt(1, userId);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int post_id = rs.getInt("post_id");
+                String title = rs.getString("title");
+                double price = rs.getDouble("price");
+                String photo_address = rs.getString("main_photo");
+                Date date = rs.getDate("publish_date");
+                FeedPost post = new FeedPost(post_id, photo_address, title, price, date);
+                posts.add(post);
+            }
+
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return posts;
+    }
+
+    @Override
+    public void addMainPhoto(int post_id, String photo_url) {
         try (Connection conn = dataSource.getConnection()) {
             String sql = "UPDATE posts SET main_photo = ? WHERE post_id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -149,10 +194,12 @@ public class PostDAO {
             stmt.setInt(2, post_id);
             stmt.executeUpdate();
             stmt.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        catch (Exception e){ e.printStackTrace(); }
     }
 
+    @Override
     public Photo getMainPhoto(int post_id) {
         try (Connection conn = dataSource.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement("select main_photo from posts where post_id=?");
@@ -164,8 +211,8 @@ public class PostDAO {
             stmt2.setString(1, photoUrl);
             ResultSet rs2 = stmt2.executeQuery();
 
-
             int photoId = rs2.getInt(1);
+            rs2.close();
             Photo photo = new Photo(photoId, photoUrl);
             return photo;
 
@@ -175,40 +222,19 @@ public class PostDAO {
         return null;
     }
 
-    public void deletePhoto(int photo_id) {
+    @Override
+    public void updatePost(int post_id, Post post) {
         try (Connection conn = dataSource.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("DELETE FROM photos WHERE photo_id = ? ");
-            stmt.setInt(1, photo_id);
+            PreparedStatement stmt = conn.prepareStatement("UPDATE posts SET  title = ?, description = ?, price = ? WHERE post_id = ?");
+            stmt.setString(1, post.getTitle());
+            stmt.setString(2, post.getDescription());
+            stmt.setDouble(3, post.getPrice());
+            stmt.setLong(4, post_id);
             stmt.executeUpdate();
             stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public void addPhoto(int post_id, String photo_url) {
-        String sql = "INSERT INTO photos (post_id, photo_url) VALUES (?,?)";
-        try (Connection conn = dataSource.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            stmt.setInt(1, post_id);
-            stmt.setString(2, photo_url);
-            stmt.executeUpdate();
-            stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void updatePost(int post_id, Post post){
-        // TODO
-    }
-
-    public void addFilter(int post_id, String filter){
-        // TODO
-    }
-
-    public void removeAllFilters(int post_id){
-        // TODO
     }
 
 }

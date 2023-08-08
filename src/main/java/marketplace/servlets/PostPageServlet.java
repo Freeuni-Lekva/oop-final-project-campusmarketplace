@@ -2,6 +2,7 @@ package marketplace.servlets;
 
 
 import marketplace.annotation.Secure;
+import marketplace.dao.PhotoDAO;
 import marketplace.dao.PostDAO;
 import marketplace.objects.Photo;
 import marketplace.objects.Post;
@@ -20,6 +21,7 @@ public class PostPageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         PostDAO postDAO = (PostDAO) getServletContext().getAttribute("postDAO");
+        PhotoDAO photoDAO = (PhotoDAO) getServletContext().getAttribute("photoDAO");
         User user = (User) request.getSession().getAttribute("user");
         int profile_id = user.getProfileId();
         int post_id = Integer.parseInt(request.getParameter("post_id"));
@@ -27,7 +29,7 @@ public class PostPageServlet extends HttpServlet {
         if (profile_id == post.getProfile_id())
             post.setProfilesPost(true);
         else post.setProfilesPost(false);
-        ArrayList<Photo> photos = postDAO.getPhotos(post.getPost_id());
+        ArrayList<Photo> photos = photoDAO.getPhotos(post.getPost_id());
         post.setPhotos(photos);
         request.setAttribute("post", post);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
