@@ -1,13 +1,9 @@
 package marketplace.search;
 
-import com.mysql.cj.exceptions.WrongArgumentException;
 import marketplace.objects.Post;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
+import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 public class FuzzySearch implements ScoringModel{
@@ -34,16 +30,21 @@ public class FuzzySearch implements ScoringModel{
 
     @Override
     public Double evaluate(String sentence1, String sentence2) {
-        int min_score = 0;
+        double min_score = 0;
         int word_counter = 0;
         for(String word1 : sentence1.split("\\s+")) {
-            int cur_score = Integer.MAX_VALUE;
+            double cur_score = Integer.MIN_VALUE;
             word_counter++;
             for(String word2 : sentence2.split("\\s+")) {
-                cur_score = min(cur_score, levenshtein.editScore(word1,word2));
+                if(word2.length()==0) continue;
+
+
+                int mini = min(word1.length(), word2.length());
+                int maxi = max(word1.length(), word2.length());
+                cur_score = max(cur_score, (double) ((mini + maxi-mini) - levenshtein.editScore(word1, word2)) /((mini + maxi-mini)));
             }
             min_score += cur_score;
         }
-        return (double) word_counter/(double) min_score;
+        return min_score / (double) word_counter;
     }
 }

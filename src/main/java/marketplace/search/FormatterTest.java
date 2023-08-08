@@ -33,15 +33,15 @@ public class FormatterTest extends TestCase {
         String garbage_sent_en = "argvaejkc argve", garbage_sent_ka = "გაერჯვაჯ არგვაეჯცნჯ";
 
         assertEquals(lemmatization.formatAll(word), lemmatization.format(word));
-        assertEquals(lemmatization.formatAll(sentence), ans_sent);
-        assertEquals(lemmatization.format(word), ans_word);
+        assertEquals(ans_sent, lemmatization.formatAll(sentence));
+        assertEquals(ans_word, lemmatization.format(word));
 
         assertEquals(lemmatization.formatAll(garbage_en), lemmatization.format(garbage_en));
         assertEquals(lemmatization.formatAll(garbage_ka), lemmatization.format(garbage_ka));
-        assertEquals(lemmatization.formatAll(garbage_sent_en), garbage_sent_en);
-        assertEquals(lemmatization.formatAll(garbage_sent_ka), garbage_sent_ka);
-        assertEquals(lemmatization.format(garbage_en), garbage_en);
-        assertEquals(lemmatization.format(garbage_ka), garbage_ka);
+        assertEquals(garbage_sent_en, lemmatization.formatAll(garbage_sent_en));
+        assertEquals(garbage_sent_ka, lemmatization.formatAll(garbage_sent_ka));
+        assertEquals(garbage_en, lemmatization.format(garbage_en));
+        assertEquals(garbage_ka, lemmatization.format(garbage_ka));
     }
 
 
@@ -49,13 +49,13 @@ public class FormatterTest extends TestCase {
         String word1 = "kitten", word2 = "sitting";
         String typo1 = "მასწავლებული", typo2 = "მასწვლებული", typo3 = "მსწვლებული", typo4="მსწვლბული", correct = "მასწავლებელი";
 
-        assertEquals(levenshtein.editScore(word1,word2), 3);
+        assertEquals(3, levenshtein.editScore(word1,word2));
 
-        assertEquals(levenshtein.format(typo1,1), correct);
-        assertEquals(levenshtein.format(typo2,1), typo2);
-        assertEquals(levenshtein.format(typo2,2), correct);
-        assertEquals(levenshtein.format(typo3,1), typo3);
-        assertEquals(levenshtein.format(typo3,3), correct);
-        assertEquals(levenshtein.format(typo4), correct);
+        assertEquals(correct, levenshtein.format(typo1,1));
+        assertEquals(typo2,   levenshtein.format(typo2,1));
+        assertEquals(correct, levenshtein.format(typo2,2));
+        assertEquals(typo3,   levenshtein.format(typo3,1));
+        assertEquals(correct, levenshtein.format(typo3,3));
+        assertEquals(correct, levenshtein.format(typo4));
     }
 }

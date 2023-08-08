@@ -20,7 +20,7 @@ public class LSA implements ScoringModel{
     private final TF_IDF tf;
 
     /** Compresses SVD To R */
-    private int R = 0;
+    private final int R;
 
     public LSA(List<Formatter> formatters, List<Post> posts){
         this.formatters = formatters;

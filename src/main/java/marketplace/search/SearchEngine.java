@@ -14,10 +14,10 @@ public class SearchEngine {
     private List<Post> lsa_posts;
     private final Map<String, List<Formatter> > formatters;
     private final PostDAO postDAO;
-    private final int LIMIT = 4;
+    private final int LIMIT = 3;
     private final double THRESHOLD = 0.5;
-    private final double LSA_WEIGHT = 0.55;
-    private final double FUZZY_WEIGHT = 0.45;
+    private final double LSA_WEIGHT = 0.4;
+    private final double FUZZY_WEIGHT = 0.6;
     public SearchEngine(PostDAO postDAO){
         this.postDAO = postDAO;
         this.posts = getAllPosts(postDAO);
