@@ -3,6 +3,7 @@ package marketplace.search;
 import junit.framework.TestCase;
 import marketplace.constants.DatabaseConstants;
 import marketplace.dao.PostDAO;
+import marketplace.objects.FeedPost;
 import marketplace.objects.Post;
 import org.apache.commons.dbcp2.BasicDataSource;
 
@@ -55,9 +56,9 @@ public class ScoringTest extends TestCase {
     }
 
     public void testSearchEngine(){
-        List<Post> answers = searchEngine.execute("ოუფენის ბილეთები", 15);
+        List<FeedPost> answers = searchEngine.execute("ოუფენის ბილეთები", 15);
         searchEngine.update();
-        List<Post> second_answers = searchEngine.execute("ოუფენის ბილეთები", 15);
+        List<FeedPost> second_answers = searchEngine.execute("ოუფენის ბილეთები", 15);
         for(int i = 0; i<answers.size(); i++) {
             assertEquals(answers.get(i).getPost_id(), second_answers.get(i).getPost_id());
         }

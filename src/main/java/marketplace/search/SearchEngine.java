@@ -4,6 +4,7 @@ import marketplace.dao.PostDAO;
 import marketplace.objects.FeedPost;
 import marketplace.objects.Post;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /** This class is the wrapper class for all search methods and formatters */
 public class SearchEngine {
@@ -144,7 +145,7 @@ public class SearchEngine {
     }
 
     /** Main method of the search engine, that returns num posts for a query */
-    public List<Post> execute(String query, int num){
+    public List<FeedPost> execute(String query, int num){
         // Generates LSA and Fuzzy scores
         List<Double> lsa_scores = lsa.evaluateAll(query);
         List<Double> fuzzy_scores = fuzzy_search.evaluateAll(query);
@@ -174,6 +175,6 @@ public class SearchEngine {
                 num--;
             }
         }
-        return answer;
+        return answer.stream().map(FeedPost::new).collect(Collectors.toList());
     }
 }

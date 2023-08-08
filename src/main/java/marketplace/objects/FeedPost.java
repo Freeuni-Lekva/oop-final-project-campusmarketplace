@@ -61,6 +61,15 @@ public class FeedPost {
         this.date = date;
     }
 
+    public FeedPost(Post post){
+        this.post_id = post.getPost_id();
+        if(post.getPhotos() != null)
+            this.photo_address = post.getPhotos().get(0).getPhoto_url();
+        this.title = post.getTitle();
+        this.price = post.getPrice();
+        this.date = post.getDate();
+    }
+
     @Override
     public String toString() {
         return "feedPost: [" +
