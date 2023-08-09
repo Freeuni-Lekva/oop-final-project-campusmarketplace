@@ -2,6 +2,7 @@ package marketplace.servlets;
 
 import marketplace.annotation.Secure;
 import marketplace.constants.FilterConstants;
+import marketplace.dao.FavouritesDAO;
 import marketplace.dao.FilterDAO;
 import marketplace.dao.PhotoDAO;
 import marketplace.dao.PostDAO;
@@ -27,6 +28,7 @@ public class EditPostServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         PostDAO postDAO = (PostDAO) getServletContext().getAttribute("postDAO");
         FilterDAO filterDAO = (FilterDAO)getServletContext().getAttribute("filterDAO");
+        FavouritesDAO favouritesDAO = (FavouritesDAO) getServletContext().getAttribute("favouritesDAO");
         PhotoDAO photoDAO = (PhotoDAO)getServletContext().getAttribute("photoDAO");
         User user = (User) request.getSession().getAttribute("user");
         int profile_id = user.getProfileId();
@@ -74,6 +76,7 @@ public class EditPostServlet extends HttpServlet {
             ArrayList<Photo> photos = photoDAO.getPhotos(post.getPost_id());
             post.setPhotos(photos);
             post.setProfilesPost(true);
+            post.setFavourite(favouritesDAO.isFavourite(post.getPost_id(), user.getProfileId()));
             request.setAttribute("post", post);
         }
         SearchEngine searchEngine = (SearchEngine) getServletContext().getAttribute("searchEngine");

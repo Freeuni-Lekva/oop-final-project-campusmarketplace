@@ -56,6 +56,10 @@
         <servlet-name>AddFavouriteServlet</servlet-name>
         <servlet-class>marketplace.servlets.AddFavouriteServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RemoveFavouriteServlet</servlet-name>
+        <servlet-class>marketplace.servlets.RemoveFavouriteServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>SearchServlet</servlet-name>
@@ -100,5 +104,9 @@
     <servlet-mapping>
         <servlet-name>AddFavouriteServlet</servlet-name>
         <url-pattern>/addfavourite</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RemoveFavouriteServlet</servlet-name>
+        <url-pattern>/removefavourite</url-pattern>
     </servlet-mapping>
 </web-app>

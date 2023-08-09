@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "AddFavouriteServlet", value = "/addfacourite")
-public class AddFavouriteServlet extends HttpServlet {
+@WebServlet(name = "RemoveFavouriteServlet", value = "/removefacourite")
+public class RemoveFavouriteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         PostDAO postDAO = (PostDAO) getServletContext().getAttribute("postDAO");
@@ -21,26 +21,25 @@ public class AddFavouriteServlet extends HttpServlet {
         FavouritesDAO favouritesDAO = (FavouritesDAO) getServletContext().getAttribute("favouritesDAO");
         User user = (User) request.getSession().getAttribute("user");
         String post_id_string = request.getParameter("post_id");
-
         if (post_id_string == null) {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
             try {
                 dispatcher.forward(request, response);
             } catch (Exception e) {
                 e.printStackTrace();
-            }
+            }   
             return;
         }
         int post_id = Integer.parseInt(post_id_string);
         Post post = postDAO.getPostById(post_id);
         post.setPhotos(photoDAO.getPhotos(post_id));
         if (user != null) {
-            if (!favouritesDAO.isFavourite(post_id, user.getProfileId()))
-                favouritesDAO.addFavourite(post_id, user.getProfileId());
+            if (favouritesDAO.isFavourite(post_id, user.getProfileId()))
+                favouritesDAO.deleteFavourite(post_id, user.getProfileId());
             if (user.getProfileId() == post.getProfile_id())
-                post.setProfilesPost(true);
+                post.setProfilesPost(false);
         }
-        post.setFavourite(true);
+        post.setFavourite(false);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
         try {
             dispatcher.forward(request, response);
