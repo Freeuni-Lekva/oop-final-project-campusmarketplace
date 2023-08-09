@@ -48,9 +48,7 @@ public class Lemmatization extends Formatter{
             for (String key : properties.stringPropertyNames()) {
                 map.put(key, properties.get(key).toString());
             }
-            System.out.println("Lemma File Do Exists!");
         } catch (IOException e) {
-            System.out.println("Lemma File Do NOT Exists!");
             for(String word : words){
                 map.put(word, format(word));
             }

@@ -27,7 +27,6 @@ public class SearchServlet extends HttpServlet {
         String filter_ids = httpServletRequest.getParameter("filters");
 
         if(query==null && filter_ids==null){
-            for(FeedPost post : postDAO.getAllFeedPosts(0)) System.out.println(post.toString());
             httpServletRequest.setAttribute("posts", postDAO.getAllFeedPosts(0));
             httpServletRequest.getRequestDispatcher("jsp/index.jsp").forward(httpServletRequest, httpServletResponse);
             return;
@@ -42,12 +41,10 @@ public class SearchServlet extends HttpServlet {
 
         List<FeedPost> filter_posts = new ArrayList<>();
         if(filter_ids != null) filter_posts = filterDAO.filterPosts(Arrays.stream(filter_ids.split("\\s+")).map(i->filterDAO.FILTERS.get(Integer.parseInt(i))).collect(Collectors.toList()));
-        System.out.println(filter_posts.size());
         Set<Integer> filter_post_ids = filter_posts.stream().map(FeedPost::getPost_id).collect(Collectors.toSet());
 
         if(query==null){
             httpServletRequest.setAttribute("posts", filter_posts);
-            for(FeedPost post : filter_posts) System.out.println(post.toString());
             httpServletRequest.getRequestDispatcher("jsp/index.jsp").forward(httpServletRequest, httpServletResponse);
             return;
         }
@@ -55,7 +52,6 @@ public class SearchServlet extends HttpServlet {
         List<FeedPost> outputs = searchEngine.execute(query, num);
         outputs = outputs.stream().filter(i->filter_post_ids.contains(i.getPost_id())).collect(Collectors.toList());
 
-        for(FeedPost post : outputs) System.out.println(post.toString());
         httpServletRequest.setAttribute("posts", outputs);
         httpServletRequest.getRequestDispatcher("jsp/index.jsp").forward(httpServletRequest, httpServletResponse);
     }
