@@ -1,5 +1,6 @@
 package marketplace.servlets;
 
+import marketplace.cookies.FavouriteCookies;
 import marketplace.dao.FavouritesDAO;
 import marketplace.dao.PhotoDAO;
 import marketplace.dao.PostDAO;
@@ -41,9 +42,9 @@ public class AddFavouriteServlet extends HttpServlet {
             if (user.getProfileId() == post.getProfile_id())
                 post.setProfilesPost(true);
         }
+        FavouriteCookies.addFavourite(post_id, request,response);
         post.setFavourite(true);
         request.setAttribute("post", post);
-        System.out.println(post.toString());
         RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
         try {
             dispatcher.forward(request, response);

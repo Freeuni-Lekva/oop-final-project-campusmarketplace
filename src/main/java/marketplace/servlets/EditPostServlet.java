@@ -2,6 +2,7 @@ package marketplace.servlets;
 
 import marketplace.annotation.Secure;
 import marketplace.constants.FilterConstants;
+import marketplace.cookies.FavouriteCookies;
 import marketplace.dao.FavouritesDAO;
 import marketplace.dao.FilterDAO;
 import marketplace.dao.PhotoDAO;
@@ -77,6 +78,7 @@ public class EditPostServlet extends HttpServlet {
             post.setPhotos(photos);
             post.setProfilesPost(true);
             post.setFavourite(favouritesDAO.isFavourite(post.getPost_id(), user.getProfileId()));
+            post.setFavourite(post.isFavourite() | FavouriteCookies.isFavourite(post.getPost_id(), request, response));
             request.setAttribute("post", post);
         }
         SearchEngine searchEngine = (SearchEngine) getServletContext().getAttribute("searchEngine");

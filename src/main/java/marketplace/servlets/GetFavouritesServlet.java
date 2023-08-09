@@ -1,9 +1,11 @@
 package marketplace.servlets;
 
+import marketplace.cookies.FavouriteCookies;
 import marketplace.dao.FavouritesDAO;
 import marketplace.dao.PhotoDAO;
 import marketplace.dao.PostDAO;
 import marketplace.objects.FeedPost;
+import marketplace.objects.Post;
 import marketplace.objects.User;
 
 import javax.servlet.RequestDispatcher;
@@ -20,15 +22,28 @@ public class GetFavouritesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         FavouritesDAO favouritesDAO = (FavouritesDAO) getServletContext().getAttribute("favouritesDAO");
-        //User user = (User) request.getSession().getAttribute("user");
-        User user = new User(1,"1","1", "1","1","1",null);
-
+        PostDAO postDAO = (PostDAO) getServletContext().getAttribute("postDAO");
+        PhotoDAO photoDAO = (PhotoDAO) getServletContext().getAttribute("photoDAO");
+        User user = (User) request.getSession().getAttribute("user");
         List<FeedPost> favouritePosts = new ArrayList<FeedPost>();
         if (user != null) {
             favouritePosts = favouritesDAO.favourites(user.getProfileId());
         }
+        ArrayList<Integer> postIDs = (ArrayList<Integer>) FavouriteCookies.getFavouriteIDs(request, response);
+        for (int id : postIDs) {
+            Post post = postDAO.getPostById(id);
+            if (post == null) {
+                FavouriteCookies.removeFavourite(id, request, response);
+                continue;
+            }
+            if (user != null && favouritesDAO.isFavourite(id, user.getProfileId()))
+                continue;
+
+            String mainPhoto = photoDAO.getPhotos(post.getPost_id()).get(0).getPhoto_url();
+            FeedPost feedPost = new FeedPost(post.getPost_id(), mainPhoto, post.getTitle(), post.getPrice(), post.getDate());
+            favouritePosts.add(feedPost);
+        }
         request.setAttribute("favouritePosts", favouritePosts);
-        System.out.println(Arrays.toString(favouritePosts.toArray()));
         RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
         try {
             dispatcher.forward(request, response);

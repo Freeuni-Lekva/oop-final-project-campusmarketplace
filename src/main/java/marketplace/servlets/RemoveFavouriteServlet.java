@@ -1,5 +1,6 @@
 package marketplace.servlets;
 
+import marketplace.cookies.FavouriteCookies;
 import marketplace.dao.FavouritesDAO;
 import marketplace.dao.PhotoDAO;
 import marketplace.dao.PostDAO;
@@ -19,9 +20,7 @@ public class RemoveFavouriteServlet extends HttpServlet {
         PostDAO postDAO = (PostDAO) getServletContext().getAttribute("postDAO");
         PhotoDAO photoDAO = (PhotoDAO) getServletContext().getAttribute("photoDAO");
         FavouritesDAO favouritesDAO = (FavouritesDAO) getServletContext().getAttribute("favouritesDAO");
-//        User user = (User) request.getSession().getAttribute("user");
-        User user = new User(1,"1","1", "1","1","1",null);
-
+        User user = (User) request.getSession().getAttribute("user");
         String post_id_string = request.getParameter("post_id");
         if (post_id_string == null) {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
@@ -41,9 +40,9 @@ public class RemoveFavouriteServlet extends HttpServlet {
             if (user.getProfileId() == post.getProfile_id())
                 post.setProfilesPost(true);
         }
+        FavouriteCookies.removeFavourite(post_id, request, response);
         post.setFavourite(false);
         request.setAttribute("post", post);
-        System.out.println(post.toString());
         RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
         try {
             dispatcher.forward(request, response);
