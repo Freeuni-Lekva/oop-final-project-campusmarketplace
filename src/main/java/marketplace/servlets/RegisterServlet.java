@@ -13,32 +13,35 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
-@WebServlet(name = "login", value = "/")
+@WebServlet(name = "register", value = "/register")
 public class RegisterServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        super.doGet(httpServletRequest, httpServletResponse);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (request.getSession().getAttribute("user") == null)
+            request.getRequestDispatcher("jsp/register.jsp").forward(request, response);
+        else response.sendRedirect("/home");
     }
 
     @Override
-    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        String firstName = httpServletRequest.getParameter("firstName");
-        String surname = httpServletRequest.getParameter("surname");
-        String password = httpServletRequest.getParameter("password");
-        String email = httpServletRequest.getParameter("email");
-        String phoneNumber = httpServletRequest.getParameter("phoneNumber");
-        LocalDate birthDate = LocalDate.parse(httpServletRequest.getParameter("birthDate"));
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String firstName = request.getParameter("firstName");
+        String surname = request.getParameter("surname");
+        String password = request.getParameter("password");
+        String email = request.getParameter("email");
+        String phoneNumber = request.getParameter("phoneNumber");
+        LocalDate birthDate = LocalDate.parse(request.getParameter("birthDate"));
 
-        UserDAO userDAO = (UserDAO) httpServletRequest.getServletContext().getAttribute("userDAO");
+        UserDAO userDAO = (UserDAO) request.getServletContext().getAttribute("userDAO");
         List<String> errors = RegisterValidator.validate(userDAO, firstName, surname, password, email, phoneNumber, birthDate);
+        request.setAttribute("errors", errors);
 
-        if (!errors.isEmpty()) {
-            httpServletRequest.setAttribute("errors", errors);
-            httpServletRequest.getRequestDispatcher("register.jsp").forward(httpServletRequest, httpServletResponse);
-        } else {
+        if (errors.isEmpty()) {
+
             String passwordHash = SecurityUtils.hashPassword(password);
-            userDAO.addUser(firstName, surname, passwordHash, email, phoneNumber, birthDate);
-            httpServletRequest.getRequestDispatcher("login.jsp").forward(httpServletRequest, httpServletResponse);
+            userDAO.addUser(firstName, surname, phoneNumber, email, passwordHash, birthDate);
         }
+
+        // in register.jsp, if errors exist, display them, else display registration successful and redirect user to login
+        request.getRequestDispatcher("jsp/register.jsp").forward(request, response);
     }
 }

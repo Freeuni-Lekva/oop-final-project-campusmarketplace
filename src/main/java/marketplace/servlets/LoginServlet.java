@@ -11,11 +11,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import marketplace.dao.UserDAO;
 
-@WebServlet(name = "register", value = "/register")
+@WebServlet(name = "login", value = "/login")
 public class LoginServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        super.doGet(httpServletRequest, httpServletResponse);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (request.getSession().getAttribute("user") == null)
+            request.getRequestDispatcher("jsp/login.jsp").forward(request, response);
+        else response.sendRedirect("/home");
     }
 
     @Override
@@ -26,13 +28,13 @@ public class LoginServlet extends HttpServlet {
 
         if (!LoginValidator.validate(userDAO, email, password)) {
             request.setAttribute("error", "Invalid login credentials");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            request.getRequestDispatcher("jsp/login.jsp").forward(request, response);
             return;
         }
 
         User user = userDAO.getUser(email);
 
         request.getSession().setAttribute("user", user);
-        response.sendRedirect("home.jsp");
+        response.sendRedirect("/home");
     }
 }

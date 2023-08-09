@@ -1,9 +1,12 @@
 package marketplace.servlets;
 
 
+import marketplace.annotation.Secure;
+import marketplace.dao.PhotoDAO;
 import marketplace.dao.PostDAO;
 import marketplace.objects.Photo;
 import marketplace.objects.Post;
+import marketplace.objects.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.annotation.WebServlet;
@@ -18,17 +21,18 @@ public class PostPageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         PostDAO postDAO = (PostDAO) getServletContext().getAttribute("postDAO");
-        int profile_id = 1; // TODO: get profile_id from current session
-        int post_id = (int) request.getAttribute("post_id");
+        PhotoDAO photoDAO = (PhotoDAO) getServletContext().getAttribute("photoDAO");
+        User user = (User) request.getSession().getAttribute("user");
+        int profile_id = user.getProfileId();
+        int post_id = Integer.parseInt(request.getParameter("post_id"));
         Post post = postDAO.getPostById(post_id);
         if (profile_id == post.getProfile_id())
             post.setProfilesPost(true);
         else post.setProfilesPost(false);
-        ArrayList<Photo> photos = postDAO.getPhotos(post.getPost_id());
+        ArrayList<Photo> photos = photoDAO.getPhotos(post.getPost_id());
         post.setPhotos(photos);
         request.setAttribute("post", post);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/.jsp");
-        //printAttributes(post);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
         try {
             dispatcher.forward(request, response);
         } catch (Exception e) {

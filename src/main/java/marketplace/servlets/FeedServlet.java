@@ -1,5 +1,6 @@
 package marketplace.servlets;
 
+import marketplace.annotation.Secure;
 import marketplace.dao.PostDAO;
 import marketplace.objects.FeedPost;
 import marketplace.objects.Photo;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+
 
 @WebServlet(name = "FeedServlet", value = "/feedposts")
 public class FeedServlet extends HttpServlet {
