@@ -10,25 +10,37 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<% User user = (User) session.getAttribute("user"); %>
+<% User user = (User) request.getAttribute("user"); %>
+<% User other = (User) request.getAttribute("other"); %>
 <% List<User> lastMessagedUsers = (List<User>) request.getAttribute("lastMessagedUsers"); %>
 
 <head>
     <title>Chat</title>
     <style>
+        :root {
+            --primary-color: #0084ff;
+            --secondary-color: #f1f0f0;
+        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
         }
 
         #lastMessagedUsers {
-            width: 20%;
-            background-color: #f5f5f5;
+            width: 25%;
+            background-color: var(--secondary-color);
             padding: 20px;
             box-sizing: border-box;
             overflow-y: auto;
+            height: 100vh;
+            border-right: 1px solid #ccc;
         }
 
         #lastMessagedUsers .user {
@@ -41,10 +53,23 @@
             background-color: #ddd;
         }
 
+        #chatTitle {
+            margin: 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            font-size: 24px;
+            color: #333;
+        }
+
         #chatContainer {
-            width: 80%;
+            width: 75%;
             padding: 20px;
             box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            background-color: #fff;
+            height: 100vh;
+            overflow-y: auto;
         }
 
         .message {
@@ -65,7 +90,7 @@
         }
 
         .message.you {
-            background-color: #0084ff;
+            background-color: var(--primary-color);
             color: white;
             align-self: flex-end;
             border-radius: 15px 0 15px 15px;
@@ -89,11 +114,26 @@
         }
 
         #msg {
-            width: calc(100% - 75px);
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
 
         #sendButton {
             width: 70px;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #sendButton:hover {
+            background-color: #0066cc;
         }
 
         .time {
@@ -101,18 +141,16 @@
             color: #888;
             display: block;
             text-align: right;
-            margin-bottom: 10px; /* Adjust margin as desired */
+            margin-bottom: 10px;
         }
 
         .time.you {
-            /* Styles for time element when the message is from the user */
-            color: gray; /* Change color as desired */
+            color: gray;
             align-self: flex-end;
         }
 
         .time.other {
-            /* Styles for time element when the message is from the other user */
-            color: gray; /* Change color as desired */
+            color: gray;
             align-self: flex-start;
         }
     </style>
@@ -123,13 +161,13 @@
     let receiverId;
 
 
-    function connect(receiverId) {
+    function connect(receiverId, name) {
         this.receiverId = receiverId;
         const host = document.location.host;
         const pathname = document.location.pathname;
         const log = document.getElementById("log");
         const chatTitle = document.getElementById("chatTitle");
-        chatTitle.innerText = "Chat with "
+        chatTitle.innerText = "Chat with " + name
         log.innerHTML = "";
 
         ws = new WebSocket("ws://" + host  + pathname + "/" + <%= user.getProfileId()%> + "/" + receiverId);
@@ -179,11 +217,22 @@
             console.error(error);
         }
     }
+
+    <% if (other != null) {%>
+
+    window.onload = function() {
+        connect(<%= other.getProfileId() %>, '<%= other.getFirstName() + " " + other.getSurname() %>');
+    };
+
+    <% } %>
 </script>
+
+
 <div id="lastMessagedUsers">
     <h3>Last Messaged Users</h3>
     <% for (User messagedUser : lastMessagedUsers) { %>
-    <div class="user" onclick="connect(<%= messagedUser.getProfileId() %>);">
+    <div class="user" onclick="connect(<%= messagedUser.getProfileId() %>,
+                                       '<%= messagedUser.getFirstName() + " " + messagedUser.getSurname()%>');">
         <%= messagedUser.getFirstName() %> <%= messagedUser.getSurname() %>
     </div>
     <% } %>
