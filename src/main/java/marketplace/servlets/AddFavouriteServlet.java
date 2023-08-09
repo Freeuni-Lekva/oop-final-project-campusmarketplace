@@ -1,7 +1,9 @@
 package marketplace.servlets;
 
 import marketplace.dao.FavouritesDAO;
+import marketplace.dao.PhotoDAO;
 import marketplace.dao.PostDAO;
+import marketplace.objects.Post;
 import marketplace.objects.User;
 
 import javax.servlet.RequestDispatcher;
@@ -15,9 +17,11 @@ public class AddFavouriteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         PostDAO postDAO = (PostDAO) getServletContext().getAttribute("postDAO");
+        PhotoDAO photoDAO = (PhotoDAO) getServletContext().getAttribute("photoDAO");
         FavouritesDAO favouritesDAO = (FavouritesDAO) getServletContext().getAttribute("favouritesDAO");
         User user = (User) request.getSession().getAttribute("user");
         String post_id_string = request.getParameter("post_id");
+
         if (post_id_string == null) {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
             try {
@@ -25,11 +29,17 @@ public class AddFavouriteServlet extends HttpServlet {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            return;
         }
         int post_id = Integer.parseInt(post_id_string);
+        Post post = postDAO.getPostById(post_id);
+        post.setPhotos(photoDAO.getPhotos(post_id));
         if (user != null) {
             favouritesDAO.addFavourite(post_id, user.getProfileId());
+            if (user.getProfileId() == post.getProfile_id())
+                post.setProfilesPost(true);
         }
+        post.setFavourite(true);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
         try {
             dispatcher.forward(request, response);

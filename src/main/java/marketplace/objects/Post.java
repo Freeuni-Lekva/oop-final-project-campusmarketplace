@@ -11,6 +11,17 @@ public class Post {
     private double price;
     private ArrayList<Photo> photos;
     private boolean isProfilesPost = false;
+
+    private boolean favourite = false;
+
+    public boolean isFavourite(){
+        return favourite;
+    }
+
+    public void setFavourite(boolean favourite) {
+        this.favourite = favourite;
+    }
+
     public boolean isProfilesPost() {
         return isProfilesPost;
     }
