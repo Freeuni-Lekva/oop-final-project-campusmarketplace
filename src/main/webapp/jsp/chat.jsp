@@ -153,6 +153,19 @@
             color: gray;
             align-self: flex-start;
         }
+
+        .colorButton {
+            padding: 5px 10px;
+            background-color: #f1f0f0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        .colorButton:hover {
+            background-color: #ddd;
+        }
     </style>
 </head>
 <body>
@@ -225,6 +238,10 @@
     };
 
     <% } %>
+
+    function changePrimaryColor(color) {
+        document.documentElement.style.setProperty('--primary-color', color);
+    }
 </script>
 
 
@@ -241,7 +258,16 @@
     <h2 id="chatTitle"></h2>
     <div id="log" style="display: flex; flex-direction: column;"></div>
     <input type="text" id="msg" placeholder="Message"/>
-    <button onclick="send();" id="sendButton" >Send</button>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <button onclick="send();" id="sendButton">Send</button>
+        </div>
+        <div>
+            <button class="colorButton" onclick="changePrimaryColor('#0084ff')">Blue</button>
+            <button class="colorButton" onclick="changePrimaryColor('#ff0000')">Red</button>
+            <button class="colorButton" onclick="changePrimaryColor('#00ff00')">Green</button>
+        </div>
+    </div>
 </div>
 </body>
 </html>
