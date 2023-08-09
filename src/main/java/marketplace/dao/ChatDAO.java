@@ -36,8 +36,10 @@ public class ChatDAO implements ChatDAOInterface {
                 int messageId = rs.getInt("message_id");
                 String content = rs.getString("message");
                 Timestamp sendtime = rs.getTimestamp("send_time");
+                int sId = rs.getInt("sender_id");
+                int rId = rs.getInt("receiver_id");
 
-                Message msg = new Message(messageId, senderId, receiverId, content, sendtime);
+                Message msg = new Message(messageId, sId, rId, content, sendtime);
                 messages.add(msg);
             }
             statement.close();
