@@ -52,6 +52,10 @@
         <servlet-name>UserProfileServlet</servlet-name>
         <servlet-class>marketplace.servlets.UserProfileServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddFavouriteServlet</servlet-name>
+        <servlet-class>marketplace.servlets.AddFavouriteServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>SearchServlet</servlet-name>
@@ -92,5 +96,9 @@
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
         <url-pattern>/profile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddFavouriteServlet</servlet-name>
+        <url-pattern>/addfavourite</url-pattern>
     </servlet-mapping>
 </web-app>
