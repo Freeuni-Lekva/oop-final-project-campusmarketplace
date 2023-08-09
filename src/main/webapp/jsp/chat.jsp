@@ -48,8 +48,8 @@
         }
 
         .message {
-            width: 70%;
-            min-width: 70%;
+            width: auto;
+            max-width: 70%;
             padding: 10px;
             margin-bottom: 2px;
             box-sizing: border-box;
@@ -132,7 +132,6 @@
         chatTitle.innerText = "Chat with "
         log.innerHTML = "";
 
-        console.log("ws://" + host  + pathname + "/" + <%= user.getProfileId()%> + "/" + receiverId);
         ws = new WebSocket("ws://" + host  + pathname + "/" + <%= user.getProfileId()%> + "/" + receiverId);
 
         ws.onmessage = function(event) {
