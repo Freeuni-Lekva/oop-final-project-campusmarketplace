@@ -2,6 +2,8 @@ package marketplace.servlets;
 
 import marketplace.annotation.Secure;
 import marketplace.constants.FilterConstants;
+import marketplace.dao.FilterDAO;
+import marketplace.dao.PhotoDAO;
 import marketplace.dao.PostDAO;
 import marketplace.objects.Photo;
 import marketplace.objects.Post;
@@ -33,6 +35,8 @@ public class NewPostServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         PostDAO postDAO = (PostDAO) getServletContext().getAttribute("postDAO");
+        FilterDAO filterDAO = (FilterDAO)getServletContext().getAttribute("filterDAO");
+        PhotoDAO photoDAO = (PhotoDAO)getServletContext().getAttribute("photoDAO");
         User user = (User) request.getSession().getAttribute("user");
         int profile_id = user.getProfileId();
         String title = request.getParameter("title");
@@ -73,7 +77,7 @@ public class NewPostServlet extends HttpServlet {
         for (String filter : FilterConstants.filters) {
             String checked = request.getParameter(filter);
             if (checked != null) {
-                postDAO.addFilter(post_id, filter);
+                filterDAO.addFilter(post_id, filter);
             }
         }
         try {
@@ -90,20 +94,20 @@ public class NewPostServlet extends HttpServlet {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    postDAO.addPhoto(post_id, "images/" + fileName);
+                    photoDAO.addPhoto(post_id, "images/" + fileName);
                     if (photoCount == 2) {
                         postDAO.addMainPhoto(post_id, "images/" + fileName);
                     }
                 }
             } else {
-                postDAO.addPhoto(post_id, "images/default.png");
+                photoDAO.addPhoto(post_id, "images/default.png");
             }
         } catch (Exception e) {
-            postDAO.addPhoto(post_id, "images/default.png");
+            photoDAO.addPhoto(post_id, "images/default.png");
             e.printStackTrace();
         }
         post = postDAO.getPostById(post_id);
-        ArrayList<Photo> photos = postDAO.getPhotos(post.getPost_id());
+        ArrayList<Photo> photos = photoDAO.getPhotos(post.getPost_id());
         post.setPhotos(photos);
         post.setProfilesPost(true);
         request.setAttribute("post", post);

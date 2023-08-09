@@ -68,6 +68,15 @@
 
     );
 
+    CREATE TABLE IF NOT EXISTS FAVOURITES
+    (
+        profile_id    INT,
+        post_id      INT,
+    foreign key(profile_id) references profiles(profile_id),
+    foreign key (post_id) references posts(post_id)
+
+    );
+
     -- Add profiles
     -- email: test@test.com     password: test
     INSERT INTO profiles (first_name, surname, phone_number, email, password_hash, birth_date)

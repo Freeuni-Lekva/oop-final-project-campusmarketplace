@@ -1,5 +1,7 @@
 package marketplace.objects;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.sql.Timestamp;
 
 public class Message {
@@ -50,7 +52,7 @@ public class Message {
     }
 
     public Timestamp getSendTime() {
-        return sendTime;
+        return  sendTime;
     }
 
     public void setSendTime(Timestamp sendTime) {
