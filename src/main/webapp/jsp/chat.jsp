@@ -47,6 +47,37 @@
             box-sizing: border-box;
         }
 
+        .message {
+            width: 70%;
+            min-width: 70%;
+            padding: 10px;
+            margin-bottom: 2px;
+            box-sizing: border-box;
+            display: inline-block;
+            overflow-wrap: anywhere;
+        }
+
+        .message span {
+            font-size: 0.7em;
+            color: #888;
+            display: block;
+            text-align: right;
+        }
+
+        .message.you {
+            background-color: #0084ff;
+            color: white;
+            align-self: flex-end;
+            border-radius: 15px 0 15px 15px;
+            text-align: right;
+        }
+
+        .message.other {
+            background-color: #f1f0f0;
+            align-self: flex-start;
+            border-radius: 0 15px 15px 15px;
+        }
+
         #log {
             width: 100%;
             height: 500px;
@@ -64,6 +95,26 @@
         #sendButton {
             width: 70px;
         }
+
+        .time {
+            font-size: 0.7em;
+            color: #888;
+            display: block;
+            text-align: right;
+            margin-bottom: 10px; /* Adjust margin as desired */
+        }
+
+        .time.you {
+            /* Styles for time element when the message is from the user */
+            color: gray; /* Change color as desired */
+            align-self: flex-end;
+        }
+
+        .time.other {
+            /* Styles for time element when the message is from the other user */
+            color: gray; /* Change color as desired */
+            align-self: flex-start;
+        }
     </style>
 </head>
 <body>
@@ -71,23 +122,36 @@
     let ws;
     let receiverId;
 
-    function connect(receiverId) {
-        this.receiverId = receiverId
 
+    function connect(receiverId) {
+        this.receiverId = receiverId;
         const host = document.location.host;
         const pathname = document.location.pathname;
         const log = document.getElementById("log");
-        log.innerHTML = ""
+        const chatTitle = document.getElementById("chatTitle");
+        chatTitle.innerText = "Chat with "
+        log.innerHTML = "";
 
-        console.log("ws://" + host  + pathname + "/" + <%= user.getProfileId()%> + "/" + receiverId)
+        console.log("ws://" + host  + pathname + "/" + <%= user.getProfileId()%> + "/" + receiverId);
         ws = new WebSocket("ws://" + host  + pathname + "/" + <%= user.getProfileId()%> + "/" + receiverId);
 
         ws.onmessage = function(event) {
             const log = document.getElementById("log");
             const message = JSON.parse(event.data);
-            console.log(message)
+            console.log(message);
 
-            log.innerHTML += message.fromId + "(" + message.sendTime + ")" + ": " + message.content + "\n";
+            const messageElement = document.createElement("div");
+            messageElement.classList.add("message");
+            messageElement.classList.add(message.fromId === <%= user.getProfileId()%> ? "you" : "other");
+            messageElement.innerHTML = message.content;
+
+            const messageTimeElement = document.createElement("div");
+            messageTimeElement.classList.add("time");
+            messageTimeElement.classList.add(message.fromId === <%= user.getProfileId()%> ? "you" : "other");
+            messageTimeElement.innerHTML = message.sendTime;
+
+            log.append(messageElement);
+            log.append(messageTimeElement)
         };
     }
 
@@ -126,25 +190,10 @@
     <% } %>
 </div>
 <div id="chatContainer">
-    <table>
-        <tr>
-            <td colspan="2">
-                <input type="number" id="receiverId" placeholder="receiverId"/>
-                <button type="button" onclick="connect(document.getElementById('receiverId').value);" >Connect</button>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <textarea readonly="true" rows="10" cols="80" id="log"></textarea>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <input type="text" size="51" id="msg" placeholder="Message"/>
-                <button type="button" onclick="send();" id="sendButton" >Send</button>
-            </td>
-        </tr>
-    </table>
+    <h2 id="chatTitle"></h2>
+    <div id="log" style="display: flex; flex-direction: column;"></div>
+    <input type="text" id="msg" placeholder="Message"/>
+    <button onclick="send();" id="sendButton" >Send</button>
 </div>
 </body>
 </html>
