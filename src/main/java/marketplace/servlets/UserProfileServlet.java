@@ -31,6 +31,13 @@ public class UserProfileServlet extends HttpServlet {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            return;
+        }
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+        try {
+            dispatcher.forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
