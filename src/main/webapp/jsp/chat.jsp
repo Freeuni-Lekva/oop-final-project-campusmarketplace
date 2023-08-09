@@ -56,7 +56,6 @@
         #chatTitle {
             margin: 0;
             padding-bottom: 10px;
-            border-bottom: 1px solid #ccc;
             font-size: 24px;
             color: #333;
         }
@@ -253,9 +252,14 @@
         <%= messagedUser.getFirstName() %> <%= messagedUser.getSurname() %>
     </div>
     <% } %>
+    <a href="/home" style="text-decoration: none; color: var(--primary-color);">
+        <button style="padding: 10px; margin-top: 20px; background-color: var(--primary-color);
+             color: #fff; border: none; border-radius: 4px; cursor: pointer; width: 100%">Home</button>
+    </a>
 </div>
 <div id="chatContainer">
     <h2 id="chatTitle"></h2>
+
     <div id="log" style="display: flex; flex-direction: column;"></div>
     <input type="text" id="msg" placeholder="Message"/>
     <div style="display: flex; justify-content: space-between; align-items: center;">
