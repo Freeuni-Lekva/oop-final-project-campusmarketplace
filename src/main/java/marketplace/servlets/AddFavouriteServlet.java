@@ -41,6 +41,7 @@ public class AddFavouriteServlet extends HttpServlet {
                 post.setProfilesPost(true);
         }
         post.setFavourite(true);
+        request.setAttribute("post", post);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
         try {
             dispatcher.forward(request, response);

@@ -27,7 +27,7 @@ public class RemoveFavouriteServlet extends HttpServlet {
                 dispatcher.forward(request, response);
             } catch (Exception e) {
                 e.printStackTrace();
-            }   
+            }
             return;
         }
         int post_id = Integer.parseInt(post_id_string);
@@ -40,6 +40,7 @@ public class RemoveFavouriteServlet extends HttpServlet {
                 post.setProfilesPost(false);
         }
         post.setFavourite(false);
+        request.setAttribute("post", post);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
         try {
             dispatcher.forward(request, response);
