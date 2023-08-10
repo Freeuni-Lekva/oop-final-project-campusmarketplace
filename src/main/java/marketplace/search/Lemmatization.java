@@ -45,8 +45,21 @@ public class Lemmatization extends Formatter{
         final Path path = Paths.get(file_name);
         try {
             properties.load(Files.newInputStream(path));
+
             for (String key : properties.stringPropertyNames()) {
                 map.put(key, properties.get(key).toString());
+            }
+            for (String word: words){
+                if(!map.containsKey(word)){
+                    map.put(word, format(word));
+                }
+            }
+
+            properties.putAll(map);
+            try {
+                properties.store(Files.newOutputStream(path), null);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
             }
         } catch (IOException e) {
             for(String word : words){

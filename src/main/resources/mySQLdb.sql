@@ -576,6 +576,76 @@
     INSERT INTO posts (profile_id, title, price, description , publish_date, main_photo)
     VALUES (1, 'რეზიუმეს წერის სერვისები', 123.45,'გთავაზობთ სამუშაოს მაძიებლებს რეზიუმეების დაწერის სერვისებს პროფესიონალური და მორგებული რეზიუმეები ხაზს უსვამს უნარებსა და გამოცდილებას', '2023-11-05', 'images/1P1.png');
 
+    INSERT INTO posts (profile_id, title, price, description , publish_date, main_photo)
+    VALUES (2, 'სათაური კლასიკური რომანები იყიდება', 40.50,'აღწერა იყიდება კლასიკური რომანების კრებული მათ შორის სიამაყე და ცრურწმენა დამცინავი ფრინველის მოკვლა და დიდი გეტსბი იდეალურია ლიტერატურის მოყვარულთათვის ან სტუდენტებისთვის რომლებიც ცდილობენ თავიანთი კითხვის სიის გაფართოებას', '2023-11-05', 'images/1P1.png');
+
+    INSERT INTO posts (profile_id, title, price, description , publish_date, main_photo)
+    VALUES (2, 'სათაური იყიდება მათემატიკის სახელმძღვანელო', 40.50,'აღწერა გთავაზობთ მათემატიკის ნახმარი სახელმძღვანელოს რომელიც შესაფერისია საშუალო სკოლის ან კოლეჯის დონის კურსებისთვის მოიცავს ისეთ თემებს როგორიცაა ალგებრა გეომეტრია და კალკულუსი შესანიშნავი რესურსი შესწავლისთვის ან მითითებისთვის', '2023-11-05', 'images/1P1.png');
+
+    INSERT INTO posts (profile_id, title, price, description , publish_date, main_photo)
+    VALUES (2, 'სათაური საბავშვო წიგნების შეკვრა', 40.50,'აღწერა იყიდება საბავშვო წიგნების ნაკრები მათ შორის პოპულარული სათაურები როგორიცაა კატა ქუდში Goodnight Moon და Where the Wild Things are იდეალურია მშობლებისთვის ან მასწავლებლებისთვის რომლებიც ცდილობენ შექმნან მრავალფეროვანი ბიბლიოთეკა ახალგაზრდა მკითხველებისთვის', '2023-11-05', 'images/1P1.png');
+
+    INSERT INTO posts (profile_id, title, price, description , publish_date, main_photo)
+    VALUES (2, 'სათაური ენის სასწავლო მასალა', 40.50,'აღწერა გთავაზობთ ენების სასწავლო მასალებს მათ შორის სახელმძღვანელოებს სამუშაო წიგნებს და აუდიო დისკებს შესაფერისია დამწყებთათვის ან მათთვის ვინც ცდილობს გაიუმჯობესოს ენობრივი ცოდნა ხელმისაწვდომია სხვადასხვა ენებზე როგორიცაა ესპანური ფრანგული და გერმანული', '2023-11-05', 'images/1P1.png');
+
+    INSERT INTO posts (profile_id, title, price, description , publish_date, main_photo)
+    VALUES (2, 'სათაური სამეცნიერო ფანტასტიკური რომანები', 40.50,'აღწერა იყიდება სამეცნიერო ფანტასტიკური რომანების კრებული მათ შორის 1984 მამაცი ახალი სამყარო და დიუნი იდეალურია ჟანრის მოყვარულთათვის ან მათთვის ვინც ეძებს მიმზიდველ და წარმოსახვით საკითხებს', '2023-11-05', 'images/1P1.png');
+
+    INSERT INTO posts (profile_id, title, price, description , publish_date, main_photo)
+    VALUES (2, 'სათაური ისტორიის წიგნების ნაკრები', 40.50,'აღწერა გთავაზობთ ისტორიის წიგნების პაკეტს რომელიც მოიცავს სხვადასხვა პერიოდებსა და თემებს მოიცავს სათაურებს როგორიცაა სამოქალაქო ომი მეორე მსოფლიო ომი და რენესანსი იდეალურია ისტორიის მოყვარულთათვის ან სტუდენტებისთვის რომლებიც სწავლობენ საგანს', '2023-11-05', 'images/1P1.png');
+
+    INSERT INTO posts (profile_id, title, price, description , publish_date, main_photo)
+    VALUES (2, 'სათაური კულინარიის რეცეპტების წიგნები', 40.50,'აღწერა იყიდება სამზარეულოს რეცეპტების წიგნების არჩევანი რომელშიც წარმოდგენილია მრავალფეროვანი სამზარეულო და კერძები იდეალურია დამწყები მზარეულებისთვის ან მათთვის ვინც ცდილობს გააფართოოს თავისი კულინარიული უნარები', '2023-11-05', 'images/1P1.png');
+
+    INSERT INTO posts (profile_id, title, price, description , publish_date, main_photo)
+    VALUES (2, 'სათაური თვითდახმარების წიგნები', 40.50,'აღწერა გთავაზობთ თვითდახმარების წიგნებს რომლებიც მოიცავს ისეთ თემებს როგორიცაა პიროვნული განვითარება მოტივაცია და გონებამახვილობა შესანიშნავია მათთვის ვინც ეძებს შთაგონებას ან ხელმძღვანელობას ცხოვრების სხვადასხვა ასპექტში', '2023-11-05', 'images/1P1.png');
+
+    INSERT INTO posts (profile_id, title, price, description , publish_date, main_photo)
+    VALUES (2, 'სათაური არტ და დიზაინის წიგნები', 40.50,'აღწერა ხელოვნებისა და დიზაინის წიგნების გაყიდვა სხვადასხვა მხატვრული სტილის ტექნიკისა და ცნობილი მხატვრების ჩვენება იდეალურია ხელოვნების სტუდენტებისთვის ან ვიზუალური ხელოვნებით დაინტერესებული ადამიანებისთვის', '2023-11-05', 'images/1P1.png');
+
+    INSERT INTO posts (profile_id, title, price, description , publish_date, main_photo)
+    VALUES (2, 'სათაური ბიზნესისა და ფინანსების წიგნები', 40.50,'აღწერა გთავაზობთ ბიზნესისა და ფინანსების წიგნების კოლექციას რომელიც მოიცავს ისეთ თემებს როგორიცაა მეწარმეობა ინვესტიცია და მენეჯმენტი იდეალურია დამწყები ბიზნეს პროფესიონალებისთვის ან პირებისთვის რომლებიც ცდილობენ გააუმჯობესონ თავიანთი ფინანსური ცოდნა', '2023-11-05', 'images/1P1.png');
+
+    INSERT INTO posts (profile_id, title, price, description , publish_date, main_photo)
+    VALUES (2, 'სათაური ფსიქოლოგიის წიგნების ნაკრები', 40.50,'აღწერა იყიდება ფსიქოლოგიის წიგნების ნაკრები სხვადასხვა ფსიქოლოგიური თეორიების კონცეფციებისა და შემთხვევის შესწავლა იდეალურია ფსიქოლოგიის სტუდენტებისთვის ან მათთვის ვინც დაინტერესებულია ადამიანის ქცევის გაგებით', '2023-11-05', 'images/1P1.png');
+
+    INSERT INTO posts (profile_id, title, price, description , publish_date, main_photo)
+    VALUES (2, 'სათაური ჯანმრთელობისა და კეთილდღეობის წიგნები', 40.50,'აღწერა გთავაზობთ ჯანმრთელობისა და ჯანმრთელობის წიგნების არჩევანს რომელიც მოიცავს ისეთ თემებს როგორიცაა კვება ფიტნესი და გონებრივი კეთილდღეობა შესანიშნავია მათთვის ვისაც სურს გააუმჯობესოს მათი საერთო ჯანმრთელობა და ცხოვრების წესი', '2023-11-05', 'images/1P1.png');
+
+    INSERT INTO posts (profile_id, title, price, description , publish_date, main_photo)
+    VALUES (2, 'სათაური მოგზაურობის გიდები', 40.50,'აღწერა სამოგზაურო გიდების გაყიდვა სხვადასხვა მიმართულებით ღირებული ინფორმაციის მიწოდება ატრაქციონების საცხოვრებლების და ადგილობრივი რჩევების შესახებ იდეალურია მოგზაურებისთვის რომლებიც გეგმავენ მომავალ თავგადასავალს', '2023-11-05', 'images/1P1.png');
+
+    INSERT INTO posts (profile_id, title, price, description , publish_date, main_photo)
+    VALUES (2, 'სათაური პოეზიის ანთოლოგია', 40.50,'აღწერა გთავაზობთ პოეზიის ანთოლოგიას რომელშიც წარმოდგენილია კლასიკური და თანამედროვე ლექსების კრებული იდეალურია პოეზიის მოყვარულთათვის ან პირებისთვის რომლებიც ეძებენ შთაგონებას სიტყვებით', '2023-11-05', 'images/1P1.png');
+
+    INSERT INTO posts (profile_id, title, price, description , publish_date, main_photo)
+    VALUES (2, 'სათაური კომპიუტერული პროგრამირების წიგნები', 40.50,'აღწერა იყიდება კომპიუტერული პროგრამირების წიგნები რომლებიც მოიცავს ენებს როგორიცაა Python Java და C შესაფერისია დამწყებთათვის ან პირებისთვის რომლებიც ცდილობენ გააუმჯობესონ კოდირების უნარები', '2023-11-05', 'images/1P1.png');
+
+    INSERT INTO posts (profile_id, title, price, description , publish_date, main_photo)
+    VALUES (2, 'სათაური საგანმანათლებლო საბავშვო წიგნები', 40.50,'აღწერა გთავაზობთ საგანმანათლებლო საბავშვო წიგნებს ფოკუსირებული საგნებზე როგორიცაა მათემატიკა მეცნიერება და ისტორია იდეალურია მშობლებისთვის ან მასწავლებლებისთვის რომლებიც ცდილობენ სწავლა გაახალისონ ახალგაზრდა მკითხველებისთვის', '2023-11-05', 'images/1P1.png');
+
+    INSERT INTO posts (profile_id, title, price, description , publish_date, main_photo)
+    VALUES (2, 'სათაური სპორტისა და ფიტნესის წიგნები', 40.50,'აღწერა იყიდება სპორტული და ფიტნეს წიგნები მოიცავს სხვადასხვა სპორტს ვარჯიშის ტექნიკას და ვარჯიშის რუტინას იდეალურია სპორტსმენებისთვის ან პირებისთვის რომლებიც ეძებენ აქტიურობას და ჯანმრთელობას', '2023-11-05', 'images/1P1.png');
+
+    INSERT INTO posts (profile_id, title, price, description , publish_date, main_photo)
+    VALUES (2, 'სათაური მებაღეობის წიგნების ნაკრები', 40.50,'აღწერა გთავაზობთ მებაღეობის წიგნების პაკეტს გთავაზობთ რჩევებს ტექნიკას და შთაგონებას ლამაზი ბაღების შესაქმნელად იდეალურია მებაღეობის მოყვარულთათვის ან იმ პირებისთვის რომლებიც ეძებენ თავიანთი მწვანე ცერის განვითარებას', '2023-11-05', 'images/1P1.png');
+
+    INSERT INTO posts (profile_id, title, price, description , publish_date, main_photo)
+    VALUES (2, 'სათაური მუსიკის თეორიის წიგნები', 40.50,'აღწერა მუსიკის თეორიის წიგნების გაყიდვა რომელიც მოიცავს ისეთ თემებს როგორიცაა ნოტაცია სასწორები და ჰარმონია შესაფერისია დამწყებთათვის ან იმ პირებისთვის რომლებიც ცდილობენ მუსიკის გაგების გაღრმავებას', '2023-11-05', 'images/1P1.png');
+
+    INSERT INTO posts (profile_id, title, price, description , publish_date, main_photo)
+    VALUES (2, 'სათაური ფოტოგრაფიული წიგნები', 40.50,'აღწერა გთავაზობთ ფოტოგრაფიის წიგნებს რომელშიც მოცემულია რჩევები ტექნიკა და განსაცვიფრებელი ვიზუალური მაგალითები იდეალურია ფოტოგრაფიის მოყვარულთათვის ან იმ პირებისთვის რომლებიც ცდილობენ გააუმჯობესონ თავიანთი უნარები კამერის მიღმა', '2023-11-05', 'images/1P1.png');
+
+    INSERT INTO posts (profile_id, title, price, description , publish_date, main_photo)
+    VALUES (2, 'სათაური გარემოსდაცვითი მეცნიერების სახელმძღვანელო', 40.50,'აღწერა გარემოსდაცვითი მეცნიერების სახელმძღვანელოს გაყიდვა რომელიც მოიცავს ისეთ თემებს როგორიცაა კლიმატის ცვლილება კონსერვაცია და მდგრადობა ვარგისია სტუდენტებისთვის ან პირებისთვის რომლებიც დაინტერესებულნი არიან გარემოს გაგებითა და დაცვით', '2023-11-05', 'images/1P1.png');
+
+    INSERT INTO posts (profile_id, title, price, description , publish_date, main_photo)
+    VALUES (2, 'სათაური მშობელთა წიგნები', 40.50,'აღწერა გთავაზობთ მშობელთა წიგნებს რჩევებს რჩევებსა და სტრატეგიებს ბავშვების აღზრდისთვის იდეალურია ახალი მშობლებისთვის ან პირებისთვის რომლებიც ეძებენ ხელმძღვანელობას მშობლობის გამოწვევებში ნავიგაციისთვის', '2023-11-05', 'images/1P1.png');
+
+    INSERT INTO posts (profile_id, title, price, description , publish_date, main_photo)
+    VALUES (2, 'სათაური ფილოსოფიის წიგნების ნაკრები', 40.50,'აღწერა იყიდება შეკვრა', '2023-11-05', 'images/1P1.png');
+
+
     -- Add images
     -- Image 1
     INSERT INTO photos (post_id, photo_url)
@@ -1073,6 +1143,75 @@
     INSERT INTO photos (post_id, photo_url)
     VALUES (160, 'images/1P1.png');
 
+    INSERT INTO photos (post_id, photo_url)
+    VALUES (161, 'images/1P1.png');
+
+    INSERT INTO photos (post_id, photo_url)
+    VALUES (162, 'images/1P1.png');
+
+    INSERT INTO photos (post_id, photo_url)
+    VALUES (163, 'images/1P1.png');
+
+    INSERT INTO photos (post_id, photo_url)
+    VALUES (164, 'images/1P1.png');
+
+    INSERT INTO photos (post_id, photo_url)
+    VALUES (165, 'images/1P1.png');
+
+    INSERT INTO photos (post_id, photo_url)
+    VALUES (166, 'images/1P1.png');
+
+    INSERT INTO photos (post_id, photo_url)
+    VALUES (167, 'images/1P1.png');
+
+    INSERT INTO photos (post_id, photo_url)
+    VALUES (168, 'images/1P1.png');
+
+    INSERT INTO photos (post_id, photo_url)
+    VALUES (169, 'images/1P1.png');
+
+    INSERT INTO photos (post_id, photo_url)
+    VALUES (170, 'images/1P1.png');
+
+    INSERT INTO photos (post_id, photo_url)
+    VALUES (171, 'images/1P1.png');
+
+    INSERT INTO photos (post_id, photo_url)
+    VALUES (172, 'images/1P1.png');
+
+    INSERT INTO photos (post_id, photo_url)
+    VALUES (173, 'images/1P1.png');
+
+    INSERT INTO photos (post_id, photo_url)
+    VALUES (174, 'images/1P1.png');
+
+    INSERT INTO photos (post_id, photo_url)
+    VALUES (175, 'images/1P1.png');
+
+    INSERT INTO photos (post_id, photo_url)
+    VALUES (176, 'images/1P1.png');
+
+    INSERT INTO photos (post_id, photo_url)
+    VALUES (177, 'images/1P1.png');
+
+    INSERT INTO photos (post_id, photo_url)
+    VALUES (178, 'images/1P1.png');
+
+    INSERT INTO photos (post_id, photo_url)
+    VALUES (179, 'images/1P1.png');
+
+    INSERT INTO photos (post_id, photo_url)
+    VALUES (180, 'images/1P1.png');
+
+    INSERT INTO photos (post_id, photo_url)
+    VALUES (181, 'images/1P1.png');
+
+    INSERT INTO photos (post_id, photo_url)
+    VALUES (182, 'images/1P1.png');
+
+    INSERT INTO photos (post_id, photo_url)
+    VALUES (183, 'images/1P1.png');
+
 
     -- Add filters
     -- Filter 1
@@ -1566,3 +1705,72 @@
 
     INSERT INTO filters (post_id, filter_text)
     VALUES (160, 'tech');
+
+    INSERT INTO filters (post_id, filter_text)
+    VALUES (161, 'books');
+
+    INSERT INTO filters (post_id, filter_text)
+    VALUES (162, 'books');
+
+    INSERT INTO filters (post_id, filter_text)
+    VALUES (163, 'books');
+
+    INSERT INTO filters (post_id, filter_text)
+    VALUES (164, 'books');
+
+    INSERT INTO filters (post_id, filter_text)
+    VALUES (165, 'books');
+
+    INSERT INTO filters (post_id, filter_text)
+    VALUES (166, 'books');
+
+    INSERT INTO filters (post_id, filter_text)
+    VALUES (167, 'books');
+
+    INSERT INTO filters (post_id, filter_text)
+    VALUES (168, 'books');
+
+    INSERT INTO filters (post_id, filter_text)
+    VALUES (169, 'books');
+
+    INSERT INTO filters (post_id, filter_text)
+    VALUES (170, 'books');
+
+    INSERT INTO filters (post_id, filter_text)
+    VALUES (171, 'books');
+
+    INSERT INTO filters (post_id, filter_text)
+    VALUES (172, 'books');
+
+    INSERT INTO filters (post_id, filter_text)
+    VALUES (173, 'books');
+
+    INSERT INTO filters (post_id, filter_text)
+    VALUES (174, 'books');
+
+    INSERT INTO filters (post_id, filter_text)
+    VALUES (175, 'books');
+
+    INSERT INTO filters (post_id, filter_text)
+    VALUES (176, 'books');
+
+    INSERT INTO filters (post_id, filter_text)
+    VALUES (177, 'books');
+
+    INSERT INTO filters (post_id, filter_text)
+    VALUES (178, 'books');
+
+    INSERT INTO filters (post_id, filter_text)
+    VALUES (179, 'books');
+
+    INSERT INTO filters (post_id, filter_text)
+    VALUES (180, 'books');
+
+    INSERT INTO filters (post_id, filter_text)
+    VALUES (181, 'books');
+
+    INSERT INTO filters (post_id, filter_text)
+    VALUES (182, 'books');
+
+    INSERT INTO filters (post_id, filter_text)
+    VALUES (183, 'books');

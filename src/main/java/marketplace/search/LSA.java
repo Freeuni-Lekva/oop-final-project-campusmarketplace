@@ -98,7 +98,9 @@ public class LSA implements ScoringModel{
         }
         List<Double> result = new ArrayList<>();
         for (Post post : posts) {
-            result.add(evaluate(query, post, false));
+            Double ans = evaluate(query, post, false);
+            if(Double.isNaN(ans)) result.add(0.0);
+            else result.add(ans);
         }
         return result;
     }
@@ -116,7 +118,7 @@ public class LSA implements ScoringModel{
         }
 
         Matrix query_embedding = sentence_embedding(query, do_format);
-        Matrix post_embedding = sentence_embedding(post.getTitle() + " " + post.getDescription(), do_format);
+        Matrix post_embedding = sentence_embedding(post.getTitle(), do_format);
 
         return cos_sim(query_embedding, post_embedding);
     }

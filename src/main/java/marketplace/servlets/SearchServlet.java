@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 public class SearchServlet extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
         SearchEngine searchEngine = (SearchEngine) getServletContext().getAttribute("searchEngine");
         PostDAO postDAO = (PostDAO) getServletContext().getAttribute("postDAO");
         FilterDAO filterDAO = (FilterDAO) getServletContext().getAttribute("filterDAO");
@@ -50,8 +50,9 @@ public class SearchServlet extends HttpServlet {
         }
 
         List<FeedPost> outputs = searchEngine.execute(query, num);
-        outputs = outputs.stream().filter(i->filter_post_ids.contains(i.getPost_id())).collect(Collectors.toList());
-
+        if(filter_ids != null) {
+            outputs = outputs.stream().filter(i->filter_post_ids.contains(i.getPost_id())).collect(Collectors.toList());
+        }
         httpServletRequest.setAttribute("posts", outputs);
         httpServletRequest.getRequestDispatcher("jsp/index.jsp").forward(httpServletRequest, httpServletResponse);
     }
