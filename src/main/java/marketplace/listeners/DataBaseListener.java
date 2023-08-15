@@ -2,6 +2,8 @@ package marketplace.listeners;
 
 import marketplace.config.ChatConfig;
 import marketplace.constants.DatabaseConstants;
+
+import marketplace.search.SearchEngine;
 import marketplace.dao.*;
 import org.apache.commons.dbcp2.BasicDataSource;
 
@@ -18,8 +20,11 @@ public class DataBaseListener implements ServletContextListener {
             dataSource.setUsername(DatabaseConstants.DATABASE_USERNAME);
             dataSource.setPassword(DatabaseConstants.DATABASE_PASSWORD);
 
+            PostDAO postDAO = new PostDAO(dataSource);
             servletContextEvent.getServletContext().setAttribute("userDAO", new UserDAO(dataSource));
-            servletContextEvent.getServletContext().setAttribute("postDAO",new PostDAO(dataSource));
+
+            servletContextEvent.getServletContext().setAttribute("postDAO", postDAO);
+            servletContextEvent.getServletContext().setAttribute("searchEngine",new SearchEngine(postDAO));
             servletContextEvent.getServletContext().setAttribute("chatDAO", new ChatDAO(dataSource,(UserDAO)servletContextEvent.getServletContext().getAttribute("userDAO")));
             servletContextEvent.getServletContext().setAttribute("filterDAO",new FilterDAO(dataSource));
             servletContextEvent.getServletContext().setAttribute("photoDAO",new PhotoDAO(dataSource));
