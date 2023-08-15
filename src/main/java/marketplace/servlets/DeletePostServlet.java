@@ -7,6 +7,7 @@ import marketplace.dao.PostDAO;
 import marketplace.objects.Photo;
 import marketplace.objects.Post;
 import marketplace.objects.User;
+import marketplace.search.SearchEngine;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.annotation.WebServlet;
@@ -40,8 +41,9 @@ public class DeletePostServlet extends HttpServlet {
                 }
             }
             postDAO.deletePost(post_id);
-
         }
+        SearchEngine searchEngine = (SearchEngine) getServletContext().getAttribute("searchEngine");
+        searchEngine.update();
         RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
         try {
             dispatcher.forward(request, response);

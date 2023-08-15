@@ -8,6 +8,7 @@ import marketplace.dao.PostDAO;
 import marketplace.objects.Photo;
 import marketplace.objects.Post;
 import marketplace.objects.User;
+import marketplace.search.SearchEngine;
 import marketplace.utils.PostValidator;
 
 import javax.servlet.RequestDispatcher;
@@ -75,6 +76,8 @@ public class EditPostServlet extends HttpServlet {
             post.setProfilesPost(true);
             request.setAttribute("post", post);
         }
+        SearchEngine searchEngine = (SearchEngine) getServletContext().getAttribute("searchEngine");
+        searchEngine.update();
         RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
         try {
             dispatcher.forward(request, response);
