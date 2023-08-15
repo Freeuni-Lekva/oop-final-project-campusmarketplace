@@ -12,14 +12,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "RemoveFavouriteServlet", value = "/removefacourite")
+@WebServlet(name = "RemoveFavouriteServlet", value = "/removefavourite")
 public class RemoveFavouriteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         PostDAO postDAO = (PostDAO) getServletContext().getAttribute("postDAO");
         PhotoDAO photoDAO = (PhotoDAO) getServletContext().getAttribute("photoDAO");
         FavouritesDAO favouritesDAO = (FavouritesDAO) getServletContext().getAttribute("favouritesDAO");
-        User user = (User) request.getSession().getAttribute("user");
+//        User user = (User) request.getSession().getAttribute("user");
+        User user = new User(1,"1","1", "1","1","1",null);
+
         String post_id_string = request.getParameter("post_id");
         if (post_id_string == null) {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
@@ -37,10 +39,11 @@ public class RemoveFavouriteServlet extends HttpServlet {
             if (favouritesDAO.isFavourite(post_id, user.getProfileId()))
                 favouritesDAO.deleteFavourite(post_id, user.getProfileId());
             if (user.getProfileId() == post.getProfile_id())
-                post.setProfilesPost(false);
+                post.setProfilesPost(true);
         }
         post.setFavourite(false);
         request.setAttribute("post", post);
+        System.out.println(post.toString());
         RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
         try {
             dispatcher.forward(request, response);

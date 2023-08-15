@@ -68,7 +68,7 @@
 
     );
 
-    CREATE TABLE IF NOT EXISTS favourites
+    CREATE TABLE IF NOT EXISTS FAVOURITES
     (
         profile_id    INT,
         post_id      INT,
@@ -1779,24 +1779,25 @@
     
     -- FAVOURITES
     -- Favourite 1
-    INSERT INTO favourites (profile_id, post_id)
+    INSERT INTO FAVOURITES (profile_id, post_id)
     VALUES (1, 1);
     -- Favourite 2
-    INSERT INTO favourites (profile_id, post_id)
+    INSERT INTO FAVOURITES (profile_id, post_id)
     VALUES (2, 3);
     -- Favourite 3
-    INSERT INTO favourites (profile_id, post_id)
+    INSERT INTO FAVOURITES (profile_id, post_id)
     VALUES (3, 2);
     -- Favourite 4
-    INSERT INTO favourites (profile_id, post_id)
+    INSERT INTO FAVOURITES (profile_id, post_id)
     VALUES (3, 6);
     -- Favourite 5
-    INSERT INTO favourites (profile_id, post_id)
+    INSERT INTO FAVOURITES (profile_id, post_id)
     VALUES (4, 2);
     -- Favourite 6
-    INSERT INTO favourites (profile_id, post_id)
+    INSERT INTO FAVOURITES (profile_id, post_id)
     VALUES (1, 6);
     -- Favourite 7
     INSERT INTO favourites (profile_id, post_id)
     VALUES (1, 3);
+
 

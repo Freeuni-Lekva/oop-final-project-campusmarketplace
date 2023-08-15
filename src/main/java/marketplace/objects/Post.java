@@ -14,7 +14,7 @@ public class Post {
 
     private boolean favourite = false;
 
-    public boolean isFavourite(){
+    public boolean isFavourite() {
         return favourite;
     }
 
@@ -29,7 +29,6 @@ public class Post {
     public void setProfilesPost(boolean profilesPost) {
         isProfilesPost = profilesPost;
     }
-
 
 
     public ArrayList<Photo> getPhotos() {
@@ -111,11 +110,20 @@ public class Post {
                 ", title: " + title +
                 ", price: " + price +
                 ", description: " + description +
+<<<<<<< HEAD
                 ", date: " + date + "]\n");
         if(photos!=null){
             for (Photo photo : photos) {
                 result.append(photo.toString());
             }
+=======
+                ", date: " + date +
+                ", Profile's Post: " + isProfilesPost +
+                ", Is Favourite: " + favourite +
+                "]\n");
+        for (Photo photo : photos) {
+            result.append(photo.toString());
+>>>>>>> 5ce0fd7 (fixed bugs)
         }
         return result.toString();
     }

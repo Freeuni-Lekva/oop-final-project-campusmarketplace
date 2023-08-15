@@ -1,0 +1,112 @@
+<!DOCTYPE web-app PUBLIC
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+    <display-name>Archetype Created Web Application</display-name>
+
+    <listener>
+        <listener-class>marketplace.listeners.SessionListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>marketplace.listeners.DataBaseListener</listener-class>
+    </listener>
+
+    <servlet>
+        <servlet-name>login</servlet-name>
+        <servlet-class>marketplace.servlets.LoginServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>register</servlet-name>
+        <servlet-class>marketplace.servlets.RegisterServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>logout</servlet-name>
+        <servlet-class>marketplace.servlets.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FeedServlet</servlet-name>
+        <servlet-class>marketplace.servlets.FeedServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PostPageServlet</servlet-name>
+        <servlet-class>marketplace.servlets.PostPageServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>NewPostServlet</servlet-name>
+        <servlet-class>marketplace.servlets.NewPostServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeletePostServlet</servlet-name>
+        <servlet-class>marketplace.servlets.DeletePostServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>chat</servlet-name>
+        <servlet-class>marketplace.servlets.ChatServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserProfileServlet</servlet-name>
+        <servlet-class>marketplace.servlets.UserProfileServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddFavouriteServlet</servlet-name>
+        <servlet-class>marketplace.servlets.AddFavouriteServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RemoveFavouriteServlet</servlet-name>
+        <servlet-class>marketplace.servlets.RemoveFavouriteServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetFavouritesServlet</servlet-name>
+        <servlet-class>marketplace.servlets.GetFavouritesServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>login</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>register</servlet-name>
+        <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>logout</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FeedServlet</servlet-name>
+        <url-pattern>/feedposts</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PostPageServlet</servlet-name>
+        <url-pattern>/postpage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewPostServlet</servlet-name>
+        <url-pattern>/newpost</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeletePostServlet</servlet-name>
+        <url-pattern>/deletepost</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>chat</servlet-name>
+        <url-pattern>/chat</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserProfileServlet</servlet-name>
+        <url-pattern>/profile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddFavouriteServlet</servlet-name>
+        <url-pattern>/addfavourite</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RemoveFavouriteServlet</servlet-name>
+        <url-pattern>/removefavourite</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetFavouritesServlet</servlet-name>
+        <url-pattern>/getfavourites</url-pattern>
+    </servlet-mapping>
+</web-app>

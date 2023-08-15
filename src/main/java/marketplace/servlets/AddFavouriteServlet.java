@@ -12,14 +12,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "AddFavouriteServlet", value = "/addfacourite")
+@WebServlet(name = "AddFavouriteServlet", value = "/addfavourite")
 public class AddFavouriteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         PostDAO postDAO = (PostDAO) getServletContext().getAttribute("postDAO");
         PhotoDAO photoDAO = (PhotoDAO) getServletContext().getAttribute("photoDAO");
         FavouritesDAO favouritesDAO = (FavouritesDAO) getServletContext().getAttribute("favouritesDAO");
-        User user = (User) request.getSession().getAttribute("user");
+//        User user = (User) request.getSession().getAttribute("user");
+        User user = new User(1,"1","1", "1","1","1",null);
         String post_id_string = request.getParameter("post_id");
 
         if (post_id_string == null) {
@@ -42,6 +43,7 @@ public class AddFavouriteServlet extends HttpServlet {
         }
         post.setFavourite(true);
         request.setAttribute("post", post);
+        System.out.println(post.toString());
         RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
         try {
             dispatcher.forward(request, response);
