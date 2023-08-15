@@ -28,7 +28,7 @@ public class SearchServlet extends HttpServlet {
 
         if(query==null && filter_ids==null){
             httpServletRequest.setAttribute("posts", postDAO.getAllFeedPosts(0));
-            httpServletRequest.getRequestDispatcher("jsp/index.jsp").forward(httpServletRequest, httpServletResponse);
+            httpServletRequest.getRequestDispatcher("index.jsp").forward(httpServletRequest, httpServletResponse);
             return;
         }
 
@@ -45,7 +45,7 @@ public class SearchServlet extends HttpServlet {
 
         if(query==null){
             httpServletRequest.setAttribute("posts", filter_posts);
-            httpServletRequest.getRequestDispatcher("jsp/index.jsp").forward(httpServletRequest, httpServletResponse);
+            httpServletRequest.getRequestDispatcher("index.jsp").forward(httpServletRequest, httpServletResponse);
             return;
         }
 
