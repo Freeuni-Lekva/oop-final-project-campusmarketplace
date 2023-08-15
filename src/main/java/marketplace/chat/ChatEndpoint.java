@@ -9,6 +9,9 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -28,8 +31,11 @@ public class ChatEndpoint {
         ServletContext servletContext = ChatConfig.getServletContext();
         chatDAO = (ChatDAO) servletContext.getAttribute("chatDAO");
 
-        // Load user's old messages from the chatDAO and send them
-        for (Message message : chatDAO.getMessagesForUsers(senderId, receiverId)) {
+        List<Message> oldMessages = chatDAO.getMessagesForUsers(senderId, receiverId);
+        Collections.reverse(oldMessages);
+
+        // Load user's old messages from the chatDAO and send them, oldest first
+        for (Message message : oldMessages) {
             session.getBasicRemote().sendObject(message);
         }
     }
