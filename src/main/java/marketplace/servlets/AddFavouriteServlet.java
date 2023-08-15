@@ -20,8 +20,7 @@ public class AddFavouriteServlet extends HttpServlet {
         PostDAO postDAO = (PostDAO) getServletContext().getAttribute("postDAO");
         PhotoDAO photoDAO = (PhotoDAO) getServletContext().getAttribute("photoDAO");
         FavouritesDAO favouritesDAO = (FavouritesDAO) getServletContext().getAttribute("favouritesDAO");
-//        User user = (User) request.getSession().getAttribute("user");
-        User user = new User(1,"1","1", "1","1","1",null);
+        User user = (User) request.getSession().getAttribute("user");
         String post_id_string = request.getParameter("post_id");
 
         if (post_id_string == null) {
