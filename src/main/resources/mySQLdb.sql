@@ -1797,7 +1797,7 @@
     INSERT INTO FAVOURITES (profile_id, post_id)
     VALUES (1, 6);
     -- Favourite 7
-    INSERT INTO favourites (profile_id, post_id)
+    INSERT INTO FAVOURITES (profile_id, post_id)
     VALUES (1, 3);
 
 
