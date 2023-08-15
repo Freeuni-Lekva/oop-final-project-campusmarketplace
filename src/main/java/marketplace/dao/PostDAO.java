@@ -202,15 +202,16 @@ public class PostDAO implements PostDAOInterface {
     @Override
     public Photo getMainPhoto(int post_id) {
         try (Connection conn = dataSource.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("select main_photo from posts where post_id=?");
+            PreparedStatement stmt = conn.prepareStatement("SELECT main_photo FROM posts WHERE post_id=?");
             stmt.setInt(1, post_id);
             ResultSet rs = stmt.executeQuery();
+            rs.next();
             String photoUrl = rs.getString(1);
             rs.close();
-            PreparedStatement stmt2 = conn.prepareStatement("select photo_id from photos where photo_url=?");
+            PreparedStatement stmt2 = conn.prepareStatement("SELECT photo_id FROM photos WHERE photo_url=?");
             stmt2.setString(1, photoUrl);
             ResultSet rs2 = stmt2.executeQuery();
-
+            rs2.next();
             int photoId = rs2.getInt(1);
             rs2.close();
             Photo photo = new Photo(photoId, photoUrl);

@@ -26,11 +26,13 @@ body {
     height: 400px;
     width: 350px;
     gap: 5px;
+    border: groove gray;
 }
 
 .image {
-    width: 350px;
-    height: 350px;
+    width: 340px;
+    height: 340px;
+    align-self: center;
 }
 
 img {

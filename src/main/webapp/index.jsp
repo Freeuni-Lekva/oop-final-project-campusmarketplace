@@ -1,6 +1,7 @@
 <%@ page import="marketplace.objects.FeedPost" %>
 <%@ page import="marketplace.dao.PostDAO" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
 
 <%
@@ -34,11 +35,11 @@
                 </div>
             </div>
             <div class="header-right">
-                <button class="favorites-button">Favorites</button>
+                <!--<button class="favorites-button">Favorites</button>-->
                 <div class="user-options">
-                    <a href="#">Log in</a>
+                    <a href="login/login.jsp">Log in</a>
                     <span class="divider">|</span>
-                    <a href="#">Sign up</a>
+                    <a href="register/register.jsp">Sign up</a>
                 </div>
             </div>
         </div>
@@ -57,19 +58,22 @@
 
 <div class="all-photos">
     <% for(FeedPost post : feedPost){ %>
-    <div class="photo-container">
+    <form action="/postpage" method="get">
+    <input value="<%=post.getPost_id()%>" name="id" style="display: none">
+    <div class="photo-container" onclick="this.closest('form').submit();">
         <div class="image">
             <img src= <%=post.getPhoto_address()%> >
         </div>
         <div class="text">
-            <div class="price">
-                <h4><%=post.getPrice()%></h4>
-            </div>
             <div class="description">
-                <h5><%=post.getTitle()%></h5>
+                <h4><%=post.getTitle()%></h4>
+            </div>
+            <div class="price">
+                <h5><%=post.getPrice()%></h5>
             </div>
         </div>
     </div>
+    </form>
     <% } %>
 </div>
 

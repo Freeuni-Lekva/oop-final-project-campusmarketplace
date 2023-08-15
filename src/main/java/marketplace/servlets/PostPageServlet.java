@@ -32,7 +32,7 @@ public class PostPageServlet extends HttpServlet {
         ArrayList<Photo> photos = photoDAO.getPhotos(post.getPost_id());
         post.setPhotos(photos);
         request.setAttribute("post", post);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/post/post.jsp");
         try {
             dispatcher.forward(request, response);
         } catch (Exception e) {
