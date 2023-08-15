@@ -68,7 +68,7 @@
 
     );
 
-    CREATE TABLE IF NOT EXISTS FAVOURITES
+    CREATE TABLE IF NOT EXISTS favourites
     (
         profile_id    INT,
         post_id      INT,
@@ -1250,6 +1250,7 @@
     -- Filter 12
     INSERT INTO filters (post_id, filter_text)
     VALUES (8, 'books');
+    
     INSERT INTO filters (post_id, filter_text)
     VALUES (9, 'tech');
 
@@ -1774,3 +1775,28 @@
 
     INSERT INTO filters (post_id, filter_text)
     VALUES (183, 'books');
+    
+    
+    -- FAVOURITES
+    -- Favourite 1
+    INSERT INTO favourites (profile_id, post_id)
+    VALUES (1, 1);
+    -- Favourite 2
+    INSERT INTO favourites (profile_id, post_id)
+    VALUES (2, 3);
+    -- Favourite 3
+    INSERT INTO favourites (profile_id, post_id)
+    VALUES (3, 2);
+    -- Favourite 4
+    INSERT INTO favourites (profile_id, post_id)
+    VALUES (3, 6);
+    -- Favourite 5
+    INSERT INTO favourites (profile_id, post_id)
+    VALUES (4, 2);
+    -- Favourite 6
+    INSERT INTO favourites (profile_id, post_id)
+    VALUES (1, 6);
+    -- Favourite 7
+    INSERT INTO favourites (profile_id, post_id)
+    VALUES (1, 3);
+
