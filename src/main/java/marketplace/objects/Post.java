@@ -110,20 +110,14 @@ public class Post {
                 ", title: " + title +
                 ", price: " + price +
                 ", description: " + description +
-<<<<<<< HEAD
-                ", date: " + date + "]\n");
-        if(photos!=null){
-            for (Photo photo : photos) {
-                result.append(photo.toString());
-            }
-=======
                 ", date: " + date +
                 ", Profile's Post: " + isProfilesPost +
                 ", Is Favourite: " + favourite +
                 "]\n");
-        for (Photo photo : photos) {
-            result.append(photo.toString());
->>>>>>> 5ce0fd7 (fixed bugs)
+        if (photos != null) {
+            for (Photo photo : photos) {
+                result.append(photo.toString());
+            }
         }
         return result.toString();
     }
