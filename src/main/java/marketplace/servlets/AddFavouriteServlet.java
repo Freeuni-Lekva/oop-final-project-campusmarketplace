@@ -36,8 +36,7 @@ public class AddFavouriteServlet extends HttpServlet {
         Post post = postDAO.getPostById(post_id);
         post.setPhotos(photoDAO.getPhotos(post_id));
         if (user != null) {
-            if (!favouritesDAO.isFavourite(post_id, user.getProfileId()))
-                favouritesDAO.addFavourite(post_id, user.getProfileId());
+            favouritesDAO.addFavourite(post_id, user.getProfileId());
             if (user.getProfileId() == post.getProfile_id())
                 post.setProfilesPost(true);
         }
