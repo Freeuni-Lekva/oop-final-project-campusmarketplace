@@ -6,30 +6,34 @@ import marketplace.objects.FeedPost;
 import marketplace.objects.Photo;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 
 
 @WebServlet(name = "FeedServlet", value = "/feedposts")
 public class FeedServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         PostDAO postDAO = (PostDAO) getServletContext().getAttribute("postDAO");
-        String pageString = request.getParameter("page");
         int page = 0;
-        if (pageString != null)
-            page = Integer.parseInt(pageString);
-        ArrayList<FeedPost> feedPosts = postDAO.getAllFeedPosts(page);
-        request.setAttribute("feedPosts", feedPosts);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
-        try {
-            dispatcher.forward(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
+        ArrayList<FeedPost> feedPosts = new ArrayList<>();
+        while (true) {
+            if (postDAO.getAllFeedPosts(page) == null || postDAO.getAllFeedPosts(page).size() == 0) break;
+            ArrayList<FeedPost> tempFeedPosts = postDAO.getAllFeedPosts(page);
+            for (int i = 0; i < tempFeedPosts.size(); i++) {
+                feedPosts.add(tempFeedPosts.get(i));
+            }
+            page++;
         }
+        request.getSession().setAttribute("feedPosts", feedPosts);
+
+//        request.getRequestDispatcher("homepage/homepage.jsp").forward(request, response);
+        response.sendRedirect("/homepage/homepage.jsp");
     }
 
     private static void printAttributes(ArrayList<FeedPost> feedPosts) {

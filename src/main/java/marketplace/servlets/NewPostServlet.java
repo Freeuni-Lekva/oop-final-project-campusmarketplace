@@ -12,6 +12,7 @@ import marketplace.search.SearchEngine;
 import marketplace.utils.PostValidator;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,26 +28,35 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Secure
 @WebServlet(name = "NewPostServlet", value = "/newpost")
 @MultipartConfig
 public class NewPostServlet extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getSession().removeAttribute("error");
+        response.sendRedirect("/upload");
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("UTF-8");
         PostDAO postDAO = (PostDAO) getServletContext().getAttribute("postDAO");
         FilterDAO filterDAO = (FilterDAO)getServletContext().getAttribute("filterDAO");
         PhotoDAO photoDAO = (PhotoDAO)getServletContext().getAttribute("photoDAO");
         User user = (User) request.getSession().getAttribute("user");
         int profile_id = user.getProfileId();
         String title = request.getParameter("title");
+        System.out.println(title);
         if (!PostValidator.validateTitle(title)) {
-            request.setAttribute("error", "Title must not be empty.");
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+            request.getSession().setAttribute("error", "Title must not be empty.");
             try {
-                dispatcher.forward(request, response);
-            } catch (Exception e) {
-                e.printStackTrace();
+                response.sendRedirect("/upload/upload.jsp");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
             return;
         }
@@ -58,12 +68,11 @@ public class NewPostServlet extends HttpServlet {
             if (request.getParameter(filter) != null)
                 filterCount++;
         if (filterCount == 0 || filterCount > FilterConstants.MAX_NUMBER_OF_FILTERS) {
-            request.setAttribute("error", "Add at least 0 and at most " + FilterConstants.MAX_NUMBER_OF_FILTERS + " filters.");
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+            request.getSession().setAttribute("error", "Add at least 0 and at most " + FilterConstants.MAX_NUMBER_OF_FILTERS + " filters.");
             try {
-                dispatcher.forward(request, response);
-            } catch (Exception e) {
-                e.printStackTrace();
+                response.sendRedirect("/upload/upload.jsp");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
             return;
         }
@@ -81,14 +90,15 @@ public class NewPostServlet extends HttpServlet {
             }
         }
         try {
-            Collection<Part> parts = request.getParts();
+            List<Part> parts = request.getParts().stream().filter(part -> "itemPhotos".equals(part.getName()) && part.getContentType().startsWith("image/")).collect(Collectors.toList());
             if (parts != null && parts.size() != 0) {
                 int photoCount = 1;
                 for (Part part : parts) {
                     String fileName = post_id + "P" + photoCount + ".png";
                     photoCount++;
                     String savePath = "/images/";
-                    savePath = getServletContext().getRealPath(savePath) + fileName;
+                    savePath = getServletContext().getRealPath(savePath) +"/"+ fileName;
+                    System.out.println(savePath);
                     try (InputStream inputStream = part.getInputStream()) {
                         Files.copy(inputStream, new File(savePath).toPath(), StandardCopyOption.REPLACE_EXISTING);
                     } catch (IOException e) {
@@ -110,14 +120,12 @@ public class NewPostServlet extends HttpServlet {
         ArrayList<Photo> photos = photoDAO.getPhotos(post.getPost_id());
         post.setPhotos(photos);
         post.setProfilesPost(true);
-        request.setAttribute("post", post);
         SearchEngine searchEngine = (SearchEngine) getServletContext().getAttribute("searchEngine");
         searchEngine.update();
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
         try {
-            dispatcher.forward(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
+            response.sendRedirect("index.jsp");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

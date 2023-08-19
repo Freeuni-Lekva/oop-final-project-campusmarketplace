@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 public class SearchServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+        httpServletRequest.setCharacterEncoding("UTF-8");
         SearchEngine searchEngine = (SearchEngine) getServletContext().getAttribute("searchEngine");
         PostDAO postDAO = (PostDAO) getServletContext().getAttribute("postDAO");
         FilterDAO filterDAO = (FilterDAO) getServletContext().getAttribute("filterDAO");
