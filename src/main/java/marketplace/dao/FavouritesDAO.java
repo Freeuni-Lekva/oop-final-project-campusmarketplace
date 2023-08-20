@@ -20,7 +20,7 @@ public class FavouritesDAO implements FavouritesDAOInterface {
     public void addFavourite(int post_id, int profile_id) {
         if (isFavourite(post_id, profile_id)) return;
 
-        String sql = "insert into favourites (profile_id,post_id) values (?,?)";
+        String sql = "insert into FAVOURITES (profile_id,post_id) values (?,?)";
         try (Connection conn = dataSource.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, profile_id);
@@ -36,7 +36,7 @@ public class FavouritesDAO implements FavouritesDAOInterface {
 
     @Override
     public boolean isFavourite(int postId, int profileId) {
-        String check = "select count(*) from favourites where profile_id = ? and post_id = ?";
+        String check = "select count(*) from FAVOURITES where profile_id = ? and post_id = ?";
         ArrayList<FeedPost> posts = new ArrayList<>();
         try (Connection conn = dataSource.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement(check);
@@ -57,7 +57,7 @@ public class FavouritesDAO implements FavouritesDAOInterface {
 
     @Override
     public void deleteFavourite(int post_id, int profile_id) {
-        String sql = "delete from favourites where profile_id = ? and post_id = ?";
+        String sql = "delete from FAVOURITES where profile_id = ? and post_id = ?";
         try (Connection conn = dataSource.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, profile_id);
@@ -73,7 +73,7 @@ public class FavouritesDAO implements FavouritesDAOInterface {
 
     @Override
     public List<FeedPost> favourites(int profile_id) {
-        String sql = "select * from posts where post_id in (select post_id from favourites where profile_id = ?)";
+        String sql = "select * from posts where post_id in (select post_id from FAVOURITES where profile_id = ?)";
 
         ArrayList<FeedPost> posts = new ArrayList<>();
         try (Connection conn = dataSource.getConnection()) {

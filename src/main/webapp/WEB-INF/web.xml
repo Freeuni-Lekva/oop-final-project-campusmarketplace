@@ -53,6 +53,18 @@
         <servlet-name>UserProfileServlet</servlet-name>
         <servlet-class>marketplace.servlets.UserProfileServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddFavouriteServlet</servlet-name>
+        <servlet-class>marketplace.servlets.AddFavouriteServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RemoveFavouriteServlet</servlet-name>
+        <servlet-class>marketplace.servlets.RemoveFavouriteServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetFavouritesServlet</servlet-name>
+        <servlet-class>marketplace.servlets.GetFavouritesServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>SearchServlet</servlet-name>
@@ -93,5 +105,17 @@
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
         <url-pattern>/profile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddFavouriteServlet</servlet-name>
+        <url-pattern>/addfavourite</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RemoveFavouriteServlet</servlet-name>
+        <url-pattern>/removefavourite</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetFavouritesServlet</servlet-name>
+        <url-pattern>/getfavourites</url-pattern>
     </servlet-mapping>
 </web-app>
