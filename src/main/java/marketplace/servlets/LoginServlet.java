@@ -17,8 +17,8 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getSession().getAttribute("user") == null){
             request.getSession().removeAttribute("error");
-            response.sendRedirect("login/login.jsp");
-        } else response.sendRedirect("index.jsp");
+            request.getRequestDispatcher("login/login.jsp").forward(request, response);
+        } else response.sendRedirect("/feedposts");
     }
 
     @Override
@@ -30,12 +30,12 @@ public class LoginServlet extends HttpServlet {
         request.getSession().removeAttribute("error");
         if (!LoginValidator.validate(userDAO, email, password)) {
             request.getSession().setAttribute("error", "Invalid login credentials");
-            response.sendRedirect("login/login.jsp");
+            request.getRequestDispatcher("login/login.jsp").forward(request, response);
             return;
         }
 
         User user = userDAO.getUser(email);
         request.getSession().setAttribute("user", user);
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("/feedposts");
     }
 }

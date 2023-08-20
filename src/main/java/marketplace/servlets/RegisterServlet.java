@@ -20,10 +20,8 @@ public class RegisterServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getSession().getAttribute("user") == null){
             request.getSession().removeAttribute("errors");
-            response.sendRedirect("register/register.jsp");
-        }
-
-        else response.sendRedirect("index.jsp");
+            request.getRequestDispatcher("register/register.jsp").forward(request,response);
+        } else response.sendRedirect("/feedposts");
     }
 
     @Override
@@ -45,9 +43,7 @@ public class RegisterServlet extends HttpServlet {
             userDAO.addUser(firstName, surname, phoneNumber, email, passwordHash, birthDate);
             User user = userDAO.getUser(email);
             request.getSession().setAttribute("user", user);
-        }
-
-        // in register.jsp, if errors exist, display them, else display registration successful and redirect user to login
-        response.sendRedirect("index.jsp");
+            response.sendRedirect("/feedposts");
+        } else request.getRequestDispatcher("register/register.jsp").forward(request,response);
     }
 }

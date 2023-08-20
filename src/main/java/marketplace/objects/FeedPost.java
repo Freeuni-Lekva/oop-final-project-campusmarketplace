@@ -1,8 +1,9 @@
 package marketplace.objects;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class FeedPost {
+public class FeedPost implements Serializable {
     private int post_id;
     private String photo_address;
     private String title;

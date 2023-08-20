@@ -32,8 +32,7 @@ public class FeedServlet extends HttpServlet {
         }
         request.getSession().setAttribute("feedPosts", feedPosts);
 
-//        request.getRequestDispatcher("homepage/homepage.jsp").forward(request, response);
-        response.sendRedirect("/homepage/homepage.jsp");
+        request.getRequestDispatcher("homepage/homepage.jsp").forward(request, response);
     }
 
     private static void printAttributes(ArrayList<FeedPost> feedPosts) {

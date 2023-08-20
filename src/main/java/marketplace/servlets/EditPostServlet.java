@@ -12,10 +12,12 @@ import marketplace.search.SearchEngine;
 import marketplace.utils.PostValidator;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,8 +25,24 @@ import java.util.ArrayList;
 @Secure
 @WebServlet(name = "EditPostServlet", value = "/editpost")
 public class EditPostServlet extends HttpServlet {
+
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        PostDAO postDAO = (PostDAO) getServletContext().getAttribute("postDAO");
+        int post_id = Integer.parseInt(request.getParameter("post_id"));
+        User user = (User) request.getSession().getAttribute("user");
+        Post post = postDAO.getPostById(post_id);
+        if(post.getProfile_id() != user.getProfileId()) {
+            response.sendRedirect("/feedposts");
+            return;
+        }
+
+        request.getSession().setAttribute("editPost", post);
+        request.getRequestDispatcher("/upload/upload.jsp").forward(request,response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         PostDAO postDAO = (PostDAO) getServletContext().getAttribute("postDAO");
         FilterDAO filterDAO = (FilterDAO)getServletContext().getAttribute("filterDAO");
         PhotoDAO photoDAO = (PhotoDAO)getServletContext().getAttribute("photoDAO");
@@ -78,11 +96,6 @@ public class EditPostServlet extends HttpServlet {
         }
         SearchEngine searchEngine = (SearchEngine) getServletContext().getAttribute("searchEngine");
         searchEngine.update();
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
-        try {
-            dispatcher.forward(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        response.sendRedirect("/profile?userId=" + user.getProfileId());
     }
 }

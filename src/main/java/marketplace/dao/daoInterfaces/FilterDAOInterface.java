@@ -8,31 +8,6 @@ import java.util.Map;
 import static java.util.Map.entry;
 
 public interface FilterDAOInterface {
-    Map<Integer, String> FILTERS = Map.ofEntries(
-            entry(0, "test"),
-            entry(1, "education"),
-            entry(2, "tech"),
-            entry(3, "furniture"),
-            entry(4, "home"),
-            entry(5, "animals"),
-            entry(6, "music"),
-            entry(7, "entertainment"),
-            entry(8, "books"),
-            entry(9, "fashion")
-    );
-
-    Map<String, Integer> REV_FILTERS = Map.ofEntries(
-            entry("test", 0),
-            entry( "education",1),
-            entry( "tech",2),
-            entry( "furniture", 3),
-            entry( "home", 4),
-            entry( "animals", 5),
-            entry( "music", 6),
-            entry( "entertainment", 7),
-            entry( "books", 8),
-            entry( "fashion", 9)
-    );
     void addFilter(int post_id, String filter);
     void removeAllFilters(int post_id);
 

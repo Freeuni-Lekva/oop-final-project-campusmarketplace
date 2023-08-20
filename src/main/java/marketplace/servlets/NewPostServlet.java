@@ -38,11 +38,12 @@ public class NewPostServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getSession().removeAttribute("error");
-        response.sendRedirect("/upload");
+        request.getSession().removeAttribute("editPost");
+        request.getRequestDispatcher("/upload/upload.jsp").forward(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         request.setCharacterEncoding("UTF-8");
         PostDAO postDAO = (PostDAO) getServletContext().getAttribute("postDAO");
         FilterDAO filterDAO = (FilterDAO)getServletContext().getAttribute("filterDAO");
@@ -53,11 +54,7 @@ public class NewPostServlet extends HttpServlet {
         System.out.println(title);
         if (!PostValidator.validateTitle(title)) {
             request.getSession().setAttribute("error", "Title must not be empty.");
-            try {
-                response.sendRedirect("/upload/upload.jsp");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            request.getRequestDispatcher("/upload/upload.jsp").forward(request, response);
             return;
         }
         String description = PostValidator.descriptionValidate(request.getParameter("description"));
@@ -69,11 +66,7 @@ public class NewPostServlet extends HttpServlet {
                 filterCount++;
         if (filterCount == 0 || filterCount > FilterConstants.MAX_NUMBER_OF_FILTERS) {
             request.getSession().setAttribute("error", "Add at least 0 and at most " + FilterConstants.MAX_NUMBER_OF_FILTERS + " filters.");
-            try {
-                response.sendRedirect("/upload/upload.jsp");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            request.getRequestDispatcher("/upload/upload.jsp").forward(request, response);
             return;
         }
         Post post = new Post();
@@ -123,7 +116,7 @@ public class NewPostServlet extends HttpServlet {
         SearchEngine searchEngine = (SearchEngine) getServletContext().getAttribute("searchEngine");
         searchEngine.update();
         try {
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("/profile?userId="+Integer.toString(user.getProfileId()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
