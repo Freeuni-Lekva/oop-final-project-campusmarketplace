@@ -39,11 +39,16 @@ body {
     padding: 15px;
 }
 
-.header-left h1 {
+.header-left a {
     color: #fff;
+    text-decoration: none;
     display: flex;
     font-size: 24px;
     font-weight: bold;
+}
+
+.search-bar {
+    width: 60%;
 }
 
 .header-middle {
@@ -53,26 +58,26 @@ body {
     align-items: center;
 }
 
-.header-middle .search-bar {
+.search-bar form {
     display: flex;
-    justify-content: center;
+    align-items: center;
     width: 100%;
 }
 
-.header-middle input[type="text"] {
-    width: 60%;
-    padding: 12px 15px;
-    height: 40%;
+.search-bar input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    height: 40px;
     border: none;
     border-radius: 20px;
     font-size: 14px;
     outline: none;
 }
 
-.header-middle button[type="submit"] {
-    padding: 12px 20px;
+.search-bar button[type="submit"] {
+    padding: 10px 20px;
     background-color: #fff;
-    color: #4267B2;
+    color: #038797;
     border: none;
     border-radius: 20px;
     font-size: 14px;
@@ -88,7 +93,7 @@ body {
 .user-options a {
     color: #fff;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .user-options .divider {
@@ -100,16 +105,22 @@ body {
     position: fixed;
     left: 0;
     margin-top: 80px;
-    height: 100%;
+    height: calc(100% - 80px);
     background-color: #f2f2f2;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    width: 150px;
+    width: 200px;
+    overflow-y: auto;
 }
 
 .vertical-navbar label {
     margin-bottom: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    display: flex;
+    align-items: center;
 }
 
 .vertical-navbar input {
@@ -129,53 +140,43 @@ body {
 .nav-item input[type="checkbox"] {
     width: 16px;
     height: 16px;
-}
-
-.navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #cd6354;
-    color: #fff;
-}
-
-.nav-links a {
-    color: #fff;
-}
-
-.nav-menu a {
-    display: flex;
-    float: left;
-    color: #fff;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-.nav-menu a:hover {
-    background-color: #ddd;
-    color: black;
-}
-
-nav ul {
-    list-style-type: none;
-}
-
-nav ul li {
-    display: inline;
     margin-right: 10px;
+    appearance: none;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    cursor: pointer;
+    background-color: #fff;
 }
 
-nav ul li a {
-    color: #fff;
-    text-decoration: none;
+.vertical-navbar input[type="checkbox"]:checked {
+    background-color: #038797;
+    border: 1px solid #038797;
+}
+
+/* Style the custom checkbox indicator */
+.vertical-navbar input[type="checkbox"]::after {
+    content: "\f00c";
+    font-family: "Font Awesome";
+    font-size: 12px;
+    color: white;
+    display: inline-block;
+    visibility: hidden;
+}
+
+.vertical-navbar input[type="checkbox"]:checked::after {
+    visibility: visible;
+}
+
+.vertical-navbar input:checked + label {
+    font-weight: bold;
+    color: #038797;
 }
 
 .all-photos {
     display: flex;
     flex-wrap: wrap;
     max-width: 100%;
-    margin: 130px 80px 40px 230px;
+    margin: 120px 40px 40px 240px;
     justify-content: flex-start;
     gap: 30px 40px;
 }

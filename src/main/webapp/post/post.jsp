@@ -1,11 +1,19 @@
 <%@ page import="marketplace.dao.PostDAO" %>
 <%@ page import="marketplace.objects.Post" %>
+<%@ page import="marketplace.objects.User" %>
+<%@ page import="marketplace.objects.Photo" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
-    PostDAO postDAO = ((PostDAO)application.getAttribute("postDAO"));
-    int id = Integer.parseInt(request.getParameter("id"));
-    Post post = postDAO.getPostById(id);
+    Post post = (Post) session.getAttribute("post");
+    User my_profile = ((User)session.getAttribute("user"));
+    boolean is_logged_in = my_profile == null ? false : true;
+    int author_id = post.getProfile_id();
+    User author = (User) session.getAttribute("post_author");
+    System.out.println(post.getPhotos().size());
+    ArrayList<Photo> photos = post.getPhotos();
+    int index = 0;
 %>
 <html>
 <head>
@@ -17,21 +25,52 @@
 <body>
 
 <div class="product-container">
+
     <div class="product-image">
-        <img src="<%=post.getPhotos().get(0)%>" alt="Product Photo">
+        <img src="<%=photos.get(index).getPhoto_url()%>" len="<%=photos.size()%>" id="img" alt="Product Photo">
+        <div class="photo-select">
+            <button type="button" id="prev">Previous Preview</button>
+            <button type="button" id="next">Next Preview</button>
+        </div>
     </div>
+
     <div class="product-details">
-        <p class="product-description">Product description goes here...</p>
-        <p class="product-price">$99.99</p>
-        <a class="chat-option">Chat with us</a>
+        <p class="product-description"><%=post.getDescription()%></p>
+        <p class="product-price"><%=post.getPrice()%></p>
+        <% if(is_logged_in) { %>
+        <form action="/chat?otherUserId=<%=author_id%>" method="post">
+            <button type="submit">Chat with <%=author.getFirstName()%></button>
+        </form>
+        <% if(author_id == my_profile.getProfileId()) { %>
+            <a href="/deletepost?post_id=<%=post.getPost_id()%>">Delete Post</a>
+        <% } %>
+        <% } %>
         <div class="profile">
-            <div class="profile-image">
-                <img src="profile-picture.jpg" alt="Profile Picture">
-            </div>
-            <p class="profile-name">Seller Name</p>
+            <p class="profile-name"><%=author.getFirstName() + " " + author.getSurname()%></p>
         </div>
     </div>
 </div>
+<script>
+    let photo_list = [];
+    let index = 0;
+    let img = document.getElementById("img");
+    <% for(Photo photo : photos){ %>
+    photo_list.push("<%=photo.getPhoto_url()%>");
+    <% } %>
+    document.getElementById("prev").addEventListener("click", (e)=>{
 
+    });
+
+    document.getElementById("next").addEventListener("click", (e)=>{
+        index++;
+        index %= photo_list.length;
+        img.src = photo_list[index];
+    });
+    document.getElementById("prev").addEventListener("click", (e)=>{
+        index--;
+        if (index < 0) index = photo_list.length + index;
+        img.src = photo_list[index];
+    });
+</script>
 </body>
 </html>

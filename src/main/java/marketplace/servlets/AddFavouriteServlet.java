@@ -12,11 +12,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @WebServlet(name = "AddFavouriteServlet", value = "/addfavourite")
 public class AddFavouriteServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         PostDAO postDAO = (PostDAO) getServletContext().getAttribute("postDAO");
         PhotoDAO photoDAO = (PhotoDAO) getServletContext().getAttribute("photoDAO");
         FavouritesDAO favouritesDAO = (FavouritesDAO) getServletContext().getAttribute("favouritesDAO");
@@ -24,12 +25,7 @@ public class AddFavouriteServlet extends HttpServlet {
         String post_id_string = request.getParameter("post_id");
 
         if (post_id_string == null) {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
-            try {
-                dispatcher.forward(request, response);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            response.sendRedirect("/feedposts");
             return;
         }
         int post_id = Integer.parseInt(post_id_string);
@@ -43,11 +39,6 @@ public class AddFavouriteServlet extends HttpServlet {
         FavouriteCookies.addFavourite(post_id, request,response);
         post.setFavourite(true);
         request.setAttribute("post", post);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
-        try {
-            dispatcher.forward(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        response.sendRedirect("/getfavourites");
     }
 }

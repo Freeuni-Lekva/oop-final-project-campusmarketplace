@@ -25,25 +25,25 @@
   <header>
     <div class="container-header">
       <div class="header-left">
-        <h1>Marketplace</h1>
+        <a href="/feedposts">Marketplace</a>
       </div>
       <div class="header-middle">
         <div class="search-bar">
-
           <form action="/search" method="post" accept-charset="utf-8">
             <input type="text" placeholder="Search..." id="search_in" name="query">
             <input type="hidden" name="filters" id="filters">
             <button type="submit" id="search">Search</button>
           </form>
-
         </div>
       </div>
       <div class="header-right">
         <div class="user-options">
-          <a href="/favourites/favourites.jsp">Favorites</a>
+          <a href="/getfavourites">Favorites</a>
           <span class="divider">|</span>
           <%if(logged_in){%>
           <a href="/profile?userId=<%=((User)session.getAttribute("user")).getProfileId()%>">My Account</a>
+          <span class="divider">|</span>
+          <a href="/chat">Chat</a>
           <span class="divider">|</span>
           <a href="/newpost">Upload Post</a>
           <span class="divider">|</span>
@@ -60,7 +60,6 @@
 
   <nav class="vertical-navbar">
     <div class="category-container">
-
       <% for (String filter : FilterConstants.filters) { %>
       <div class="nav-item">
         <input type="checkbox" id="<%=FilterConstants.REV_FILTERS_MAP.get(filter)%>" name="filter">
@@ -74,7 +73,7 @@
 <div class="all-photos">
   <% for(FeedPost post : feedPost){ %>
   <form action="/postpage" method="get">
-    <input value="<%=post.getPost_id()%>" name="id" style="display: none">
+    <input value="<%=post.getPost_id()%>" name="post_id" style="display: none">
     <div class="photo-container" onclick="this.closest('form').submit();">
       <div class="image">
         <img src= "/<%=post.getPhoto_address()%>" >

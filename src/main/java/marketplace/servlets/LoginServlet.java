@@ -36,6 +36,10 @@ public class LoginServlet extends HttpServlet {
 
         User user = userDAO.getUser(email);
         request.getSession().setAttribute("user", user);
-        response.sendRedirect("/feedposts");
+        try {
+            response.sendRedirect("/profile?userId="+Integer.toString(user.getProfileId()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

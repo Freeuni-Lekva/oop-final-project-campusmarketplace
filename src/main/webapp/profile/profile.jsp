@@ -37,7 +37,9 @@
             </div>
             <div class="header-right">
                 <div class="user-options">
-                    <a href="/favourites">Favorites</a>
+                    <a href="/getfavourites">Favorites</a>
+                    <span class="divider">|</span>
+                    <a href="/chat">Chat</a>
                     <%if (is_logged_in) {%>
                     <%if (!is_my) {%>
                     <span class="divider">|</span>
@@ -88,7 +90,7 @@
 <div class="user-posts">
     <% for(FeedPost post : feedPost){ %>
     <form action="/postpage" method="get">
-        <input value="<%=post.getPost_id()%>" name="id" style="display: none">
+        <input value="<%=post.getPost_id()%>" name="post_id" style="display: none">
         <div class="photo-container" onclick="this.closest('form').submit();">
             <div class="image">
                 <img src= "/<%=post.getPhoto_address()%>" >
