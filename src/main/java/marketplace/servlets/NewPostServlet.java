@@ -51,7 +51,6 @@ public class NewPostServlet extends HttpServlet {
         User user = (User) request.getSession().getAttribute("user");
         int profile_id = user.getProfileId();
         String title = request.getParameter("title");
-        System.out.println(title);
         if (!PostValidator.validateTitle(title)) {
             request.getSession().setAttribute("error", "Title must not be empty.");
             request.getRequestDispatcher("/upload/upload.jsp").forward(request, response);
@@ -65,7 +64,7 @@ public class NewPostServlet extends HttpServlet {
             if (request.getParameter(filter) != null)
                 filterCount++;
         if (filterCount == 0 || filterCount > FilterConstants.MAX_NUMBER_OF_FILTERS) {
-            request.getSession().setAttribute("error", "Add at least 0 and at most " + FilterConstants.MAX_NUMBER_OF_FILTERS + " filters.");
+            request.getSession().setAttribute("error", "Add at least 1 and at most " + FilterConstants.MAX_NUMBER_OF_FILTERS + " filters.");
             request.getRequestDispatcher("/upload/upload.jsp").forward(request, response);
             return;
         }
@@ -91,7 +90,6 @@ public class NewPostServlet extends HttpServlet {
                     photoCount++;
                     String savePath = "/images/";
                     savePath = getServletContext().getRealPath(savePath) +"/"+ fileName;
-                    System.out.println(savePath);
                     try (InputStream inputStream = part.getInputStream()) {
                         Files.copy(inputStream, new File(savePath).toPath(), StandardCopyOption.REPLACE_EXISTING);
                     } catch (IOException e) {

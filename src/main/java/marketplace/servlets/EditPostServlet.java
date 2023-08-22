@@ -58,7 +58,6 @@ public class EditPostServlet extends HttpServlet {
         Post post = postDAO.getPostById(post_id);
         if (post.getProfile_id() == profile_id) {
             String title = request.getParameter("title");
-            System.out.println(title);
             if (!PostValidator.validateTitle(title)) {
                 request.getSession().setAttribute("error", "Title must not be empty.");
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/upload/upload.jsp");
@@ -77,8 +76,7 @@ public class EditPostServlet extends HttpServlet {
                 if (request.getParameter(filter) != null)
                     filterCount++;
             if (filterCount == 0 || filterCount > FilterConstants.MAX_NUMBER_OF_FILTERS) {
-                System.out.println("2");
-                request.getSession().setAttribute("error", "Add at least 0 and at most " + FilterConstants.MAX_NUMBER_OF_FILTERS + " filters.");
+                request.getSession().setAttribute("error", "Add at least 1 and at most " + FilterConstants.MAX_NUMBER_OF_FILTERS + " filters.");
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/upload/upload.jsp");
                 try {
                     dispatcher.forward(request, response);
@@ -106,7 +104,6 @@ public class EditPostServlet extends HttpServlet {
         }
         SearchEngine searchEngine = (SearchEngine) getServletContext().getAttribute("searchEngine");
         searchEngine.update();
-        System.out.println("Finished");
         response.sendRedirect("/profile?userId=" + user.getProfileId());
     }
 }

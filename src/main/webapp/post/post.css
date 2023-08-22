@@ -14,7 +14,7 @@ body {
     align-items: center;
     justify-content: center;
     width: 70vw;
-    height: 70vh;
+    height: fit-content;
     background-color: #ffffff;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
@@ -67,6 +67,10 @@ form label {
     font-size: 18px;
 }
 
+.product-price {
+    font-weight: 600;
+}
+
 .all-buttons {
     background-color: #038797;
     color: white;
@@ -79,7 +83,8 @@ form label {
     resize: none;
 }
 
-.all-buttons:hover {
+.all-buttons:hover, .manage-post-options a:hover,
+.my-post-options a :hover {
     background-color: #4267B2;
 }
 
@@ -95,7 +100,11 @@ form label {
 .manage-post-options a,
 .my-post-options a {
     text-decoration: none;
-    color: #333333;
+    color: #eaeaea;
+    background-color: #038797;
+    padding: 12px 25px;
+    display: inline-block;
+    border-radius: 4px;
 }
 
 .my-post-options {

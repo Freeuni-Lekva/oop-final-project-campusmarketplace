@@ -27,7 +27,6 @@ public class SearchServlet extends HttpServlet {
 
         String query = httpServletRequest.getParameter("query");
         String filter_ids = httpServletRequest.getParameter("filters");
-        System.out.println(filter_ids);
 
         if(query != null && query.equals("")) query = null;
         if(filter_ids != null && filter_ids.equals("")) filter_ids = null;

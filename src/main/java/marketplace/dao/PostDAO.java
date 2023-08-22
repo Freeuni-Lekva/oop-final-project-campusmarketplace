@@ -24,7 +24,7 @@ public class PostDAO implements PostDAOInterface {
 
         ArrayList<FeedPost> posts = new ArrayList<>();
         try (Connection conn = dataSource.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM posts LIMIT ? OFFSET ?");
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM posts ORDER BY publish_date DESC LIMIT ? OFFSET ?");
             stmt.setInt(1, PageConstants.PAGE_SIZE);
             stmt.setInt(2, PageConstants.PAGE_SIZE * page);
             ResultSet rs = stmt.executeQuery();
@@ -208,14 +208,15 @@ public class PostDAO implements PostDAOInterface {
             stmt.setInt(1, post_id);
             ResultSet rs = stmt.executeQuery();
             String photoUrl = "";
-            while(rs.next())
-                photoUrl = rs.getString(1);
+            rs.next();
+            photoUrl = rs.getString(1);
             rs.close();
             PreparedStatement stmt2 = conn.prepareStatement("SELECT photo_id FROM photos WHERE photo_url=?");
             stmt2.setString(1, photoUrl);
             ResultSet rs2 = stmt2.executeQuery();
             int photoId = -1;
-            while (rs2.next()) photoId = rs2.getInt(1);
+            rs2.next();
+            photoId = rs2.getInt(1);
             rs2.close();
             Photo photo = new Photo(photoId, photoUrl);
             return photo;

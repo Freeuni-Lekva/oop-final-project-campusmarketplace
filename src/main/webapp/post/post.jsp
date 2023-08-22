@@ -27,8 +27,8 @@
     <div class="product-image">
         <img src="<%=photos.get(index).getPhoto_url()%>" len="<%=photos.size()%>" id="img" alt="Product Photo">
         <div class="photo-select">
-            <button class="all-buttons" type="button" id="prev">Previous Preview</button>
-            <button class="all-buttons" type="button" id="next">Next Preview</button>
+            <button class="all-buttons" type="button" id="prev">Previous Photo</button>
+            <button class="all-buttons" type="button" id="next">Next Photo</button>
         </div>
     </div>
 

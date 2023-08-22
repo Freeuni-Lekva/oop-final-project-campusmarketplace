@@ -58,23 +58,19 @@
 
     <div class="vertical-info">
         <div class="info-item">
-            <%=profile_user.getFirstName()%>
+            <img class="icon" src="/images/user.png"><%=profile_user.getFirstName() + " " + profile_user.getSurname()%>
         </div>
 
         <div class="info-item">
-            <%=profile_user.getSurname()%>
+            <img class="icon" src="/images/phone-call.png"><%=profile_user.getPhoneNumber()%>
         </div>
 
         <div class="info-item">
-            <%=profile_user.getPhoneNumber()%>
+            <img class="icon" src="/images/mail.png"><%=profile_user.getEmail()%>
         </div>
 
         <div class="info-item">
-            <%=profile_user.getEmail()%>
-        </div>
-
-        <div class="info-item">
-            <%=profile_user.getBirthDate()%>
+            <img class="icon" src="/images/calendar.png"><%=profile_user.getBirthDate()%>
         </div>
 
         <%if (is_logged_in && !is_my) {%>

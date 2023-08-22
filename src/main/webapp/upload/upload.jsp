@@ -36,7 +36,7 @@
             <% if (!(request.getSession().getAttribute("error") == null)) {%>
             <div class="error-message" style="padding: 30px 30px 0px;">
                 <h1>Error Messages:</h1>
-                <h3><%=(String)(request.getSession().getAttribute("error"))%></h3>
+                <h3 style="color: red"><%=(String)(request.getSession().getAttribute("error"))%></h3>
             </div>
             <% } %>
             <div class="upload-container">
@@ -59,7 +59,7 @@
                 <% } %>
 
                 <div class="info-container">
-                <label for="title">Item Tile:</label>
+                <label for="title">Item Title:</label>
                 <textarea id="title" name="title" rows="1" cols="50" required class="<%=err%>"><%=title%></textarea>
 
                 <label for="description">Item Description:</label>
