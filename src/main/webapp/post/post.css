@@ -1,0 +1,122 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+}
+
+.product-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70vw;
+    height: fit-content;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.product-image {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: 30px;
+    flex: 1;
+}
+
+img {
+    height: 100%;
+    max-height: 60vh;
+    width: 100%;
+    max-width: 60vw;
+    object-fit: contain;
+}
+
+.photo-select {
+    display: flex;
+    gap: 10px;
+    padding: 30px;
+    justify-content: center;
+}
+
+.product-details {
+    padding: 30px;
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.product-title {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.product-description,
+.product-price {
+    font-size: 18px;
+}
+
+.product-price {
+    font-weight: 600;
+}
+
+.all-buttons {
+    background-color: #038797;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+    resize: none;
+}
+
+.all-buttons:hover, .manage-post-options a:hover,
+.my-post-options a :hover {
+    background-color: #4267B2;
+}
+
+.manage-post-options {
+    display: flex;
+    justify-content:flex-start;
+    gap: 20px;
+    padding: 30px 30px 30px 0;
+    flex-direction:column;
+    font-size: 18px;
+}
+
+.manage-post-options a,
+.my-post-options a {
+    text-decoration: none;
+    color: #eaeaea;
+    background-color: #038797;
+    padding: 12px 25px;
+    display: inline-block;
+    border-radius: 4px;
+}
+
+.my-post-options {
+    padding: 30px 30px 30px 0;
+    display: flex;
+    font-size: 18px;
+    gap: 10px;
+}
+
+.chat-option {
+    margin-bottom: 10px;
+    color: #007bff;
+    text-decoration: underline;
+    cursor: pointer;
+}

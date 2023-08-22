@@ -43,8 +43,8 @@ public class GetFavouritesServlet extends HttpServlet {
             FeedPost feedPost = new FeedPost(post.getPost_id(), mainPhoto, post.getTitle(), post.getPrice(), post.getDate());
             favouritePosts.add(feedPost);
         }
-        request.setAttribute("favouritePosts", favouritePosts);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+        request.getSession().setAttribute("favouritePosts", favouritePosts);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/favourites/favourites.jsp");
         try {
             dispatcher.forward(request, response);
         } catch (Exception e) {

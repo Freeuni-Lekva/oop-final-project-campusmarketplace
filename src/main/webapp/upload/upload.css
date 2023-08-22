@@ -1,0 +1,119 @@
+body, h1, form {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+}
+
+.whole-container {
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    padding: 0px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 800px;
+    height: 100%;
+    margin: 20px auto;
+    background-color: #fff;
+    align-self: center;
+}
+
+.upload-container {
+    display: flex;
+
+}
+
+.upload-container form {
+    display: flex;
+    height: 100%;
+}
+
+.photo-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: initial;
+    padding: 30px;
+    flex: 1;
+}
+
+img {
+    height: 100%;
+    max-height: 340px;
+    width: 100%;
+    max-width: 340px;
+    object-fit: contain;
+}
+
+.photo-options {
+    display: flex;
+    flex-direction: column;
+}
+
+.photo-select {
+    display: flex;
+    gap: 10px;
+}
+
+.info-container {
+    padding: 30px;
+    flex: 1;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.category-container{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 5px;
+}
+
+.category-item {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 10px;
+}
+
+form input[type="file"],
+form textarea,
+form input[type="number"],
+form button {
+    margin-bottom: 15px;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    resize: none;
+}
+
+form button {
+    background-color: #038797;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #4267B2;
+}
+
+.error {
+    border-color: #ff0000 !important;
+    font-size: 14px;
+    margin-top: 5px;
+}

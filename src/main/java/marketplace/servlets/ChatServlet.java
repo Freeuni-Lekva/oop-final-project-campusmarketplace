@@ -28,7 +28,7 @@ public class ChatServlet extends HttpServlet {
 
         request.setAttribute("user", user);
         request.setAttribute("lastMessagedUsers", lastMessagedUsers);
-        request.getRequestDispatcher("jsp/chat.jsp").forward(request, response);
+        request.getRequestDispatcher("chat/chat.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -42,6 +42,6 @@ public class ChatServlet extends HttpServlet {
         request.setAttribute("user", user);
         request.setAttribute("other", other);
         request.setAttribute("lastMessagedUsers", lastMessagedUsers);
-        request.getRequestDispatcher("jsp/chat.jsp").forward(request, response);
+        request.getRequestDispatcher("chat/chat.jsp").forward(request, response);
     }
 }

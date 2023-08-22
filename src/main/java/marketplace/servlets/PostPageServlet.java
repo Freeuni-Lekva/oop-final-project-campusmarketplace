@@ -6,6 +6,7 @@ import marketplace.cookies.FavouriteCookies;
 import marketplace.dao.FavouritesDAO;
 import marketplace.dao.PhotoDAO;
 import marketplace.dao.PostDAO;
+import marketplace.dao.UserDAO;
 import marketplace.objects.Photo;
 import marketplace.objects.Post;
 import marketplace.objects.User;
@@ -25,6 +26,7 @@ public class PostPageServlet extends HttpServlet {
         PostDAO postDAO = (PostDAO) getServletContext().getAttribute("postDAO");
         FavouritesDAO favouritesDAO = (FavouritesDAO) getServletContext().getAttribute("favouritesDAO");
         PhotoDAO photoDAO = (PhotoDAO) getServletContext().getAttribute("photoDAO");
+        UserDAO userDAO = (UserDAO) getServletContext().getAttribute("userDAO");
         User user = (User) request.getSession().getAttribute("user");
         int profile_id = -1;
         if (user != null)
@@ -37,8 +39,9 @@ public class PostPageServlet extends HttpServlet {
         if (profile_id != -1)
             post.setFavourite(favouritesDAO.isFavourite(post.getPost_id(), profile_id));
         post.setFavourite(post.isFavourite() | FavouriteCookies.isFavourite(post.getPost_id(), request, response));
-        request.setAttribute("post", post);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+        request.getSession().setAttribute("post", post);
+        request.getSession().setAttribute("post_author", userDAO.getUser(post.getProfile_id()));
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/post/post.jsp");
         try {
             dispatcher.forward(request, response);
         } catch (Exception e) {

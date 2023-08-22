@@ -26,7 +26,7 @@ public class LSA implements ScoringModel{
         this.formatters = formatters;
         this.posts = posts;
         tf = new TF_IDF(this.posts);
-        R = tf.getTDM().rank()/2;
+        R = tf.getTDM().rank();
         tf.setTDM(createLSAMatrix(tf));
     }
 

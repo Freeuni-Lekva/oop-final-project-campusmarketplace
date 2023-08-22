@@ -47,11 +47,13 @@ public class FormatterTest extends TestCase {
 
     public void testLevenshtein(){
         String word1 = "kitten", word2 = "sitting";
-        String typo1 = "მასწავლებული", typo2 = "მასწვლებული", typo3 = "მსწვლებული", typo4="მსწვლბული", correct = "მასწავლებელი";
+        String typo1 = "მასწავლებწლი", typo2 = "მასწვლებწლი", typo3 = "მსწვლებწლი", typo4="მსწვლბწლი", correct = "მასწავლებელი";
+        String typo1_1 = "მასწავლებული";
 
         assertEquals(3, levenshtein.editScore(word1,word2));
 
         assertEquals(correct, levenshtein.format(typo1,1));
+        assertEquals(correct, levenshtein.format(typo1_1,2));
         assertEquals(typo2,   levenshtein.format(typo2,1));
         assertEquals(correct, levenshtein.format(typo2,2));
         assertEquals(typo3,   levenshtein.format(typo3,1));

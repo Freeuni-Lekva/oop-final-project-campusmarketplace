@@ -24,7 +24,7 @@ public class PostDAO implements PostDAOInterface {
 
         ArrayList<FeedPost> posts = new ArrayList<>();
         try (Connection conn = dataSource.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM posts LIMIT ? OFFSET ?");
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM posts ORDER BY publish_date DESC LIMIT ? OFFSET ?");
             stmt.setInt(1, PageConstants.PAGE_SIZE);
             stmt.setInt(2, PageConstants.PAGE_SIZE * page);
             ResultSet rs = stmt.executeQuery();
@@ -66,7 +66,9 @@ public class PostDAO implements PostDAOInterface {
 
 
                 post = new Post(profile_id, post_id, title, price, description, date);
-
+                ArrayList<Photo> photos = new ArrayList<>();
+                photos.add(getMainPhoto(post_id));
+                post.setPhotos(photos);
             }
 
             rs.close();
@@ -123,7 +125,7 @@ public class PostDAO implements PostDAOInterface {
                 stmt2.setInt(1, post_id);
                 stmt2.executeUpdate();
 
-                stmt3 = conn.prepareStatement("DELETE FROM favourites WHERE post_id = ?");
+                stmt3 = conn.prepareStatement("DELETE FROM FAVOURITES WHERE post_id = ?");
                 stmt3.setInt(1, post_id);
                 stmt3.executeUpdate();
 
@@ -202,16 +204,19 @@ public class PostDAO implements PostDAOInterface {
     @Override
     public Photo getMainPhoto(int post_id) {
         try (Connection conn = dataSource.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("select main_photo from posts where post_id=?");
+            PreparedStatement stmt = conn.prepareStatement("SELECT main_photo FROM posts WHERE post_id=?");
             stmt.setInt(1, post_id);
             ResultSet rs = stmt.executeQuery();
-            String photoUrl = rs.getString(1);
+            String photoUrl = "";
+            rs.next();
+            photoUrl = rs.getString(1);
             rs.close();
-            PreparedStatement stmt2 = conn.prepareStatement("select photo_id from photos where photo_url=?");
+            PreparedStatement stmt2 = conn.prepareStatement("SELECT photo_id FROM photos WHERE photo_url=?");
             stmt2.setString(1, photoUrl);
             ResultSet rs2 = stmt2.executeQuery();
-
-            int photoId = rs2.getInt(1);
+            int photoId = -1;
+            rs2.next();
+            photoId = rs2.getInt(1);
             rs2.close();
             Photo photo = new Photo(photoId, photoUrl);
             return photo;

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 @Secure
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 public class DeletePostServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         PostDAO postDAO = (PostDAO) getServletContext().getAttribute("postDAO");
         PhotoDAO photoDAO = (PhotoDAO) getServletContext().getAttribute("photoDAO");
         User user = (User) request.getSession().getAttribute("user");
@@ -44,11 +45,6 @@ public class DeletePostServlet extends HttpServlet {
         }
         SearchEngine searchEngine = (SearchEngine) getServletContext().getAttribute("searchEngine");
         searchEngine.update();
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
-        try {
-            dispatcher.forward(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        response.sendRedirect("/profile?userId=" + user.getProfileId());
     }
 }

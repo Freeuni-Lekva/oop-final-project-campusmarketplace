@@ -75,10 +75,20 @@ public class Lemmatization extends Formatter{
         return map;
     }
 
+    /** Checks if the word georgian */
+    boolean isGeorgian(String word){
+        for (int i = 0; i<word.length(); i++){
+            char ch = word.charAt(i);
+            if((ch < 'ა' || ch > 'ჰ') && ch < 'Ა') return false;
+        }
+        return true;
+    }
     /** Main method to format word. It also cleans word using cleanWord method */
     @Override
     public String format(String word) {
         word = cleanWord(word);
+        if(!isGeorgian(word))
+            return word;
         if(word_to_format != null && word_to_format.containsKey(word))
             return word_to_format.get(word);
         if(formated_words != null && formated_words.contains(word))
@@ -115,9 +125,9 @@ public class Lemmatization extends Formatter{
         } catch (IOException | URISyntaxException e) {
             throw new RuntimeException(e);
         }
+        if(ans == null || ans.isEmpty()) return word;
         ans = take_key(ans, "lemma");
         ans = cleanWord(ans);
-        if(ans.equals("")) return word;
         return ans;
     }
 
