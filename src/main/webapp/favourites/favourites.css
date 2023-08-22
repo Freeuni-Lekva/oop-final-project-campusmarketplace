@@ -55,6 +55,15 @@ body {
     gap: 30px 40px;
 }
 
+.all-photos {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 100%;
+    margin: 60px 125px 40px 125px;
+    justify-content: flex-start;
+    gap: 30px 60px;
+}
+
 .photo-container {
     display: flex;
     flex-direction: column;

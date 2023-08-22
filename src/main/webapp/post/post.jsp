@@ -25,28 +25,57 @@
 <body>
 
 <div class="product-container">
-
     <div class="product-image">
         <img src="<%=photos.get(index).getPhoto_url()%>" len="<%=photos.size()%>" id="img" alt="Product Photo">
         <div class="photo-select">
-            <button type="button" id="prev">Previous Preview</button>
-            <button type="button" id="next">Next Preview</button>
+            <button class="all-buttons" type="button" id="prev">Previous Preview</button>
+            <button class="all-buttons" type="button" id="next">Next Preview</button>
         </div>
     </div>
 
     <div class="product-details">
+        <p class="product-title"><%=post.getTitle()%></p>
         <p class="product-description"><%=post.getDescription()%></p>
-        <p class="product-price"><%=post.getPrice()%></p>
+        <p class="product-price">Price: <%=post.getPrice()%></p>
+
         <% if(is_logged_in) { %>
-        <form action="/chat?otherUserId=<%=author_id%>" method="post">
-            <button type="submit">Chat with <%=author.getFirstName()%></button>
-        </form>
         <% if(author_id == my_profile.getProfileId()) { %>
+        <div class="my-post-options">
             <a href="/deletepost?post_id=<%=post.getPost_id()%>">Delete Post</a>
+            <a href="/editpost?post_id=<%=post.getPost_id()%>">Edit Post</a>
+        </div>
+        <% } else { %>
+        <form action="/chat?otherUserId=<%=author_id%>" method="post">
+            <button class="all-buttons" type="submit">Chat with <%=author.getFirstName()%></button>
+        </form>
+        <div class="manage-post-options">
+            <% if (!post.isFavourite()) { %>
+            <div class="favourites">
+                <a href="/addfavourite?post_id=<%=post.getPost_id()%>">Add To Favourites</a>
+            </div>
+            <% } else { %>
+            <div class="favourites">
+                <a href="/removefavourite?post_id=<%=post.getPost_id()%>">Remove From Favourites</a>
+            </div>
+            <% } %>
+            <% } %>
+            <% } else { %>
+            <% if (!post.isFavourite()) { %>
+            <div class="favourites">
+                <a href="/addfavourite?post_id=<%=post.getPost_id()%>">Add To Favourites</a>
+            </div>
+            <% } else { %>
+            <div class="favourites">
+                <a href="/removefavourite?post_id=<%=post.getPost_id()%>">Remove From Favourites</a>
+            </div>
+        </div>
         <% } %>
         <% } %>
         <div class="profile">
-            <p class="profile-name"><%=author.getFirstName() + " " + author.getSurname()%></p>
+            <a href="/profile?userId=<%=author_id%>">Visit <%=author.getFirstName() + " " + author.getSurname()%></a>
+        </div>
+        <div class="marketplace">
+            <a href="/feedposts">Back To Marketplace</a>
         </div>
     </div>
 </div>

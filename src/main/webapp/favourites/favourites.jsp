@@ -45,10 +45,10 @@
     </div>
 </header>
 
-<div class="user-fav-posts">
+<div class="all-photos">
     <% for(FeedPost post : feedPost){ %>
     <form action="/postpage" method="get">
-        <input value="<%=post.getPost_id()%>" name="id" style="display: none">
+        <input value="<%=post.getPost_id()%>" name="post_id" style="display: none">
         <div class="photo-container" onclick="this.closest('form').submit();">
             <div class="image">
                 <img src= "/<%=post.getPhoto_address()%>" >

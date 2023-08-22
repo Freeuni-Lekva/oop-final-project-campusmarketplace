@@ -28,35 +28,37 @@
 %>
 
 <div class="container">
-    <div class="upload-container">
+    <div class="whole-container">
         <form action="<%=form_action%>" method="post" enctype="multipart/form-data" accept-charset="utf-8">
             <% if (is_edit) { %>
                 <input type="hidden" value="<%=post.getPost_id()%>" name="post_id">
             <% } %>
-
-            <% if (request.getSession().getAttribute("error") == null) {%>
-                <%System.out.println("Upload Successful");%>
-            <% } else {%>
+            <% if (!(request.getSession().getAttribute("error") == null)) {%>
+            <div class="error-message" style="padding: 30px 30px 0px;">
                 <h1>Error Messages:</h1>
                 <h3><%=(String)(request.getSession().getAttribute("error"))%></h3>
-            <% } %>
-            <div class="photo-container">
-                <div class="upload-options">
-                    <label for="itemPhotos">Upload Photos:</label>
-                    <input type="file" id="itemPhotos" name="itemPhotos" accept="image/*" multiple class="<%=err%>">
-                </div>
-                <div id="latestImagePreview" class="latest-image-preview"></div>
-                <div id="imagePreview" class="image-preview"></div>
-                <div class="photo-options">
-                    <div class="photo-select">
-                        <button type="button" id="prev">Previous Preview</button>
-                        <button type="button" id="next">Next Preview</button>
-                    </div>
-                    <button type="button" id="del">Delete Photo</button>
-                </div>
             </div>
+            <% } %>
+            <div class="upload-container">
+                <% if (!is_edit) { %>
+                <div class="photo-container">
+                    <div class="upload-options">
+                        <label for="itemPhotos">Upload Photos:</label>
+                        <input type="file" id="itemPhotos" name="itemPhotos" accept="image/*" multiple class="<%=err%>">
+                    </div>
+                    <div id="latestImagePreview" class="latest-image-preview"></div>
+                    <div id="imagePreview" class="image-preview"></div>
+                    <div class="photo-options">
+                        <div class="photo-select">
+                            <button type="button" id="prev">Previous Preview</button>
+                            <button type="button" id="next">Next Preview</button>
+                        </div>
+                        <button type="button" id="del">Delete Photo</button>
+                    </div>
+                </div>
+                <% } %>
 
-            <div class="info-container">
+                <div class="info-container">
                 <label for="title">Item Tile:</label>
                 <textarea id="title" name="title" rows="1" cols="50" required class="<%=err%>"><%=title%></textarea>
 
@@ -78,6 +80,7 @@
                 <input type="number" id="price" name="price" step="1" required class="<%=err%>" value="<%=price%>">
 
                 <button type="submit">Upload</button>
+            </div>
             </div>
         </form>
     </div>

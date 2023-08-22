@@ -11,15 +11,6 @@ body {
     font-family: Arial, sans-serif;
 }
 
-.photo-container {
-    display: flex;
-    flex-direction: column;
-    height: 400px;
-    width: 350px;
-    gap: 5px;
-    border: groove gray;
-}
-
 .container {
     display: flex;
     width: 100%;
@@ -153,7 +144,6 @@ body {
     border: 1px solid #038797;
 }
 
-/* Style the custom checkbox indicator */
 .vertical-navbar input[type="checkbox"]::after {
     content: "\f00c";
     font-family: "Font Awesome";
@@ -179,6 +169,19 @@ body {
     margin: 120px 40px 40px 240px;
     justify-content: flex-start;
     gap: 30px 40px;
+}
+
+.photo-container {
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    width: 350px;
+    gap: 5px;
+    border: groove gray;
+}
+
+.photo-container:hover {
+    cursor: pointer;
 }
 
 .image {

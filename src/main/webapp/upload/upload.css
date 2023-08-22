@@ -12,7 +12,9 @@ body, h1, form {
     background-color: #f0f0f0;
 }
 
-.upload-container {
+.whole-container {
+    display: flex;
+    flex-direction: column;
     border-radius: 5px;
     padding: 0px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -21,6 +23,11 @@ body, h1, form {
     margin: 20px auto;
     background-color: #fff;
     align-self: center;
+}
+
+.upload-container {
+    display: flex;
+
 }
 
 .upload-container form {

@@ -74,19 +74,19 @@
   <% for(FeedPost post : feedPost){ %>
   <form action="/postpage" method="get">
     <input value="<%=post.getPost_id()%>" name="post_id" style="display: none">
-    <div class="photo-container" onclick="this.closest('form').submit();">
-      <div class="image">
-        <img src= "/<%=post.getPhoto_address()%>" >
-      </div>
-      <div class="text">
-        <div class="description">
-          <h4><%=post.getTitle()%></h4>
+      <div class="photo-container" onclick="this.closest('form').submit();">
+        <div class="image">
+          <img src= "/<%=post.getPhoto_address()%>" >
         </div>
-        <div class="price">
-          <h5><%=post.getPrice()%></h5>
+        <div class="text">
+          <div class="description">
+            <h4><%=post.getTitle()%></h4>
+          </div>
+          <div class="price">
+            <h5><%=post.getPrice()%></h5>
+          </div>
         </div>
       </div>
-    </div>
   </form>
   <% } %>
 </div>
