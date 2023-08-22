@@ -71,6 +71,13 @@ body {
     width: 350px;
     gap: 5px;
     border: groove gray;
+    border-radius: 8px;
+    padding: 3px;
+}
+
+.photo-container:hover {
+    cursor: pointer;
+    background: #cccccc;
 }
 
 .image {
@@ -86,5 +93,5 @@ img {
 }
 
 .text {
-
+    padding-left: 5px;
 }

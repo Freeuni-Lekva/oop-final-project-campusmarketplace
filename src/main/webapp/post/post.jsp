@@ -11,7 +11,6 @@
     boolean is_logged_in = my_profile == null ? false : true;
     int author_id = post.getProfile_id();
     User author = (User) session.getAttribute("post_author");
-    System.out.println(post.getPhotos().size());
     ArrayList<Photo> photos = post.getPhotos();
     int index = 0;
 %>
@@ -48,28 +47,17 @@
         <form action="/chat?otherUserId=<%=author_id%>" method="post">
             <button class="all-buttons" type="submit">Chat with <%=author.getFirstName()%></button>
         </form>
-        <div class="manage-post-options">
-            <% if (!post.isFavourite()) { %>
-            <div class="favourites">
-                <a href="/addfavourite?post_id=<%=post.getPost_id()%>">Add To Favourites</a>
-            </div>
-            <% } else { %>
-            <div class="favourites">
-                <a href="/removefavourite?post_id=<%=post.getPost_id()%>">Remove From Favourites</a>
-            </div>
-            <% } %>
-            <% } %>
-            <% } else { %>
-            <% if (!post.isFavourite()) { %>
-            <div class="favourites">
-                <a href="/addfavourite?post_id=<%=post.getPost_id()%>">Add To Favourites</a>
-            </div>
-            <% } else { %>
-            <div class="favourites">
-                <a href="/removefavourite?post_id=<%=post.getPost_id()%>">Remove From Favourites</a>
-            </div>
-        </div>
         <% } %>
+        <% } %>
+        <div class="manage-post-options">
+        <% if (!post.isFavourite()) { %>
+        <div class="favourites">
+            <a href="/addfavourite?post_id=<%=post.getPost_id()%>">Add To Favourites</a>
+        </div>
+        <% } else { %>
+        <div class="favourites">
+            <a href="/removefavourite?post_id=<%=post.getPost_id()%>">Remove From Favourites</a>
+        </div>
         <% } %>
         <div class="profile">
             <a href="/profile?userId=<%=author_id%>">Visit <%=author.getFirstName() + " " + author.getSurname()%></a>
@@ -77,6 +65,7 @@
         <div class="marketplace">
             <a href="/feedposts">Back To Marketplace</a>
         </div>
+    </div>
     </div>
 </div>
 <script>

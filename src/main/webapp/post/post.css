@@ -75,7 +75,6 @@ form label {
     border-radius: 4px;
     cursor: pointer;
     width: 100%;
-    padding: 10px;
     font-size: 16px;
     resize: none;
 }
@@ -84,11 +83,7 @@ form label {
     background-color: #4267B2;
 }
 
-.my-post-options,
-.manage-post-options,
-.profile,
-.marketplace,
-.favourites {
+.manage-post-options {
     display: flex;
     justify-content:flex-start;
     gap: 20px;
@@ -97,13 +92,17 @@ form label {
     font-size: 18px;
 }
 
-.my-post-options a,
 .manage-post-options a,
-.profile a,
-.marketplace a,
-.favourites a{
+.my-post-options a {
     text-decoration: none;
-    color: black;
+    color: #333333;
+}
+
+.my-post-options {
+    padding: 30px 30px 30px 0;
+    display: flex;
+    font-size: 18px;
+    gap: 10px;
 }
 
 .chat-option {

@@ -14,10 +14,11 @@
     User my_profile = ((User)session.getAttribute("user"));
 
     int profile_id = profile_user.getProfileId();
-    int my_profile_id = my_profile.getProfileId();
     boolean is_logged_in = my_profile == null ? false : true;
     boolean is_my = false;
-    if(is_logged_in){
+    int my_profile_id = 0;
+    if (is_logged_in) {
+        my_profile_id = my_profile.getProfileId();
         is_my = my_profile_id == profile_id;
     }
 
